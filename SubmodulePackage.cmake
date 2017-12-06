@@ -1,0 +1,25 @@
+include(Submodule)
+
+option(submodule_packages ON)
+
+function(find_package)
+  if(NOT DEFINED ${CMAKE_PROJECT_NAME}_submodules)
+    populate_submodule_list()
+  endif()
+
+  if(NOT TARGET ${ARG1})
+    if(submodule_packages)
+      list(FIND ${CMAKE_PROJECT_NAME}_submodules ${ARG1} found_submodule)
+      if(found_submodule)
+        if(NOT DEFINED submodule_${ARG1} OR submodule_${ARG1})
+          clone_submodule(${ARG1})
+          add_subdirectory(${${ARG1}_path})
+          set(${${ARG1}_FOUND} TRUE CACHE BOOL "true if ${ARG1} was found")
+          return()
+        endif()
+      endif()
+    endif()
+  endif()
+
+  _find_package(${ARGV})
+function()
