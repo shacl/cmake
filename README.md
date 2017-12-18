@@ -15,7 +15,7 @@ state, i.e., there are no uncommitted modifications to tracked content.
 git status
 ```
 
-If uncommitted modifcations to tracked content exist, either record or discard
+If uncommitted modifications to tracked content exist, either record or discard
 each modification as appropriate.
 
 + recording modifications
@@ -42,7 +42,7 @@ branch of this repository.
 git subtree add --prefix cmake <git remote address>/shacl/cmake.git master --squash
 ```
 
-The `--squash` flag here is imporant for those who maintain a curated commit log.
+The `--squash` flag here is important for those who maintain a curated commit log.
 Without this flag, the entire commit history of the SHACL cmake repository would
 be appended to the host project directory. With this flag specified, the SHACL
 cmake repository commit history is compressed to a single commit in the host
