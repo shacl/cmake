@@ -1,6 +1,6 @@
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows") 
   message(warning "These flags are just a guess")
-  set(int_size.8BYTE_FLAG "-fdefault_integer_8")
+  set(int_size.8BYTE_FLAG "-fdefault-integer-8")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CYGWIN) 
   set(int_size.8BYTE_FLAG "-fdefault-integer-8")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin") 
@@ -15,5 +15,4 @@ else()
   message(FATAL_ERROR "INT_SIZE: Option ${INT_SIZE} Not recognized" )
 endif()
 
-unset(int_size.4BYTE_FLAG)
 unset(int_size.8BYTE_FLAG)
