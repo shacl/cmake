@@ -1,3 +1,7 @@
+# Here we're using the existance of global properties to act as something
+# analoguous to C/C++ header guards to ensure the contents of this file are not
+# redundantly defined.
+
 get_property(
   git.submodule.find_package.cmake
   GLOBAL PROPERTY git.submodule.find_package.cmake SET)
@@ -41,7 +45,9 @@ default to this value.")
     _find_package(${ARGV})
   endfunction()
 
-  set_property(GLOBAL PROPERTY git.find_package.list.cmake "")
+  set_property(
+    GLOBAL PROPERTY git.find_package.list.cmake
+    "This is a header guard")
 endif()
 
 git_submodule_list()

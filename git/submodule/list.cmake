@@ -1,3 +1,7 @@
+# Here we're using the existance of global properties to act as something
+# analoguous to C/C++ header guards to ensure the contents of this file are not
+# redundantly defined.
+
 get_property(
   git.submodule.list.cmake
   GLOBAL PROPERTY git.submodule.list.cmake SET)
@@ -50,5 +54,7 @@ if(NOT git.submodule.list.cmake)
       "A CMake list of git submodules for ${CMAKE_PROJECT_NAME}")
   endfunction()
 
-  set_property(GLOBAL PROPERTY git.submodule.list.cmake "")
+  set_property(
+    GLOBAL PROPERTY git.submodule.list.cmake
+    "This is a header guard")
 endif()
