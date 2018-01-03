@@ -3,10 +3,10 @@
 # redundantly defined.
 
 get_property(
-  FortranPreprocess.FortranPreProcess.cmake GLOBAL PROPERTY
-  FortranPreprocess.FortranPreProcess.cmake SET)
+  FortranPreProcess.FortranPreProcess.cmake GLOBAL PROPERTY
+  FortranPreProcess.FortranPreProcess.cmake SET)
 
-if(NOT FortranPreprocess.FortranPreProcess.cmake)
+if(NOT FortranPreProcess.FortranPreProcess.cmake)
   find_package(Perl REQUIRED)
 
   set(
@@ -60,6 +60,6 @@ if(NOT FortranPreprocess.FortranPreProcess.cmake)
   endfunction(FortranPreProcess)
 
   set_property(
-    GLOBAL PROPERTY FortranPreprocess.FortranPreProcess.cmake
+    GLOBAL PROPERTY FortranPreProcess.FortranPreProcess.cmake
     "This is a header guard")
 endif()
