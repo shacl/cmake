@@ -3,12 +3,12 @@
 # redundantly defined.
 
 get_property(
-  FortranPreprocess.target_sources.cmake
-  GLOBAL PROPERTY FortranPreprocess.target_sources.cmake SET)
+  FortranPreProcess.target_sources.cmake
+  GLOBAL PROPERTY FortranPreProcess.target_sources.cmake SET)
 
-if(NOT FortranPreprocess.target_sources.cmake)
-  include(FortranPreprocess/FortranPreProcess)
-  include(GeneratedSources/module)
+if(NOT FortranPreProcess.target_sources.cmake)
+  include(FortranPreProcess/FortranPreProcess)
+  include(GeneratedSources)
 
   function(target_sources target tag linkage)
     if(NOT ${tag} STREQUAL "PREPROCESS")
@@ -25,6 +25,7 @@ if(NOT FortranPreprocess.target_sources.cmake)
           OR entry STREQUAL "INTERFACE")
         set(linkage ${entry})
       else()
+
         string(REGEX MATCH "[$]<.*>$" generator_expression ${entry})
         if("${generator_expression}")
           message(FATAL_ERROR
