@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.6)
 
 # Here we're using the existance of global properties to act as something
 # analoguous to C/C++ header guards to ensure the contents of this file are not
-# redunantly defined.
+# redundantly defined.
 
 get_property(
   GeneratedSources.module.cmake
