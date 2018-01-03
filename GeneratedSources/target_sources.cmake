@@ -1,3 +1,7 @@
+# Here we're using the existance of global properties to act as something
+# analoguous to C/C++ header guards to ensure the contents of this file are not
+# redunantly defined.
+
 get_property(
   GeneratedSources.target_sources.cmake
   GLOBAL PROPERTY GeneratedSources.target_sources.cmake SET)
@@ -38,7 +42,8 @@ if(NOT GeneratedSources.target_sources.cmake)
         string(REPLACE "." "_" relative_path "${relative_path}")
         string(REPLACE " " "_" relative_path "${relative_path}")
 
-        set(custom_target ${target}.generated_sources.${linkage}.hash.${hash})
+        set(custom_target
+          ${target}.generated_sources.${linkage}.path.${relative_path})
 
         add_custom_target(${custom_target} DEPENDS ${entry})
 
@@ -51,4 +56,8 @@ if(NOT GeneratedSources.target_sources.cmake)
       endif()
     endforeach()
   endfunction()
+
+  set_property(
+    GLOBAL PROPERTY GeneratedSources.target_sources.cmake
+    "This is a header guard")
 endif()
