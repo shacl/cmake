@@ -22,6 +22,7 @@ if(NOT int_size.cmake)
      include(int_size/${CMAKE_Fortran_COMPILER_ID})
      add_library(int_size INTERFACE)
      target_compile_options(int_size INTERFACE "${int_size.flag}")
+     target_compile_definitions(int_size INTERFACE "F90_INT_8BYTE")
   endif()
 
 endif()  
