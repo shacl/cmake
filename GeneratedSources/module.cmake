@@ -13,4 +13,8 @@ if(NOT GeneratedSources.module.cmake)
   include(GeneratedSources/add_library.cmake)
   include(GeneratedSources/add_executable.cmake)
   include(GeneratedSources/target_sources.cmake)
+
+  set_property(
+    GLOBAL PROPERTY GeneratedSources.module.cmake
+    "This is a header guard")
 endif()
