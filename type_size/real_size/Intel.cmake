@@ -1,0 +1,18 @@
+if(CMAKE_SYSTEM_ID STREQUAL "Windows") 
+  set(real_size.4BYTE_FLAG "/real_size:32")
+  set(real_size.8BYTE_FLAG "/real_size:64")
+else()
+  set(real_size.4BYTE_FLAG "-fdefault_realeger_4")
+  set(real_size.8BYTE_FLAG "-fdefault_realeger_8")
+endif()
+
+if( REAL_SIZE STREQUAL "4" ) 
+  set(real_size.flag "${real_size.4BYTE_FLAG}")
+elseif( INT_SIZE STREQUAL "8" ) 
+  set(real_size.flag "${real_size.8BYTE_FLAG}")
+else()
+	message(FATAL_ERROR "REAL_SIZE: Option ${REAL_SIZE} Not recognized" )
+endif()
+
+unset(real_size.4BYTE_FLAG)
+unset(real_size.8BYTE_FLAG)
