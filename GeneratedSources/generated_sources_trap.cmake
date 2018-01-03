@@ -14,8 +14,7 @@ if(NOT GeneratedSources.generated_sources_trap.cmake)
   #
   # In this case, we use this 'trap' to add generated files to targets as the
   # processing of the CMakeLists.txt of their respective directories of origin
-  # are completed. See the functions `add_library`, `add_executable`, and
-  # `target_sources` defined below for more information.
+  # are completed.
   #
   # This macro is not intended for general use, but is used by the functions
   # defined in this module.
