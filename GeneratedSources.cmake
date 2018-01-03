@@ -6,15 +6,15 @@ cmake_minimum_required(VERSION 3.6)
 # redundantly defined.
 
 get_property(
-  GeneratedSources.module.cmake
-  GLOBAL PROPERTY GeneratedSources SET)
+  GeneratedSources.cmake
+  GLOBAL PROPERTY GeneratedSources.cmake SET)
 
-if(NOT GeneratedSources.module.cmake)
+if(NOT GeneratedSources.cmake)
   include(GeneratedSources/add_library.cmake)
   include(GeneratedSources/add_executable.cmake)
   include(GeneratedSources/target_sources.cmake)
 
   set_property(
-    GLOBAL PROPERTY GeneratedSources.module.cmake
+    GLOBAL PROPERTY GeneratedSources.cmake
     "This is a header guard")
 endif()
