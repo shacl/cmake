@@ -10,9 +10,9 @@ get_property(
   GLOBAL PROPERTY GeneratedSources.cmake SET)
 
 if(NOT GeneratedSources.cmake)
-  include(GeneratedSources/add_library.cmake)
-  include(GeneratedSources/add_executable.cmake)
-  include(GeneratedSources/target_sources.cmake)
+  include(GeneratedSources/add_library)
+  include(GeneratedSources/add_executable)
+  include(GeneratedSources/target_sources)
 
   set_property(
     GLOBAL PROPERTY GeneratedSources.cmake
