@@ -8,7 +8,7 @@ get_property(
 
 if(NOT git.submodule.update.cmake)
   function(git_submodule_update name)
-    git_submodule_collect_state()
+    git_submodule_collect_state(${name})
 
     if(${name}.submodule.branch)
 
@@ -38,7 +38,7 @@ if(NOT git.submodule.update.cmake)
         endif()
       endif()
 
-      git_submodule_collect_state()
+      git_submodule_collect_state(${name})
 
       set(${name}.submodule.hash ${current_hash} CACHE STRING
         "${name} git submodule hash" FORCE)

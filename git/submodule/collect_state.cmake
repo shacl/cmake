@@ -9,7 +9,7 @@ get_property(
 if(NOT git.submodule.collect_state.cmake)
 
   # This macro populates the current_hash and current_branch variables
-  macro(git_submodule_collect_state)
+  macro(git_submodule_collect_state name)
     execute_process(
       COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
       WORKING_DIRECTORY "${${name}.submodule.path}"

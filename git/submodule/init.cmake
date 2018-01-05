@@ -21,7 +21,7 @@ if(NOT git.submodule.init.cmake)
       endif()
     endif()
 
-    git_submodule_collect_state()
+    git_submodule_collect_state(${name})
 
     if(NOT ${name}.submodule.hash)
       set(${name}.submodule.hash ${current_hash} CACHE STRING
