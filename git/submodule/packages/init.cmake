@@ -3,10 +3,10 @@
 # redundantly defined.
 
 get_property(
-  git.submodule.init.cmake
-  GLOBAL PROPERTY git.submodule.init.cmake SET)
+  git.submodule.packages.init.cmake
+  GLOBAL PROPERTY git.submodule.packages.init.cmake SET)
 
-if(NOT git.submodule.init.cmake)
+if(NOT git.submodule.packages.init.cmake)
   function(git_submodule_init name)
     if(NOT EXISTS "${${name}.submodule.path}/.git" )
       execute_process(
@@ -40,6 +40,6 @@ if(NOT git.submodule.init.cmake)
   endfunction()
 
   set_property(
-    GLOBAL PROPERTY git.submodule.init.cmake
+    GLOBAL PROPERTY git.submodule.packages.init.cmake
     "This is a header guard")
 endif()

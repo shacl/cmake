@@ -3,10 +3,10 @@
 # redundantly defined.
 
 get_property(
-  git.submodule.update.cmake
-  GLOBAL PROPERTY git.submodule.update.cmake SET)
+  git.submodule.packages.update.cmake
+  GLOBAL PROPERTY git.submodule.packages.update.cmake SET)
 
-if(NOT git.submodule.update.cmake)
+if(NOT git.submodule.packages.update.cmake)
   function(git_submodule_update name)
     git_submodule_collect_state(${name})
 
@@ -79,6 +79,6 @@ if(NOT git.submodule.update.cmake)
   endfunction()
 
   set_property(
-    GLOBAL PROPERTY git.submodule.update.cmake
+    GLOBAL PROPERTY git.submodule.packages.update.cmake
     "This is a header guard")
 endif()

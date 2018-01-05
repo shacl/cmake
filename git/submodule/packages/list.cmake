@@ -3,10 +3,10 @@
 # redundantly defined.
 
 get_property(
-  git.submodule.list.cmake
-  GLOBAL PROPERTY git.submodule.list.cmake SET)
+  git.submodule.packages.list.cmake
+  GLOBAL PROPERTY git.submodule.packages.list.cmake SET)
 
-if(NOT git.submodule.list.cmake)
+if(NOT git.submodule.packages.list.cmake)
   include(CMakeDependentOption)
 
   function(git_submodule_list)
@@ -42,11 +42,11 @@ if(NOT git.submodule.list.cmake)
     endif()
 
     set(${CMAKE_PROJECT_NAME}.submodules
-      ${submodules} CACHE STRING
+      ${submodules} CACHE INTERNAL
       "A CMake list of git submodules for ${CMAKE_PROJECT_NAME}")
   endfunction()
 
   set_property(
-    GLOBAL PROPERTY git.submodule.list.cmake
+    GLOBAL PROPERTY git.submodule.packages.list.cmake
     "This is a header guard")
 endif()

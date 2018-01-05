@@ -3,10 +3,10 @@
 # redundantly defined.
 
 get_property(
-  git.submodule.collect_state.cmake
-  GLOBAL PROPERTY git.submodule.collect_state.cmake SET)
+  git.submodule.packages.collect_state.cmake
+  GLOBAL PROPERTY git.submodule.packages.collect_state.cmake SET)
 
-if(NOT git.submodule.collect_state.cmake)
+if(NOT git.submodule.packages.collect_state.cmake)
 
   # This macro populates the current_hash and current_branch variables
   macro(git_submodule_collect_state name)
@@ -41,6 +41,6 @@ if(NOT git.submodule.collect_state.cmake)
   endmacro()
 
   set_property(
-    GLOBAL PROPERTY git.submodule.collect_state.cmake
+    GLOBAL PROPERTY git.submodule.packages.collect_state.cmake
     "This is a header guard")
 endif()

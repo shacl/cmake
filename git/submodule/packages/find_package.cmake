@@ -3,10 +3,10 @@
 # redundantly defined.
 
 get_property(
-  git.submodule.find_package.cmake
-  GLOBAL PROPERTY git.submodule.find_package.cmake SET)
+  git.submodule.packages.find_package.cmake
+  GLOBAL PROPERTY git.submodule.packages.find_package.cmake SET)
 
-if(NOT git.submodule.find_package.cmake)
+if(NOT git.submodule.packages.find_package.cmake)
 
   function(find_package package)
     if(NOT TARGET ${ARG0})
@@ -17,6 +17,17 @@ if(NOT git.submodule.find_package.cmake)
         if(found_submodule GREATER "-1" AND ${name}.submodule)
           git_submodule_init(${name})
           git_submodule_update(${name})
+          if(NOT EXISTS ${${name}.submodule.path}/CMakeLists.txt)
+            message("")
+            message("=======================")
+            message("git submodule package, ${name}, does not contain a CMakeLists.txt file")
+            message("The ${name} git submodule is located here: ${${name}.submodule.path}")
+            message("${name} requested with find_package by ${CMAKE_PROJECT_NAME}")
+            message("${CMAKE_PROJECT_NAME} is located here: ${PROJECT_SOURCE_DIR}")
+            message("=======================")
+            message("")
+            message(FATAL_ERROR " find_package request failed")
+          endif()
           add_subdirectory(${${name}.submodule.path})
           return()
         endif()
@@ -27,6 +38,6 @@ if(NOT git.submodule.find_package.cmake)
   endfunction()
 
   set_property(
-    GLOBAL PROPERTY git.submodule.find_package.cmake
+    GLOBAL PROPERTY git.submodule.packages.find_package.cmake
     "This is a header guard")
 endif()

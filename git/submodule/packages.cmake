@@ -28,7 +28,7 @@ if(NOT git.submodule.packages.cmake)
   include(git/submodule/packages/find_package)
 
   set_property(
-    GLOBAL PROPERTY git.packages.list.cmake
+    GLOBAL PROPERTY git.packages.cmake
     "This is a header guard")
 endif()
 
