@@ -10,9 +10,11 @@ if(NOT FortranPreProcess.target_sources.cmake)
   include(FortranPreProcess/FortranPreProcess)
   include(GeneratedSources)
 
+  backup(target_sources)
+
   function(target_sources target tag linkage)
     if(NOT ${tag} STREQUAL "PREPROCESS")
-      _target_sources(${ARGV})
+      previous_target_sources(${ARGV})
       return()
     endif()
 
@@ -41,7 +43,7 @@ if(NOT FortranPreProcess.target_sources.cmake)
           "${CMAKE_CURRENT_BINARY_DIR}/${arg}"
           DEFINE ${definitions})
 
-        _target_sources(
+        previous_target_sources(
           ${target} GENERATED ${linkage} "${CMAKE_CURRENT_BINARY_DIR}/${arg}")
       endif()
     endforeach()

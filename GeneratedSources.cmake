@@ -10,6 +10,7 @@ get_property(
   GLOBAL PROPERTY GeneratedSources.cmake SET)
 
 if(NOT GeneratedSources.cmake)
+  include(FunctionExtension)
   include(GeneratedSources/add_library)
   include(GeneratedSources/add_executable)
   include(GeneratedSources/target_sources)

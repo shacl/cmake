@@ -8,9 +8,11 @@ get_property(
 
 if(NOT GeneratedSources.target_sources.cmake)
 
+  backup(target_sources)
+
   function(target_sources target tag linkage)
     if(NOT ${tag} STREQUAL "GENERATED")
-      _target_sources(${ARGV})
+      previous_target_sources(${ARGV})
       return()
     endif()
 
@@ -22,12 +24,12 @@ if(NOT GeneratedSources.target_sources.cmake)
       else()
         string(REGEX MATCH "[$]<.*>$" generator_expression ${entry})
 
-        if("${generator_expression}" STREQUAL "${entry}")
+        if("${generator_expression}")
           message(FATAL_ERROR
             "Generator expressions are unavailable in GENERATED target_sources invocations")
         endif()
 
-        _target_sources(
+        previous_target_sources(
           ${target}.generated_sources.${linkage} INTERFACE "${entry}")
 
         if(IS_ABSOLUTE "${entry}")
