@@ -8,38 +8,66 @@ get_property(
 
 if(NOT git.submodule.update.cmake)
   function(git_submodule_update name)
+
     if(${name}.submodule.branch)
-      if(NOT ${name}.on_branch)
+      if(${name}.submodule.hash)
+        unset(${name}.submodule.hash CACHE)
+        unset(${name}.submodule.current_hash CACHE)
+        unset(${name}.submodule.current_branch CACHE)
+      endif()
+
+      if(NOT "${${name}.submodule.current_branch}"
+          STREQUAL ${name}.submodule.branch)
         execute_process(
           COMMAND ${GIT_EXECUTABLE} checkout ${${name}.submodule.branch}
-          WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+          WORKING_DIRECTORY "${${name}.submodule.path}"
+          OUTPUT_QUIET
+          RESULT_VARIABLE failure
+          ERROR_VARIABLE error_output)
 
-        set(${name}.on_branch TRUE CACHE INTERAL
-          "The ${name} git submodule branch has been checked out")
+        if(failure)
+          message(FATAL ${error_output})
+        endif()
+
+        set(${name}.submodule.current_branch ${${name}.submodule.branch}
+          CACHE INTERNAL
+          "The ${name} git submodule branch currently checked out")
       endif()
 
       execute_process(
-        COMMAND ${GIT_EXECUTABLE} fetch
         COMMAND ${GIT_EXECUTABLE} pull
-        WORKING_DIRECTORY "${${name}.submodule.path}")
-
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
         WORKING_DIRECTORY "${${name}.submodule.path}"
-        OUTPUT_VARIABLE hash)
+        OUTPUT_QUIET
+        RESULT_VARIABLE failure
+        ERROR_VARIABLE error_output)
 
-      set(${name}.submodule.hash ${hash} CACHE STRING
-        "${name} git submodule hash" FORCE)
+      if(failure)
+        message(FATAL ${error_output})
+      endif()
+
     else()
-      if(NOT ${name}.detached_head)
+      if(${name}.submodule.current_branch)
+        unset(${name}.submodule.current_branch CACHE)
+      endif()
+
+      if(NOT ${name}.submodule.current_hash STREQUAL ${name}.submodule.hash)
         execute_process(
           COMMAND ${GIT_EXECUTABLE} fetch
           COMMAND ${GIT_EXECUTABLE} checkout ${${name}.submodule.hash}
-          WORKING_DIRECTORY "${${name}.submodule.path}")
+          WORKING_DIRECTORY "${${name}.submodule.path}"
+          OUTPUT_QUIET
+          RESULT_VARIABLE failure
+          ERROR_VARIABLE error_output)
 
-        set(${name}.detached_head TRUE CACHE INTERAL
+        if(failure)
+          message(FATAL ${error_output})
+        endif()
+
+        set(${name}.submodule.current_hash ${${name}.submodule.hash}
+          CACHE INTERNAL
           "The ${name} git submodule is in detached head mode")
       endif()
+
     endif()
   endfunction()
 

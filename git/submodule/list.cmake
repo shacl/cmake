@@ -40,10 +40,14 @@ if(NOT git.submodule.list.cmake)
             set(${name}.submodule.hash "" CACHE STRING
               "${name} git submodule hash")
 
-            if(NOT ${name}.submodule.hash)
+            if(${name}.submodule.hash)
+              set(${name}.submodule.branch ""
+                CACHE STRING "${name} git submodule branch")
+            else()
               set(${name}.submodule.branch ${git.submodule.default_branch}
                 CACHE STRING "${name} git submodule branch")
             endif()
+
           endif()
         endif()
       endforeach()
