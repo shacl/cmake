@@ -11,7 +11,9 @@ if(NOT git.submodule.update.cmake)
 
     if(${name}.submodule.branch)
       if(${name}.submodule.hash)
-        set(${name}.submodule.hash "" CACHE STRING "${name} git submodule hash")
+        set(${name}.submodule.hash "" CACHE STRING
+          "${name} git submodule hash" FORCE)
+
         unset(${name}.submodule.current_hash CACHE)
       endif()
 
@@ -30,7 +32,7 @@ if(NOT git.submodule.update.cmake)
 
         set(${name}.submodule.current_branch ${${name}.submodule.branch}
           CACHE INTERNAL
-          "The ${name} git submodule branch currently checked out")
+          "The ${name} git submodule branch currently checked out" FORCE)
       endif()
 
       execute_process(
@@ -64,7 +66,7 @@ if(NOT git.submodule.update.cmake)
 
         set(${name}.submodule.current_hash ${${name}.submodule.hash}
           CACHE INTERNAL
-          "The ${name} git submodule is in detached head mode")
+          "The ${name} git submodule is in detached head mode" FORCE)
       endif()
 
     endif()
