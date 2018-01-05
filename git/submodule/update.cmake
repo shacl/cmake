@@ -11,9 +11,6 @@ if(NOT git.submodule.update.cmake)
 
     if(${name}.submodule.branch)
       if(${name}.submodule.hash)
-        set(${name}.submodule.hash "" CACHE STRING
-          "${name} git submodule hash" FORCE)
-
         unset(${name}.submodule.current_hash CACHE)
       endif()
 
@@ -35,16 +32,32 @@ if(NOT git.submodule.update.cmake)
           "The ${name} git submodule branch currently checked out" FORCE)
       endif()
 
+      if(git.submodule.update)
+        execute_process(
+          COMMAND ${GIT_EXECUTABLE} pull
+          WORKING_DIRECTORY "${${name}.submodule.path}"
+          OUTPUT_QUIET
+          RESULT_VARIABLE failure
+          ERROR_VARIABLE error_output)
+
+        if(failure)
+          message(FATAL ${error_output})
+        endif()
+      endif()
+
       execute_process(
-        COMMAND ${GIT_EXECUTABLE} pull
+        COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
         WORKING_DIRECTORY "${${name}.submodule.path}"
-        OUTPUT_QUIET
         RESULT_VARIABLE failure
+        OUTPUT_VARIABLE hash
         ERROR_VARIABLE error_output)
 
       if(failure)
         message(FATAL ${error_output})
       endif()
+
+      set(${name}.submodule.hash ${hash} CACHE STRING
+        "${name} git submodule hash" FORCE)
 
     else()
       if(${name}.submodule.current_branch)
