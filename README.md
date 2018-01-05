@@ -63,5 +63,5 @@ There after SHACL CMake modules are available by way of the CMake `include`
 function, e.g.,
 
 ```
-include(path/to/module)
+include(ModuleName)
 ```
