@@ -11,9 +11,8 @@ if(NOT git.submodule.update.cmake)
 
     if(${name}.submodule.branch)
       if(${name}.submodule.hash)
-        unset(${name}.submodule.hash CACHE)
+        set(${name}.submodule.hash "" CACHE STRING "${name} git submodule hash")
         unset(${name}.submodule.current_hash CACHE)
-        unset(${name}.submodule.current_branch CACHE)
       endif()
 
       if(NOT "${${name}.submodule.current_branch}"
