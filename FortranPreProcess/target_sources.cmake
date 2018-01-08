@@ -10,8 +10,7 @@ if(NOT FortranPreProcess.target_sources.cmake)
   include(FortranPreProcess/FortranPreProcess)
   include(FortranPreProcess/filename)
   include(GeneratedSources)
-  include(FunctionExtension)
-  
+
   backup(target_sources)
 
   function(target_sources target tag linkage)
