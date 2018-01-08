@@ -19,8 +19,8 @@ if(NOT git.submodule.packages.list.cmake)
 
       string(REPLACE " " ";" output ${output})
 
-      foreach(entry IN LISTS output)
-        set(path "${PROJECT_SOURCE_DIR}/${entry}")
+      foreach(arg IN LISTS output)
+        set(path "${PROJECT_SOURCE_DIR}/${arg}")
 
         if (EXISTS ${path})
           get_filename_component(name ${path} NAME)
