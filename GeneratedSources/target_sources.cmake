@@ -7,7 +7,6 @@ get_property(
   GLOBAL PROPERTY GeneratedSources.target_sources.cmake SET)
 
 if(NOT GeneratedSources.target_sources.cmake)
-
   backup(target_sources)
 
   function(target_sources target tag linkage)
@@ -24,7 +23,7 @@ if(NOT GeneratedSources.target_sources.cmake)
       else()
         string(REGEX MATCH "[$]<.*>$" generator_expression ${entry})
 
-        if("${generator_expression}")
+        if("${generator_expression}" STREQUAL "${entry}")
           message(FATAL_ERROR
             "Generator expressions are unavailable in GENERATED target_sources invocations")
         endif()

@@ -9,6 +9,7 @@ get_property(
 if(NOT FunctionExtension.cmake)
   include(FunctionExtension/increment)
   include(FunctionExtension/decrement)
+  include(FunctionExtension/backup)
   include(FunctionExtension/add_library)
   include(FunctionExtension/add_executable)
   include(FunctionExtension/target_sources)
