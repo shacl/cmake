@@ -20,7 +20,6 @@ if(NOT FortranPreProcess.target_sources.cmake)
     endif()
 
     get_target_property(definitions ${target} COMPILE_DEFINITIONS)
-    string(REPLACE ";" " " definitions "${definitions}")
 
     foreach(arg IN LISTS ARGN)
       if(arg STREQUAL "PUBLIC"

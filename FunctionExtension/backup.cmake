@@ -43,7 +43,7 @@ if(NOT FunctionExtension.backup.cmake)
 
     function(_${func})
     endfunction()
-  endmacro()
+  endfunction()
 
   set_property(
     GLOBAL PROPERTY FunctionExtension.backup.cmake

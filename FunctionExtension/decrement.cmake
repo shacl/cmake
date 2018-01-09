@@ -8,7 +8,7 @@ get_property(
 
 if(NOT FunctionExtension.decrement.cmake)
   macro(decrement n)
-    MATH(EXPR n "${n}-1")
+    MATH(EXPR ${n} "${${n}}-1")
   endmacro()
 
   set_property(

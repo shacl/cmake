@@ -9,7 +9,7 @@ get_property(
 if(NOT FunctionExtension.increment.cmake)
 
   macro(increment n)
-    MATH(EXPR n "${n}+1")
+    MATH(EXPR ${n} "${${n}}+1")
   endmacro()
 
   set_property(
