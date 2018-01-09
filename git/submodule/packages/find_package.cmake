@@ -8,6 +8,8 @@ get_property(
 
 if(NOT git.submodule.packages.find_package.cmake)
 
+  backup(find_package)
+
   function(find_package package)
     if(NOT TARGET ${ARG0})
       string(REPLACE ":" ";" name_list ${package})
@@ -34,7 +36,7 @@ if(NOT git.submodule.packages.find_package.cmake)
       endif()
     endif()
 
-    _find_package(${ARGV})
+    previous_find_package(${ARGV})
   endfunction()
 
   set_property(

@@ -10,11 +10,13 @@ get_property(
 
 if(NOT GeneratedSources.add_executable.cmake)
 
+  backup(add_executable)
+
   function(add_executable target)
-    _add_library(${target}.generated_sources.PUBLIC INTERFACE)
-    _add_library(${target}.generated_sources.PRIVATE INTERFACE)
-    _add_library(${target}.generated_sources.INTERFACE INTERFACE)
-    _add_executable(${ARGV} "")
+    previous_add_library(${target}.generated_sources.PUBLIC INTERFACE)
+    previous_add_library(${target}.generated_sources.PRIVATE INTERFACE)
+    previous_add_library(${target}.generated_sources.INTERFACE INTERFACE)
+    previous_add_executable(${ARGV} "")
     generated_sources_trap(${target})
   endfunction()
 

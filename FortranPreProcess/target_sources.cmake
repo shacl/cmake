@@ -8,16 +8,18 @@ get_property(
 
 if(NOT FortranPreProcess.target_sources.cmake)
   include(FortranPreProcess/FortranPreProcess)
+  include(FortranPreProcess/filename)
   include(GeneratedSources)
+
+  backup(target_sources)
 
   function(target_sources target tag linkage)
     if(NOT ${tag} STREQUAL "PREPROCESS")
-      _target_sources(${ARGV})
+      previous_target_sources(${ARGV})
       return()
     endif()
 
     get_target_property(definitions ${target} COMPILE_DEFINITIONS)
-    string(REPLACE ";" " " definitions "${definitions}")
 
     foreach(arg IN LISTS ARGN)
       if(arg STREQUAL "PUBLIC"
@@ -25,24 +27,23 @@ if(NOT FortranPreProcess.target_sources.cmake)
           OR arg STREQUAL "INTERFACE")
         set(linkage ${arg})
       else()
-
-        string(REGEX MATCH "[$]<.*>$" generator_expression ${arg})
-        if("${generator_expression}")
-          message(FATAL_ERROR
-            "Generator expressions are unavailable in PREPROCESS target_sources invocations")
+        if(NOT "${arg}" MATCHES ".*\.F([0-9][0-9])?$")
+          previous_target_source(${target} PREPROCESS ${linkage} "${arg}")
+          return()
         endif()
 
         file(RELATIVE_PATH path ${CMAKE_CURRENT_SOURCE_DIR} "${arg}")
         get_filename_component(directory "${path}" DIRECTORY)
         file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${directory}")
 
+        FortranPreProcess_filename("${path}" preprocessed_path)
         FortranPreProcess(
-          "${CMAKE_CURRENT_SOURCE_DIR}/${arg}"
-          "${CMAKE_CURRENT_BINARY_DIR}/${arg}"
+          "${CMAKE_CURRENT_SOURCE_DIR}/${path}"
+          "${CMAKE_CURRENT_BINARY_DIR}/${preprocessed_path}"
           DEFINE ${definitions})
 
-        _target_sources(
-          ${target} GENERATED ${linkage} "${CMAKE_CURRENT_BINARY_DIR}/${arg}")
+        previous_target_sources(${target} GENERATED ${linkage}
+          "${CMAKE_CURRENT_BINARY_DIR}/${preprocessed_path}")
       endif()
     endforeach()
   endfunction()
