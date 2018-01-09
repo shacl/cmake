@@ -36,7 +36,7 @@ if(NOT FunctionExtension.add_executable.cmake)
     elseif(previous_add_executable.recursion_depth EQUAL 10)
       ___________add_executable(${ARGV})
     else()
-      message(FATAL "maximum recursion depth exceeded")
+      message(FATAL_ERROR "maximum recursion depth exceeded")
     endif()
 
     decrement(previous_add_executable.recursion_depth)
