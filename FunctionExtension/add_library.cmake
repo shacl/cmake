@@ -36,7 +36,7 @@ if(NOT FunctionExtension.add_library.cmake)
     elseif(previous_add_library.recursion_depth EQUAL 10)
       ___________add_library(${ARGV})
     else()
-      message(FATAL "maximum recursion depth exceeded")
+      message(FATAL_ERROR "maximum recursion depth exceeded")
     endif()
 
     decrement(previous_add_library.recursion_depth)
