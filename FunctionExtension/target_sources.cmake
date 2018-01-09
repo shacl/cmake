@@ -36,7 +36,7 @@ if(NOT FunctionExtension.target_sources.cmake)
     elseif(previous_target_sources.recursion_depth EQUAL 10)
       ___________target_sources(${ARGV})
     else()
-      message(FATAL "maximum recursion depth exceeded")
+      message(FATAL_ERROR "maximum recursion depth exceeded")
     endif()
 
     decrement(previous_target_sources.recursion_depth)
