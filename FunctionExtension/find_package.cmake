@@ -36,7 +36,7 @@ if(NOT FunctionExtension.find_package.cmake)
     elseif(previous_find_package.recursion_depth EQUAL 10)
       ___________find_package(${ARGV})
     else()
-      message(FATAL "maximum recursion depth exceeded")
+      message(FATAL_ERROR "maximum recursion depth exceeded")
     endif()
 
     decrement(previous_find_package.recursion_depth)
