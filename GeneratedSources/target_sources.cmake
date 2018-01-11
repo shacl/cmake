@@ -15,6 +15,8 @@ if(NOT GeneratedSources.target_sources.cmake)
       return()
     endif()
 
+    stripped(${target})
+
     foreach(entry IN LISTS ARGN)
       if(entry STREQUAL "PUBLIC"
           OR entry STREQUAL "PRIVATE"
@@ -29,7 +31,7 @@ if(NOT GeneratedSources.target_sources.cmake)
         endif()
 
         previous_target_sources(
-          ${target}.generated_sources.${linkage} INTERFACE "${entry}")
+          ${stripped_target_name}.generated_sources.${linkage} INTERFACE "${entry}")
 
         if(IS_ABSOLUTE "${entry}")
           file(RELATIVE_PATH relative_path "${PROJECT_BINARY_DIR}" "${entry}")
@@ -44,7 +46,7 @@ if(NOT GeneratedSources.target_sources.cmake)
         string(REPLACE " " "_" relative_path "${relative_path}")
 
         set(custom_target
-          ${target}.generated_sources.${linkage}.path.${relative_path})
+          ${stripped_target_name}.generated_sources.${linkage}.path.${relative_path})
 
         add_custom_target(${custom_target} DEPENDS ${entry})
 
@@ -52,7 +54,7 @@ if(NOT GeneratedSources.target_sources.cmake)
           ${custom_target} PROPERTIES FOLDER .generated_sources/dummy)
 
         add_dependencies(
-          ${target}.generated_sources.${linkage}
+          ${stripped_target_name}.generated_sources.${linkage}
           ${custom_target})
       endif()
     endforeach()
