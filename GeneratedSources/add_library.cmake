@@ -25,7 +25,7 @@ if(NOT GeneratedSources.add_library.cmake)
     previous_add_library(${stripped_target_name}.generated_sources.PUBLIC INTERFACE)
     previous_add_library(${stripped_target_name}.generated_sources.PRIVATE INTERFACE)
     previous_add_library(${stripped_target_name}.generated_sources.INTERFACE INTERFACE)
-    previous_add_library(${ARGV} "")
+    previous_add_library(${ARGV})
     generated_sources_trap(${target})
   endfunction()
 

@@ -11,7 +11,7 @@ if(NOT git.submodule.packages.find_package.cmake)
   backup(find_package)
 
   function(find_package package)
-    if(NOT TARGET ${ARG0})
+    if(NOT TARGET ${package})
       string(REPLACE ":" ";" name_list ${package})
       list(GET name_list -1 name)
       if(git.submodule.packages)
