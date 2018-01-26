@@ -16,7 +16,5 @@ if(NOT GeneratedSources.cmake)
   include(GeneratedSources/add_executable)
   include(GeneratedSources/target_sources)
 
-  set_property(
-    GLOBAL PROPERTY GeneratedSources.cmake
-    "This is a header guard")
+  set_property(GLOBAL PROPERTY GeneratedSources.cmake "This is a header guard")
 endif()
