@@ -29,19 +29,20 @@ if(NOT GeneratedSources.generated_sources_trap.cmake)
   # -------------------------------------------------------------------------
   #
   macro(generated_sources_trap target)
-    function(${target}_append_generated_files variable access)
-      if(${access} STREQUAL UNKNOWN_READ_ACCESS OR ${access} STREQUAL READ_ACCESS)
-        get_target_property(${target}.source_directory ${target} SOURCE_DIR)
+    stripped(${target})
 
-        if(NOT TARGET ${target}.generated_sources.PUBLIC)
+    function(${stripped_target_name}_append_generated_files variable access)
+      if(${access} STREQUAL UNKNOWN_READ_ACCESS OR ${access} STREQUAL READ_ACCESS)
+        if(NOT TARGET ${stripped_target_name}.generated_sources.PUBLIC)
           return()
         endif()
 
-        if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${${target}.source_directory})
+        if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL
+            ${${stripped_target_name}.source_directory})
 
           foreach(linkage PUBLIC PRIVATE INTERFACE)
             get_target_property(sources
-              ${target}.generated_sources.${linkage}
+              ${stripped_target_name}.generated_sources.${linkage}
               INTERFACE_SOURCES)
 
             foreach(source IN LISTS sources)
@@ -49,14 +50,14 @@ if(NOT GeneratedSources.generated_sources_trap.cmake)
             endforeach()
 
             target_link_libraries(${target} ${linkage}
-              $<BUILD_INTERFACE:${target}.generated_sources.${linkage}>)
+              $<BUILD_INTERFACE:${stripped_target_name}.generated_sources.${linkage}>)
           endforeach()
         endif()
       endif()
     endfunction()
 
-    variable_watch(CMAKE_BACKWARDS_COMPATIBILITY ${target}_append_generated_files)
-
+    variable_watch(CMAKE_BACKWARDS_COMPATIBILITY ${stripped_target_name}_append_generated_files)
+    unset(stripped_target_name)
   endmacro()
 
   set_property(GLOBAL PROPERTY GeneratedSources.generated_sources_trap.cmake

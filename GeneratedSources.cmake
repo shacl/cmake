@@ -11,6 +11,7 @@ get_property(
 
 if(NOT GeneratedSources.cmake)
   include(FunctionExtension)
+  include(GeneratedSources/stripped)
   include(GeneratedSources/add_library)
   include(GeneratedSources/add_executable)
   include(GeneratedSources/target_sources)
