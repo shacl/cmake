@@ -13,7 +13,7 @@ if(NOT FortranPreProcess.target_sources.cmake)
 
   backup(target_sources)
 
-  function(target_sources target tag linkage)
+  macro(target_sources target tag linkage)
     if(NOT ${tag} STREQUAL "PREPROCESS")
       previous_target_sources(${ARGV})
       return()
@@ -32,6 +32,10 @@ if(NOT FortranPreProcess.target_sources.cmake)
           return()
         endif()
 
+        if(NOT IS_ABSOLUTE "${arg}")
+          set(arg "${CMAKE_CURRENT_SOURCE_DIR}/${arg}")
+        endif()
+
         file(RELATIVE_PATH path ${CMAKE_CURRENT_SOURCE_DIR} "${arg}")
         get_filename_component(directory "${path}" DIRECTORY)
         file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${directory}")
@@ -46,7 +50,8 @@ if(NOT FortranPreProcess.target_sources.cmake)
           "${CMAKE_CURRENT_BINARY_DIR}/${preprocessed_path}")
       endif()
     endforeach()
-  endfunction()
+    unset(definitions)
+  endmacro()
 
   set_property(
     GLOBAL PROPERTY FortranPreprocess.target_sources.cmake

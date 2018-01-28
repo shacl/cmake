@@ -18,11 +18,13 @@ if(NOT GeneratedSources.add_executable.cmake)
       CACHE INTERNAL
       "Cache variable because source directory isnt available on some targets")
 
-    previous_add_library(${stripped_target_name}.generated_sources.PUBLIC INTERFACE)
-    previous_add_library(${stripped_target_name}.generated_sources.PRIVATE INTERFACE)
-    previous_add_library(${stripped_target_name}.generated_sources.INTERFACE INTERFACE)
-    previous_add_executable(${ARGV} "")
-    generated_sources_trap(${target})
+    if(NOT TARGET ${stripped_target_name}.generated_sources.PUBLIC)
+      previous_add_library(${stripped_target_name}.generated_sources.PUBLIC INTERFACE)
+      previous_add_library(${stripped_target_name}.generated_sources.PRIVATE INTERFACE)
+      previous_add_library(${stripped_target_name}.generated_sources.INTERFACE INTERFACE)
+      previous_add_executable(${ARGV} "")
+      generated_sources_trap(${target})
+    endif()
   endfunction()
 
   set_property(

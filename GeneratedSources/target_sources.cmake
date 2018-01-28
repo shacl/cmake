@@ -9,7 +9,7 @@ get_property(
 if(NOT GeneratedSources.target_sources.cmake)
   backup(target_sources)
 
-  function(target_sources target tag linkage)
+  macro(target_sources target tag linkage)
     if(NOT ${tag} STREQUAL "GENERATED")
       previous_target_sources(${ARGV})
       return()
@@ -58,7 +58,7 @@ if(NOT GeneratedSources.target_sources.cmake)
           ${custom_target})
       endif()
     endforeach()
-  endfunction()
+  endmacro()
 
   set_property(
     GLOBAL PROPERTY GeneratedSources.target_sources.cmake
