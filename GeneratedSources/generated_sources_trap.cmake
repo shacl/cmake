@@ -15,15 +15,10 @@ if(NOT GeneratedSources.generated_sources_trap.cmake)
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         PROPERTY directory_targets)
 
-      message("directory: ${CMAKE_CURRENT_SOURCE_DIR}")
-      message("directory targets: ${directory_targets}")
-
       if(directory_targets)
-        message("entered body")
         foreach(directory_target IN LISTS directory_targets)
           stripped(${directory_target})
-          message("directory_target: ${directory_target}")
-          message("stripped_target: ${stripped_target_name}")
+
           if(NOT TARGET ${stripped_target_name}.generated_sources.PUBLIC)
             return()
           endif()
@@ -33,13 +28,11 @@ if(NOT GeneratedSources.generated_sources_trap.cmake)
               ${stripped_target_name}.generated_sources.${linkage}
               INTERFACE_SOURCES)
             
-            foreach(source IN LISTS sources)
-              message("source: ${source}")
-              set_source_files_properties(${source} PROPERTIES GENERATED TRUE)
-            endforeach()
-            
-            target_link_libraries(${directory_target} ${linkage}
-              $<BUILD_INTERFACE:${stripped_target_name}.generated_sources.${linkage}>)
+            if(NOT sources STREQUAL "sources-NOTFOUND")
+              foreach(source IN LISTS sources)
+                set_source_files_properties(${source} PROPERTIES GENERATED TRUE)
+              endforeach()
+            endif()
           endforeach()
         endforeach()
       endif()
@@ -53,12 +46,11 @@ if(NOT GeneratedSources.generated_sources_trap.cmake)
       DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       PROPERTY directory_targets)
 
-    message("directory targets: ${directory_targets}")
-    message("new target: ${target}")
-
     set_property(
       DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       PROPERTY directory_targets ${directory_targets} ${target})
+
+    unset(directory_targets)
   endmacro()
 
   set_property(GLOBAL PROPERTY GeneratedSources.generated_sources_trap.cmake

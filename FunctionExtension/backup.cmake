@@ -1,62 +1,49 @@
-# Here we're using the existance of global properties to act as something
-# analoguous to C/C++ header guards to ensure the contents of this file are not
-# redunantly defined.
+macro(backup func)
+  function(___________${func})
+    message("dummy")
+  endfunction()
 
-get_property(
-  FunctionExtension.backup.cmake
-  GLOBAL PROPERTY FunctionExtension.backup.cmake SET)
+  function(__________${func})
+    message("dummy")
+  endfunction()
 
-if(NOT FunctionExtension.backup.cmake)
-  macro(backup func)
-    macro(___________${func})
-      message("dummy")
-    endmacro()
+  function(_________${func})
+    message("dummy")
+  endfunction()
 
-    macro(__________${func})
-      message("dummy")
-    endmacro()
+  function(________${func})
+    message("dummy")
+  endfunction()
 
-    macro(_________${func})
-      message("dummy")
-    endmacro()
+  function(_______${func})
+    message("dummy")
+  endfunction()
 
-    macro(________${func})
-      message("dummy")
-    endmacro()
+  function(______${func})
+    message("dummy")
+  endfunction()
 
-    macro(_______${func})
-      message("dummy")
-    endmacro()
+  function(_____${func})
+    message("dummy")
+  endfunction()
 
-    macro(______${func})
-      message("dummy")
-    endmacro()
+  function(____${func})
+    message("dummy")
+  endfunction()
 
-    macro(_____${func})
-      message("dummy")
-    endmacro()
+  function(___${func})
+    message("dummy")
+  endfunction()
 
-    macro(____${func})
-      message("dummy")
-    endmacro()
+  function(__${func})
+    message("dummy")
+  endfunction()
 
-    macro(___${func})
-      message("dummy")
-    endmacro()
+  function(${func})
+    message("dummy")
+  endfunction()
 
-    macro(__${func})
-      message("dummy")
-    endmacro()
-
-    macro(${func})
-      message("dummy")
-    endmacro()
-
-    macro(_${func})
-      message("dummy")
-    endmacro()
-  endmacro()
-
-  set_property(GLOBAL PROPERTY FunctionExtension.backup.cmake 
-    "This is a header guard")
-endif()
+  function(_${func})
+    message("dummy")
+  endfunction()
+endmacro()
