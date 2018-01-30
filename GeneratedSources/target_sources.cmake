@@ -6,11 +6,20 @@ function(target_sources target tag linkage)
     return()
   endif()
 
+  get_target_property(library_type ${target} TYPE)
+    
   stripped(${target})
   foreach(entry ${ARGN})
     if(entry STREQUAL "PUBLIC"
         OR entry STREQUAL "PRIVATE"
         OR entry STREQUAL "INTERFACE")
+
+      if(library_type STREQUAL "INTERFACE_LIBRARY"
+          AND NOT entry STREQUAL "INTERFACE")
+        message(FATAL_ERROR 
+          "Only interface sources may be added to interface targets")
+      endif()
+
       set(linkage ${entry})
     else()
       string(REGEX MATCH "[$]<.*>$" generator_expression ${entry})
