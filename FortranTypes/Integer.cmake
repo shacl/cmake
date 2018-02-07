@@ -13,8 +13,8 @@ CMAKE_DEPENDENT_OPTION(FortranTypes.integer.32
 
 add_library(Fortran_Integer_C INTERFACE)
 target_compile_definitions(Fortran_Integer_C INTERFACE
-  $<$<BOOL:FortranTypes.integer.64>:F90_INT_8BYTE>
-  $<$<BOOL:FortranTypes.integer.32>:F90_INT_4BYTE>)
+  $<$<BOOL:${FortranTypes.integer.64}>:F90_INT_8BYTE>
+  $<$<BOOL:${FortranTypes.integer.32}>:F90_INT_4BYTE>)
 
 add_library(Fortran_Integer_CXX INTERFACE)
 target_link_libraries(Fortran_Integer_CXX INTERFACE Fortran_Integer_C)
