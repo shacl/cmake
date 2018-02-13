@@ -1,31 +1,18 @@
-include(GeneratedSources/generated_sources_trap)
+backup(add_executable)
 
-# Here we're using the existance of global properties to act as something
-# analoguous to C/C++ header guards to ensure the contents of this file are not
-# redundantly defined.
+function(add_executable target)
+  previous_add_executable(${ARGV} "")
 
-get_property(
-  GeneratedSources.add_executable.cmake
-  GLOBAL PROPERTY GeneratedSources.add_executable.cmake SET)
+  stripped(${target})
+  previous_add_library(${stripped_target_name}.generated_sources.PUBLIC INTERFACE)
+  target_link_libraries(${target} PUBLIC 
+    $<BUILD_INTERFACE:${stripped_target_name}.generated_sources.PUBLIC>)
 
-if(NOT GeneratedSources.add_executable.cmake)
+  previous_add_library(${stripped_target_name}.generated_sources.PRIVATE INTERFACE)
+  target_link_libraries(${target} PRIVATE 
+    $<BUILD_INTERFACE:${stripped_target_name}.generated_sources.PRIVATE>)
 
-  backup(add_executable)
-
-  function(add_executable target)
-    stripped(${target})
-    set(${stripped_target_name}.source_directory "${CMAKE_CURRENT_SOURCE_DIR}"
-      CACHE INTERNAL
-      "Cache variable because source directory isnt available on some targets")
-
-    previous_add_library(${stripped_target_name}.generated_sources.PUBLIC INTERFACE)
-    previous_add_library(${stripped_target_name}.generated_sources.PRIVATE INTERFACE)
-    previous_add_library(${stripped_target_name}.generated_sources.INTERFACE INTERFACE)
-    previous_add_executable(${ARGV} "")
-    generated_sources_trap(${target})
-  endfunction()
-
-  set_property(
-    GLOBAL PROPERTY GeneratedSources.add_executable.cmake
-    "This is a header guard")
-endif()
+  previous_add_library(${stripped_target_name}.generated_sources.INTERFACE INTERFACE)
+  target_link_libraries(${target} INTERFACE 
+    $<BUILD_INTERFACE:${stripped_target_name}.generated_sources.INTERFACE>)
+endfunction()

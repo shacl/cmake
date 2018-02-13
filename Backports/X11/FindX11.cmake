@@ -423,8 +423,10 @@ if (UNIX)
 
     if(NOT TARGET X11::X11)
       add_library(X11::X11 INTERFACE IMPORTED)
-      target_include_directories(X11::X11 INTERFACE ${X11_INCLUDE_DIR})
-      target_link_libraries(X11::X11 INTERFACE ${X11_LIBRARIES})
+      set_property(TARGET X11::X11 PROPERTY 
+        INTERFACE_INCLUDE_DIRECTORIES ${X11_INCLUDE_DIR})
+      set_property(TARGET X11::X11 PROPERTY 
+        INTERFACE_LINK_LIBRARIES ${X11_LIBRARIES})
     endif()
 
     include(${CMAKE_CURRENT_LIST_DIR}/FindPackageMessage.cmake)

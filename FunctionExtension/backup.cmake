@@ -1,52 +1,49 @@
-# Here we're using the existance of global properties to act as something
-# analoguous to C/C++ header guards to ensure the contents of this file are not
-# redunantly defined.
-
-get_property(
-  FunctionExtension.backup.cmake
-  GLOBAL PROPERTY FunctionExtension.backup.cmake SET)
-
-if(NOT FunctionExtension.backup.cmake)
-  function(backup func)
-    function(___________${func})
-    endfunction()
-
-    function(__________${func})
-    endfunction()
-
-    function(_________${func})
-    endfunction()
-
-    function(________${func})
-    endfunction()
-
-    function(_______${func})
-    endfunction()
-
-    function(______${func})
-    endfunction()
-
-    function(_____${func})
-    endfunction()
-
-    function(____${func})
-    endfunction()
-
-    function(___${func})
-    endfunction()
-
-    function(__${func})
-    endfunction()
-
-    function(${func})
-    endfunction()
-
-    function(_${func})
-    endfunction()
+macro(backup func)
+  function(___________${func})
+    message("dummy")
   endfunction()
 
-  set_property(
-    GLOBAL PROPERTY FunctionExtension.backup.cmake
-    "This is a header guard")
+  function(__________${func})
+    message("dummy")
+  endfunction()
 
-endif()
+  function(_________${func})
+    message("dummy")
+  endfunction()
+
+  function(________${func})
+    message("dummy")
+  endfunction()
+
+  function(_______${func})
+    message("dummy")
+  endfunction()
+
+  function(______${func})
+    message("dummy")
+  endfunction()
+
+  function(_____${func})
+    message("dummy")
+  endfunction()
+
+  function(____${func})
+    message("dummy")
+  endfunction()
+
+  function(___${func})
+    message("dummy")
+  endfunction()
+
+  function(__${func})
+    message("dummy")
+  endfunction()
+
+  function(${func})
+    message("dummy")
+  endfunction()
+
+  function(_${func})
+    message("dummy")
+  endfunction()
+endmacro()
