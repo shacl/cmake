@@ -6,8 +6,6 @@ function(target_sources target tag linkage)
     return()
   endif()
 
-  get_target_property(definitions ${target} COMPILE_DEFINITIONS)
-
   foreach(arg ${ARGN})
     if(arg STREQUAL "PUBLIC"
         OR arg STREQUAL "PRIVATE"
@@ -27,7 +25,7 @@ function(target_sources target tag linkage)
       FortranPreProcess(
         "${CMAKE_CURRENT_LIST_DIR}/${path}"
         "${LIST_BINARY_DIR}/${preprocessed_path}"
-        DEFINE ${definitions})
+        DEFINE $<TARGET_PROPERTY:${target},COMPILE_DEFINITIONS>)
 
       previous_target_sources(${target} GENERATED ${linkage}
         "${LIST_BINARY_DIR}/${preprocessed_path}")
