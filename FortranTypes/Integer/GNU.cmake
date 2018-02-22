@@ -4,4 +4,8 @@ string(CONCAT generator
 
 target_compile_options(Fortran_Integer_Fortran INTERFACE ${generator})
 
+target_compile_definitions(Fortran_Integer_C INTERFACE
+  $<$<NOT:$<OR:$<BOOL:${FortranTypes.integer.64}>,
+               $<BOOL:${FortranTypes.integer.32}>>>:F90_INT_4BYTE>)
+
 unset(generator)

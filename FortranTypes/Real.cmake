@@ -4,11 +4,11 @@ include(CMakeDependentOption)
 include_guard(GLOBAL)
 
 CMAKE_DEPENDENT_OPTION(FortranTypes.real.64
-  "Require the Fortran default real be 64-bit integer" OFF 
+  "Require the Fortran default real be 64-bit integer" OFF
   "NOT FortranTypes.real.32" OFF)
 
 CMAKE_DEPENDENT_OPTION(FortranTypes.real.32
-  "Require the Fortran default real be 32-bit integer" OFF 
+  "Require the Fortran default real be 32-bit integer" OFF
   "NOT FortranTypes.real.64" OFF)
 
 add_library(Fortran_Real_C INTERFACE)
