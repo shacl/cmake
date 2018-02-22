@@ -32,13 +32,15 @@ function(target_sources target tag linkage)
       previous_target_sources(${stripped_target_name}.generated_sources.${linkage} INTERFACE "${entry}")
       file(RELATIVE_PATH relative_path "${PROJECT_BINARY_DIR}" "${entry}")
 
-      string(REPLACE "/" "_" relative_path "${relative_path}")
-      string(REPLACE "." "_" relative_path "${relative_path}")
-      string(REPLACE " " "_" relative_path "${relative_path}")
+      #string(REPLACE "/" "_" relative_path "${relative_path}")
+      #string(REPLACE "." "_" relative_path "${relative_path}")
+      #string(REPLACE " " "_" relative_path "${relative_path}")
+      string(SHA512 path_hash ${relative_path})
 
-      set(custom_target
-        ${stripped_target_name}.generated_sources.${linkage}.path.${relative_path})
-
+      #set(custom_target
+      #  ${stripped_target_name}.generated_sources.${linkage}.path.${relative_path})
+      
+      set(custom_target ${stripped_target_name}.${path_hash})
       add_custom_target(${custom_target} DEPENDS ${entry})
 
       set_target_properties(

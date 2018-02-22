@@ -1,4 +1,4 @@
-if(CMAKE_VERSION VERSION_LESS_EQUAL 3.10.2)
+if(CMAKE_VERSION VERSION_LESS 3.10.2)
   macro(include_guard)
     if(${ARGC})
       set(scope ${ARGV0})
