@@ -22,6 +22,7 @@ function(target_sources target tag linkage)
       file(MAKE_DIRECTORY "${LIST_BINARY_DIR}/${directory}")
 
       FortranPreProcess_filename("${path}" preprocessed_path)
+      
       FortranPreProcess(
         "${CMAKE_CURRENT_LIST_DIR}/${path}"
         "${LIST_BINARY_DIR}/${preprocessed_path}"
