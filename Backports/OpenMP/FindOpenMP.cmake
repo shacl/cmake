@@ -475,7 +475,7 @@ foreach(LANG IN LISTS OpenMP_FINDLIST)
         if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
           separate_arguments(_OpenMP_${LANG}_OPTIONS WINDOWS_COMMAND "${OpenMP_${LANG}_FLAGS}")
         else()
-          separate_arguments(_OpenMP_${LANG}_OPTIONS UNIX_COMMAND "${CMAKE_${LANG}_VERBOSE_FLAG}")
+          separate_arguments(_OpenMP_${LANG}_OPTIONS UNIX_COMMAND "${OpenMP_${LANG}_FLAGS}")
         endif()
 
         set_property(TARGET OpenMP::OpenMP_${LANG} PROPERTY
