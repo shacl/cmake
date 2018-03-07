@@ -1,8 +1,9 @@
 include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
-include(FunctionExtension/increment)
-include(FunctionExtension/decrement)
+include(FunctionExtension/push)
+include(FunctionExtension/pop)
+include(FunctionExtension/call)
 include(FunctionExtension/backup)
 include(FunctionExtension/add_library)
 include(FunctionExtension/add_executable)
