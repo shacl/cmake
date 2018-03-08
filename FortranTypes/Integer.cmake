@@ -23,6 +23,7 @@ add_library(Fortran_Integer_Fortran INTERFACE)
 target_link_libraries(Fortran_Integer_Fortran INTERFACE Fortran_Integer_C)
 
 include(FortranTypes/Integer/GNU)
+include(FortranTypes/Integer/Flang)
 include(FortranTypes/Integer/Intel)
 
 add_library(FortranTypes::Integer_C ALIAS Fortran_Integer_C)

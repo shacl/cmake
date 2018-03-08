@@ -23,6 +23,7 @@ add_library(Fortran_Real_Fortran INTERFACE)
 target_link_libraries(Fortran_Real_Fortran INTERFACE Fortran_Real_C)
 
 include(FortranTypes/Real/GNU)
+include(FortranTypes/Real/Flang)
 include(FortranTypes/Real/Intel)
 
 add_library(FortranTypes::Real_C ALIAS Fortran_Real_C)
