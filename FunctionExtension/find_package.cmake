@@ -5,6 +5,6 @@ macro(previous_find_package)
 
   push(previous_find_package_fn)
   set(previous_find_package_fn _${previous_find_package_fn})
-  call(${previous_find_package_fn} ${keyword} ${ARGN} "")
+  call(${previous_find_package_fn} ${ARGN})
   pop(previous_find_package_fn)
 endmacro()
