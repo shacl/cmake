@@ -56,10 +56,15 @@
 
 
 if(WIN64)
+  set(X11_FOUND 0)
+  set(X11_INC_SEARCH_PATH
+    ${CMAKE_PREFIX_PATH}include
+    )
 
+  set(X11_LIB_SEARCH_PATH
+    ${CMAKE_PREFIX_PATH}lib
+    )    
 endif()
-
-
 
 if (UNIX)
   set(X11_FOUND 0)
@@ -87,6 +92,10 @@ if (UNIX)
     /usr/openwin/lib
     /opt/X11/lib
     )
+endif()
+
+
+
 
   find_path(X11_X11_INCLUDE_PATH X11/X.h                             ${X11_INC_SEARCH_PATH})
   find_path(X11_Xlib_INCLUDE_PATH X11/Xlib.h                         ${X11_INC_SEARCH_PATH})
@@ -511,6 +520,5 @@ if (UNIX)
     X11_XSync_INCLUDE_PATH)
   set(CMAKE_FIND_FRAMEWORK ${CMAKE_FIND_FRAMEWORK_SAVE})
   set(CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
-endif ()
 
 # X11_FIND_REQUIRED_<component> could be checked too
