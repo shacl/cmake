@@ -54,6 +54,13 @@
 #   X11_Xv_INCLUDE_PATH,           X11_Xv_LIB,         X11_Xv_FOUND
 #   X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
 
+
+if(WIN64)
+
+endif()
+
+
+
 if (UNIX)
   set(X11_FOUND 0)
   # X11 is never a framework and some header files may be
