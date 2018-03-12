@@ -55,15 +55,10 @@
 #   X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
 
 
-if(WIN64)
-  set(X11_FOUND 0)
-  set(X11_INC_SEARCH_PATH
-    ${CMAKE_PREFIX_PATH}include
-    )
-
-  set(X11_LIB_SEARCH_PATH
-    ${CMAKE_PREFIX_PATH}lib
-    )    
+if(WIN32)
+  set( X11_FOUND 0 )
+  set( X11_INC_SEARCH_PATH ${CMAKE_PREFIX_PATH}include )
+  set( X11_LIB_SEARCH_PATH ${CMAKE_PREFIX_PATH}lib64 )    
 endif()
 
 if (UNIX)
@@ -94,9 +89,7 @@ if (UNIX)
     )
 endif()
 
-
-
-
+if ( X11_INC_SEARCH_PATH AND X11_LIB_SEARCH_PATH OR ${CMAKE_PREFIX_PATH} )
   find_path(X11_X11_INCLUDE_PATH X11/X.h                             ${X11_INC_SEARCH_PATH})
   find_path(X11_Xlib_INCLUDE_PATH X11/Xlib.h                         ${X11_INC_SEARCH_PATH})
 
@@ -448,10 +441,6 @@ endif()
     include(${CMAKE_CURRENT_LIST_DIR}/FindPackageMessage.cmake)
     FIND_PACKAGE_MESSAGE(X11 "Found X11: ${X11_X11_LIB}"
       "[${X11_X11_LIB}][${X11_INCLUDE_DIR}]")
-  else ()
-    if (X11_FIND_REQUIRED)
-      message(FATAL_ERROR "Could not find X11")
-    endif ()
   endif ()
 
   mark_as_advanced(
@@ -520,5 +509,8 @@ endif()
     X11_XSync_INCLUDE_PATH)
   set(CMAKE_FIND_FRAMEWORK ${CMAKE_FIND_FRAMEWORK_SAVE})
   set(CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
+endif()
 
-# X11_FIND_REQUIRED_<component> could be checked too
+if (X11_FIND_REQUIRED)
+  message(FATAL_ERROR "Could not find X11")
+endif ()
