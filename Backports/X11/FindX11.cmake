@@ -55,14 +55,9 @@
 #   X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
 
 
-if(WIN32)
-  set( X11_FOUND 0 )
-  set( X11_INC_SEARCH_PATH ${CMAKE_PREFIX_PATH}include )
-  set( X11_LIB_SEARCH_PATH ${CMAKE_PREFIX_PATH}lib64 )    
-endif()
+set( X11_FOUND 0 )
 
 if (UNIX)
-  set(X11_FOUND 0)
   # X11 is never a framework and some header files may be
   # found in tcl on the mac
   set(CMAKE_FIND_FRAMEWORK_SAVE ${CMAKE_FIND_FRAMEWORK})
