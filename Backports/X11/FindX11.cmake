@@ -84,10 +84,10 @@ if (UNIX)
     )
 endif()
 
+
 if ( X11_INC_SEARCH_PATH AND X11_LIB_SEARCH_PATH OR CMAKE_PREFIX_PATH )
   find_path(X11_X11_INCLUDE_PATH X11/X.h                             ${X11_INC_SEARCH_PATH})
   find_path(X11_Xlib_INCLUDE_PATH X11/Xlib.h                         ${X11_INC_SEARCH_PATH})
-
   # Look for includes; keep the list sorted by name of the cmake *_INCLUDE_PATH
   # variable (which doesn't need to match the include file name).
 
@@ -506,6 +506,8 @@ if ( X11_INC_SEARCH_PATH AND X11_LIB_SEARCH_PATH OR CMAKE_PREFIX_PATH )
   set(CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
 endif()
 
-if (X11_FIND_REQUIRED)
-  message(FATAL_ERROR "Could not find X11")
+if( NOT X11_FOUND )
+  if (X11_FIND_REQUIRED)
+    message(FATAL_ERROR "Could not find X11")
+  endif ()
 endif ()
