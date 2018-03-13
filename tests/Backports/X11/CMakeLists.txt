@@ -5,7 +5,3 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../..")
 include(Backports)
 
 find_package( X11 REQUIRED )
-
-find_path( out X.h )
-
-message( " ${out} - - - - - - - " )
