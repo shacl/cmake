@@ -57,8 +57,9 @@
 
 set( X11_FOUND 0 )
 
-set(X11_INC_SEARCH_PATH ${X11_ROOT}/inlcude)
-set(X11_LIB_SEARCH_PATH ${X11_ROOT}/lib ${X11_ROOT}/lib64)
+list(APPEND X11_INC_SEARCH_PATH ${X11_ROOT}/inlcude)
+list(APPEND X11_LIB_SEARCH_PATH ${X11_ROOT}/lib)
+list(APPEND X11_LIB_SEARCH_PATH ${X11_ROOT}/lib64)
 
 if (UNIX)
   # X11 is never a framework and some header files may be
