@@ -1,8 +1,10 @@
 backup(add_library)
 
-function(add_library target keyword)
-  previous_add_library(${ARGV})
-    
+function(add_library)
+  previous_add_library("${ARGN}")
+
+  set(target ${ARGV0})
+  set(keyword ${ARGV1})
   get_target_property(is_alias ${target} ALIASED_TARGET)
   get_target_property(is_imported ${target} IMPORTED)
   get_target_property(library_type ${target} TYPE)
