@@ -27,3 +27,22 @@ call(${function_name} world)
 if(NOT bar_output STREQUAL "world")
   message(FATAL_ERROR "bar_output should equal world")
 endif()
+
+function( variadic )
+    set( testVar "${ARGN}" PARENT_SCOPE )
+endfunction()
+
+call( variadic a b c )
+if( NOT testVar STREQUAL "a;b;c" )
+  message(FATAL_ERROR "testVar should equal a;b;c" )
+endif()
+
+call( variadic a b c "" )
+if( NOT testVar STREQUAL "a;b;c;" )
+  message(FATAL_ERROR "testVar should equal a;b;c;" )
+endif()
+
+call( variadic a b c "" "" )
+if( NOT testVar STREQUAL "a;b;c;" )
+  message(FATAL_ERROR "testVar should equal a;b;c;" )
+endif()
