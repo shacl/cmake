@@ -20,7 +20,7 @@ target_compile_options(standard_semantics INTERFACE
 
 string(CONCAT generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand f03>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand;f03>"
           "$<$<PLATFORM_ID:Windows>:/stand:f03>>"
           
   "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:-std=f2003")
@@ -35,7 +35,7 @@ target_compile_options(fortran_2003 INTERFACE
 
 string(CONCAT generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand f08>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand;f08>"
           "$<$<PLATFORM_ID:Windows>:/stand:f08>>"
           
   "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:-std=f2008")
