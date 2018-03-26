@@ -1,0 +1,2 @@
+program use_standard_semantics
+end program
