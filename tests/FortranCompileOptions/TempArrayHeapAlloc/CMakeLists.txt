@@ -1,13 +1,13 @@
 include(FortranCompileOptions/TempArrayHeapAlloc)
 
-MakeTempArrayHeapAllocTarget(1024)
+#MakeTempArrayHeapAllocTarget(1024)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90
               INPUT ${CMAKE_CURRENT_LIST_DIR}/use_temp_array_heap_alloc.f90.in
 )
 
 add_executable(use_temp_array_heap_alloc ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90)
-target_link_libraries(use_temp_array_heap_alloc PRIVATE Fortran::TempArrayHeapAlloc_1024)
+target_link_libraries(use_temp_array_heap_alloc PRIVATE Fortran::HeapArrays)
 
 add_custom_target(run_use_temp_array_heap_alloc ALL
   COMMAND use_temp_array_heap_alloc

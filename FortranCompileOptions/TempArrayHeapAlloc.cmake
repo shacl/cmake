@@ -1,26 +1,33 @@
 include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
-function(MakeTempArrayHeapAllocTarget size)
+add_library(Fortran_HeapArrays INTERFACE)
+add_library(Fortran::HeapArrays ALIAS Fortran_HeapArrays)
 
-  set(size_kbytes ${size})
-  math(EXPR size_bytes "${size} * 1000")
+set(Fortran_HeapArrays_threshold 32768 CACHE STRING 
+  "A threshold (in bytes) for heap allocated temporary and automatic arrays")
 
-  if( NOT TARGET Fortran_TempArrayHeapAlloc_${size} )
-    add_library(Fortran_TempArrayHeapAlloc_${size} INTERFACE)
-    add_library(Fortran::TempArrayHeapAlloc_${size} ALIAS Fortran_TempArrayHeapAlloc_${size})
+mark_as_advanced(Fortran_HeapArrays_threshold)
 
-    target_compile_options(Fortran_TempArrayHeapAlloc_${size} INTERFACE
-      "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:-fmax-stack-var-size=${size_bytes}>"
+math(EXPR Fortran_HeapArrays_threshold_kb 
+  "${Fortran_HeapArrays_threshold} * 1000")
 
-      "$<$<STREQUAL:Flang,${CMAKE_Fortran_COMPILER_ID}>:-fmax-stack-var-size=${size_bytes}>"
+set(Fortran_HeapArrays_threshold_Intel ${Fortran_HeapArrays_threshold_kb}
+  CACHE INTERNAL "" FORCE)
 
-      "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-        "$<$<NOT:$<PLATFORM_ID:Windows>>:-heap-arrays;${size_kbytes}>"
-        "$<$<PLATFORM_ID:Windows>:/heap-arrays:${size_kbytes}>"
-      ">"
+set(Fortran_HeapArrays_threshold_GNU ${Fortran_HeapArrays_threshold}
+  CACHE INTERNAL "" FORCE)
 
-      "$<$<STREQUAL:PGI,${CMAKE_Fortran_COMPILER_ID}>:-Mnostack_arrays>"
-    )
-  endif()
-endfunction()
+set(Fortran_HeapArrays_threshold_Flang ${Fortran_HeapArrays_threshold}
+  CACHE INTERNAL "" FORCE)
+
+unset(Fortran_HeapArrays_threshold_kb)
+
+# Respects Fortran_HeapArrays_threshold_<vendor id> target property
+# if populated on the target. Otherwise, falls back to the values
+# in the internal cache variable
+include(FortranCompileOptions/TempArrayHeapAlloc/GNU)
+include(FortranCompileOptions/TempArrayHeapAlloc/Flang)
+include(FortranCompileOptions/TempArrayHeapAlloc/Intel)
+include(FortranCompileOptions/TempArrayHeapAlloc/PGI)
+
