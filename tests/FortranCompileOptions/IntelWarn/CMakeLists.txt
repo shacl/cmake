@@ -17,16 +17,12 @@ if( WIN32 )
   add_test(NAME run_use_intel_warn
     COMMAND ${CMAKE_COMMAND} -E compare_files
       ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_win32
+      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}_win32
   )
 else()
   add_test(NAME run_use_intel_warn
     COMMAND ${CMAKE_COMMAND} -E compare_files
       ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output
+      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}
   )
-endif()
-
-if(NOT "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}") 
-  set_tests_properties(run_use_intel_warn PROPERTIES WILL_FAIL TRUE)
 endif()
