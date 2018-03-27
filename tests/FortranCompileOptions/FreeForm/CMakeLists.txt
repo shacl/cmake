@@ -1,22 +1,20 @@
 cmake_minimum_required( VERSION 3.2.0 )
-project( test_TempArrayHeapAlloc LANGUAGES Fortran )
+project( test_FreeForm LANGUAGES Fortran )
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../..")
 
-include(FortranCompileOptions/TempArrayHeapAlloc)
+include(FortranCompileOptions/FreeForm)
 
-MakeTempArrayHeapAllocTarget(1024)
-
-file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_temp_array_heap_alloc.f90.in
+file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_free_form.f90
+              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_free_form.f90.in
 )
 
-add_executable(use_temp_array_heap_alloc ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90)
-target_link_libraries(use_temp_array_heap_alloc PRIVATE Fortran::TempArrayHeapAlloc_1024)
+add_executable(use_free_form ${CMAKE_CURRENT_BINARY_DIR}/use_free_form.f90)
+target_link_libraries(use_free_form PRIVATE Fortran::FreeForm)
 
 add_custom_target(generate_terminal_output ALL
-  COMMAND use_temp_array_heap_alloc
+  COMMAND use_free_form
 )
-add_dependencies(generate_terminal_output use_temp_array_heap_alloc)
+add_dependencies(generate_terminal_output use_free_form)
 
 enable_testing()
 

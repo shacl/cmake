@@ -1,22 +1,20 @@
 cmake_minimum_required( VERSION 3.2.0 )
-project( test_TempArrayHeapAlloc LANGUAGES Fortran )
+project( test_Standard2008 LANGUAGES Fortran )
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../..")
 
-include(FortranCompileOptions/TempArrayHeapAlloc)
+include(FortranCompileOptions/Standard2008)
 
-MakeTempArrayHeapAllocTarget(1024)
-
-file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_temp_array_heap_alloc.f90.in
+file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_standard_2008.f90
+              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_standard_2008.f90.in
 )
 
-add_executable(use_temp_array_heap_alloc ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90)
-target_link_libraries(use_temp_array_heap_alloc PRIVATE Fortran::TempArrayHeapAlloc_1024)
+add_executable(use_standard_2008 ${CMAKE_CURRENT_BINARY_DIR}/use_standard_2008.f90)
+target_link_libraries(use_standard_2008 PRIVATE Fortran::Standard2008)
 
 add_custom_target(generate_terminal_output ALL
-  COMMAND use_temp_array_heap_alloc
+  COMMAND use_standard_2008
 )
-add_dependencies(generate_terminal_output use_temp_array_heap_alloc)
+add_dependencies(generate_terminal_output use_standard_2008)
 
 enable_testing()
 
