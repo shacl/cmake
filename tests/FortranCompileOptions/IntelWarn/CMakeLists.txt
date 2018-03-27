@@ -32,3 +32,7 @@ else()
       ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output
   )
 endif()
+
+if(NOT "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}") 
+  set_tests_properties(compare_terminal_output PROPERTIES WILL_FAIL TRUE)
+endif()
