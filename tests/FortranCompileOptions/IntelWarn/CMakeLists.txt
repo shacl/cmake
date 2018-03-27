@@ -2,20 +2,20 @@ cmake_minimum_required( VERSION 3.2.0 )
 project( test_IntelDiagDissable LANGUAGES Fortran )
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../..")
 
-set(Fortran.Intel.DiagDisable "1138" CACHE STRING "")
-include(FortranCompileOptions/IntelDiagDisable)
+set(Fortran.Intel.Warn "unused" CACHE STRING "")
+include(FortranCompileOptions/IntelWarn)
 
-file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_diag_disable.f90.in
+file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90
+              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_warn.f90.in
 )
 
-add_executable(use_intel_diag_disable ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90)
-target_link_libraries(use_intel_diag_disable PRIVATE Fortran::IntelDiagDisable)
+add_executable(use_intel_warn ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90)
+target_link_libraries(use_intel_warn PRIVATE Fortran::IntelWarn)
 
 add_custom_target(generate_terminal_output ALL
-  COMMAND use_intel_diag_disable
+  COMMAND use_intel_warn
 )
-add_dependencies(generate_terminal_output use_intel_diag_disable)
+add_dependencies(generate_terminal_output use_intel_warn)
 
 enable_testing()
 

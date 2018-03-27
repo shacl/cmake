@@ -2,20 +2,18 @@ include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
 if( "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}")
-  set(Fortran.Intel.DiagDisable "" CACHE STRING "comma-separated list of Intel Fortran diagnostic numbers to dissable")
+  set(Fortran.Intel.DiagDisable "" CACHE STRING "semicolon-separated list of Intel Fortran diagnostic numbers to dissable")
   mark_as_advanced(Fortran.Intel.DiagDisable)
-
-  string(REPLACE "," " " Fortran_Intel_DiagDisable "${Fortran.Intel.DiagDisable}")
 endif()
 
 add_library(Fortran_IntelDiagDisable INTERFACE)
 add_library(Fortran::IntelDiagDisable ALIAS Fortran_IntelDiagDisable)
 
 string(CONCAT generator
-  "$<$<BOOL:${Fortran_Intel_DiagDisable}>:"
+  "$<$<BOOL:$<JOIN:${Fortran.Intel.DiagDisable},>>:"
     "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-disable;${Fortran.Intel.DiagDisable}>"
-      "$<$<PLATFORM_ID:Windows>:/Qdiag-disable:${Fortran.Intel.DiagDisable}>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-disable;$<JOIN:${Fortran.Intel.DiagDisable},,>>"
+      "$<$<PLATFORM_ID:Windows>:/Qdiag-disable:$<JOIN:${Fortran.Intel.DiagDisable},,>>"
     ">"
   ">"
 )
