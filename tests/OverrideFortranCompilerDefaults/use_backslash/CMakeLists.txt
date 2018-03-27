@@ -7,7 +7,8 @@ include(OverrideFortranCompilerDefaults)
 add_executable(use_backslash use_backslash.f90)
 target_link_libraries(use_backslash PUBLIC ofcd)
 add_custom_target(generate_terminal_output ALL
-  COMMAND use_backslash > terminal_output)
+  COMMAND use_backslash
+)
 
 add_dependencies(generate_terminal_output use_backslash)
 
