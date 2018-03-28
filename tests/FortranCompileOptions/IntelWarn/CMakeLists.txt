@@ -6,7 +6,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90
 )
 
 add_executable(use_intel_warn ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90)
-target_link_libraries(use_intel_warn PRIVATE Fortran::IntelWarn)
+target_link_libraries(use_intel_warn PRIVATE FortranCompileOptions::IntelWarn)
 
 add_custom_target(run_use_intel_warn ALL
   COMMAND use_intel_warn

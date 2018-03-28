@@ -1,26 +1,44 @@
 include(Backports/IncludeGuard)
+include(FunctionExtensions)
 include_guard(GLOBAL)
 
-function(MakeTempArrayHeapAllocTarget size)
+backup(set_target_properties)
+function(set_target_properties)
+  list(FIND ARGN "PROPERTIES" pstart)
+  
+  foreach(i RANGE 0 ${pstart})
+    list(GET ARGN ${i} target)
+    list(APPEND forward ${target})
+  endforeach()
 
-  set(size_kbytes ${size})
-  math(EXPR size_bytes "${size} * 1000")
+  math(EXPR pstart "${pstart} + 1")
+  list(LENGTH ARGN plast)
+  math(EXPR plast "${plast} - 1")
 
-  if( NOT TARGET Fortran_TempArrayHeapAlloc_${size} )
-    add_library(Fortran_TempArrayHeapAlloc_${size} INTERFACE)
-    add_library(Fortran::TempArrayHeapAlloc_${size} ALIAS Fortran_TempArrayHeapAlloc_${size})
+  foreach(i RANGE ${pstart} ${plast} 2)
+    math(EXPR iv "${i} + 1")
+    list(GET ARGV ${i} property)
+    list(GET ARGV ${iv} value)
 
-    target_compile_options(Fortran_TempArrayHeapAlloc_${size} INTERFACE
-      "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:-fmax-stack-var-size=${size_bytes}>"
+    list(APPEND forward ${property} ${value})
+    if( "${property}" STREQUAL "Fortran_TempArrayHeapAlloc_THRESHOLD_BYTES" )
+      math(EXPR kbytes "${value} / 1000")
+      list(APPEND forward "Fortran_TempArrayHeapAlloc_THRESHOLD_KBYTES" "${kbytes}")
+    endif()
 
-      "$<$<STREQUAL:Flang,${CMAKE_Fortran_COMPILER_ID}>:-fmax-stack-var-size=${size_bytes}>"
+    if( "${property}" STREQUAL "Fortran_TempArrayHeapAlloc_THRESHOLD_KBYTES" )
+      math(EXPR bytes "${value} * 1000")
+      list(APPEND forward "Fortran_TempArrayHeapAlloc_THRESHOLD_BYTES" "${bytes}")
+    endif()
+  endforeach()
 
-      "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-        "$<$<NOT:$<PLATFORM_ID:Windows>>:-heap-arrays;${size_kbytes}>"
-        "$<$<PLATFORM_ID:Windows>:/heap-arrays:${size_kbytes}>"
-      ">"
-
-      "$<$<STREQUAL:PGI,${CMAKE_Fortran_COMPILER_ID}>:-Mnostack_arrays>"
-    )
-  endif()
+  _set_target_properties(${forward})
 endfunction()
+
+add_library(Fortran_TempArrayHeapAlloc INTERFACE)
+add_library(FortranCompileOptions::TempArrayHeapAlloc ALIAS Fortran_TempArrayHeapAlloc)
+
+include(FortranCompileOptions/TempArrayHeapAlloc/GNU)
+include(FortranCompileOptions/TempArrayHeapAlloc/Flang)
+include(FortranCompileOptions/TempArrayHeapAlloc/Intel)
+include(FortranCompileOptions/TempArrayHeapAlloc/PGI)

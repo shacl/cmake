@@ -7,7 +7,7 @@ if( "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}")
 endif()
 
 add_library(Fortran_IntelDiagDisable INTERFACE)
-add_library(Fortran::IntelDiagDisable ALIAS Fortran_IntelDiagDisable)
+add_library(FortranCompileOptions::IntelDiagDisable ALIAS Fortran_IntelDiagDisable)
 
 string(CONCAT generator
   "$<$<BOOL:$<JOIN:${Fortran.Intel.DiagDisable},>>:"

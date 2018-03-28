@@ -9,7 +9,7 @@ if( "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}")
 endif()
 
 add_library(Fortran_IntelWarn INTERFACE)
-add_library(Fortran::IntelWarn ALIAS Fortran_IntelWarn)
+add_library(FortranCompileOptions::IntelWarn ALIAS Fortran_IntelWarn)
 
 string(CONCAT generator
   "$<$<BOOL:$<JOIN:${Fortran_Intel_Warn},>>:"

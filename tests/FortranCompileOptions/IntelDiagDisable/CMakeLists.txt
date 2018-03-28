@@ -6,7 +6,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90
 )
 
 add_executable(use_intel_diag_disable ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90)
-target_link_libraries(use_intel_diag_disable PRIVATE Fortran::IntelDiagDisable)
+target_link_libraries(use_intel_diag_disable PRIVATE FortranCompileOptions::IntelDiagDisable)
 
 add_custom_target(run_use_intel_diag_disable ALL
   COMMAND use_intel_diag_disable

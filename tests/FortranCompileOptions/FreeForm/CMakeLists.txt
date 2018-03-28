@@ -5,7 +5,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_free_form.f90
 )
 
 add_executable(use_free_form ${CMAKE_CURRENT_BINARY_DIR}/use_free_form.f90)
-target_link_libraries(use_free_form PRIVATE Fortran::FreeForm)
+target_link_libraries(use_free_form PRIVATE FortranCompileOptions::FreeForm)
 
 add_custom_target(run_use_free_form ALL
   COMMAND use_free_form

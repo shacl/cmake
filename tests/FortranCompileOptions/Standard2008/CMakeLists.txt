@@ -5,7 +5,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_standard_2008.f90
 )
 
 add_executable(use_standard_2008 ${CMAKE_CURRENT_BINARY_DIR}/use_standard_2008.f90)
-target_link_libraries(use_standard_2008 PRIVATE Fortran::Standard2008)
+target_link_libraries(use_standard_2008 PRIVATE FortranCompileOptions::Standard2008)
 
 add_custom_target(run_use_standard_2008 ALL
   COMMAND use_standard_2008

@@ -5,7 +5,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_backtrace.f90
 )
 
 add_executable(use_backtrace ${CMAKE_CURRENT_BINARY_DIR}/use_backtrace.f90)
-target_link_libraries(use_backtrace PRIVATE Fortran::Backtrace)
+target_link_libraries(use_backtrace PRIVATE FortranCompileOptions::Backtrace)
 
 add_custom_target(run_use_backtrace ALL
   COMMAND use_backtrace
