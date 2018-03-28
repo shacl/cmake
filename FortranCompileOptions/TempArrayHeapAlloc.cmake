@@ -1,5 +1,5 @@
 include(Backports/IncludeGuard)
-include(FunctionExtensions)
+include(FunctionExtension)
 include_guard(GLOBAL)
 
 backup(set_target_properties)
@@ -32,7 +32,7 @@ function(set_target_properties)
     endif()
   endforeach()
 
-  _set_target_properties(${forward})
+  previous_set_target_properties(${forward})
 endfunction()
 
 add_library(Fortran_TempArrayHeapAlloc INTERFACE)
