@@ -10,7 +10,7 @@ add_library(Fortran_IntelWarn INTERFACE)
 add_library(FortranCompileOptions::IntelWarn ALIAS Fortran_IntelWarn)
 
 string(CONCAT generator
-  "$<$<BOOL:$<JOIN:${Fortran_Intel_Warn},>>:"
+  "$<$<BOOL:$<JOIN:${Fortran.Intel.Warn},>>:"
     "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
       "$<$<NOT:$<PLATFORM_ID:Windows>>:-warn;$<JOIN:${Fortran.Intel.Warn},$<COMMA>>>"
       "$<$<PLATFORM_ID:Windows>:/warn:$<JOIN:${Fortran.Intel.Warn},$<COMMA>>>"
