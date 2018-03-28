@@ -1,7 +1,7 @@
 string(CONCAT generator
   "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>"
-    ":$<$<BOOL:$<TARGET_PROPERTY:Fortran_TempArrayHeapAlloc_THRESHOLD_BYTES>>"
-      ":-fmax-stack-var-size=$<TARGET_PROPERTY:Fortran_TempArrayHeapAlloc_THRESHOLD_BYTES>"
+    ":$<$<BOOL:$<TARGET_PROPERTY:Fortran_TempArrayHeapAlloc_THRESHOLD>>"
+      ":-fmax-stack-var-size=$<TARGET_PROPERTY:Fortran_TempArrayHeapAlloc_THRESHOLD>000"
     ">"
   ">"
 )
