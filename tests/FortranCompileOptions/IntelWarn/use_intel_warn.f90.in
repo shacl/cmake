@@ -1,0 +1,6 @@
+program use_standard_semantics
+  integer :: unused
+  open(unit=42,file="terminal_output",status="unknown")
+  write(42,*) "$<TARGET_PROPERTY:use_intel_warn,COMPILE_OPTIONS>"
+  close(42)
+end program

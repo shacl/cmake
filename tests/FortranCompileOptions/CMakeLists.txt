@@ -1,0 +1,6 @@
+add_subdirectory(Backtrace)
+add_subdirectory(FreeForm)
+add_subdirectory(IntelDiagDisable)
+add_subdirectory(IntelWarn)
+add_subdirectory(Standard)
+add_subdirectory(TempArrayHeapAlloc)
