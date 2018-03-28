@@ -6,7 +6,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90
 
 add_executable(use_temp_array_heap_alloc ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90)
 target_link_libraries(use_temp_array_heap_alloc PRIVATE FortranCompileOptions::TempArrayHeapAlloc)
-set_target_properties(use_temp_array_heap_alloc PROPERTIES Fortran_TempArrayHeapAlloc_THRESHOLD_KBYTES 1024)
+set_target_properties(use_temp_array_heap_alloc PROPERTIES Fortran_TempArrayHeapAlloc_THRESHOLD 1024)
 
 add_custom_target(run_use_temp_array_heap_alloc ALL
   COMMAND use_temp_array_heap_alloc
