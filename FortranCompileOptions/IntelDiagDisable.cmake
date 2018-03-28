@@ -12,8 +12,8 @@ add_library(FortranCompileOptions::IntelDiagDisable ALIAS Fortran_IntelDiagDisab
 string(CONCAT generator
   "$<$<BOOL:$<JOIN:${Fortran.Intel.DiagDisable},>>:"
     "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-disable;$<JOIN:${Fortran.Intel.DiagDisable},,>>"
-      "$<$<PLATFORM_ID:Windows>:/Qdiag-disable:$<JOIN:${Fortran.Intel.DiagDisable},,>>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-disable;$<JOIN:${Fortran.Intel.DiagDisable},$<COMMA>>>"
+      "$<$<PLATFORM_ID:Windows>:/Qdiag-disable:$<JOIN:${Fortran.Intel.DiagDisable},$<COMMA>>>"
     ">"
   ">"
 )

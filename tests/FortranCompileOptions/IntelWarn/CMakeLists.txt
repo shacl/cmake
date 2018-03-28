@@ -1,4 +1,4 @@
-set(Fortran.Intel.Warn "unused" CACHE STRING "")
+set(Fortran.Intel.Warn "unused;unused" CACHE STRING "")
 include(FortranCompileOptions/IntelWarn)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90

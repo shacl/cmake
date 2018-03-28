@@ -1,4 +1,4 @@
-set(Fortran.Intel.DiagDisable "1138" CACHE STRING "")
+set(Fortran.Intel.DiagDisable "1138;1138" CACHE STRING "")
 include(FortranCompileOptions/IntelDiagDisable)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90
