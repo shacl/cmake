@@ -1,7 +1,12 @@
 string(CONCAT generator
-  "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand;f08>"
-          "$<$<PLATFORM_ID:Windows>:/stand:f08>>"
-)          
+  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_Standard>,95>:f95>"
+  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_Standard>,2003>:f03>"
+  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_Standard>,2008>:f08>")
 
-target_compile_options(Fortran_Standard2008 INTERFACE ${generator})
+string(CONCAT generator
+  "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand;${generator}>"
+          "$<$<PLATFORM_ID:Windows>:/stand:${generator}>>"
+)
+
+target_compile_options(Fortran_Standard INTERFACE ${generator})
