@@ -1,10 +1,21 @@
 include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
-add_library(Fortran_Standard2008 INTERFACE)
-add_library(FortranCompileOptions::Standard2008 ALIAS Fortran_Standard2008)
+define_property(TARGET PROPERTY Fortran_Standard
+BRIEF_DOCS
+"The Fortran standard whose features are requested to build this target."
+FULL_DOCS
+"This property specifies the Fortran standard whose features are requested to
+ build this target. For some compilers, this results in adding a flag such as
+ -std=f2003 to the compile line. For compilers that have no notion of a
+ standard level, such as PGI, this has no effect.
 
-include(Standard2008/Intel)
-include(Standard2008/GNU)
-include(Standard2008/PGI)
+ Supported values are 95, 2003, and 2008")
+
+add_library(Fortran_Standard INTERFACE)
+add_library(FortranCompileOptions::Standard ALIAS Fortran_Standard)
+
+include(FortranCompileOptions/Standard/Intel)
+include(FortranCompileOptions/Standard/GNU)
+include(FortranCompileOptions/Standard/PGI)
 # TODO: Flang -- it does not implement standards checking yet
