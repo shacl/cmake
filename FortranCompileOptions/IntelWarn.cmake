@@ -4,8 +4,6 @@ include_guard(GLOBAL)
 if( "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}")
   set(Fortran.Intel.Warn "" CACHE STRING "semicolon-separated list of Intel Fortran warning keyword")
   mark_as_advanced(Fortran.Intel.Warn)
-
-  string(REPLACE "," " " Fortran_Intel_Warn "${Fortran.Intel.Warn}")
 endif()
 
 add_library(Fortran_IntelWarn INTERFACE)
