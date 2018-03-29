@@ -1,7 +1,7 @@
 include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
-define_property(TARGET PROPERTY Fortran_Standard
+define_property(TARGET PROPERTY Fortran_STANDARD
 BRIEF_DOCS
 "The Fortran standard whose features are requested to build this target."
 FULL_DOCS
