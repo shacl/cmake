@@ -1,4 +1,4 @@
-include(FortranCompileOptions/TempArrayHeapAlloc)
+include(FortranCompileOptions)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_temp_array_heap_alloc.f90
               INPUT ${CMAKE_CURRENT_LIST_DIR}/use_temp_array_heap_alloc.f90.in

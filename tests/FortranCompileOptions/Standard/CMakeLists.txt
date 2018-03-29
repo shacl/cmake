@@ -1,4 +1,4 @@
-include(FortranCompileOptions/Standard)
+include(FortranCompileOptions)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_standard.f90
               INPUT ${CMAKE_CURRENT_LIST_DIR}/use_standard.f90.in)
