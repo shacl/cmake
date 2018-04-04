@@ -1,4 +1,3 @@
-set(Fortran.Intel.DiagDisable "1138;1138" CACHE STRING "")
 include(FortranCompileOptions)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90
@@ -6,6 +5,8 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90
 )
 
 add_executable(use_intel_diag_disable ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90)
+set_target_properties(use_intel_diag_disable PROPERTIES Intel_DISABLE_DIAGNOSTICS "1138;1138")
+
 target_link_libraries(use_intel_diag_disable PRIVATE FortranCompileOptions::IntelDiagDisable)
 
 add_custom_target(run_use_intel_diag_disable ALL
