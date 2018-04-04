@@ -1,28 +1,28 @@
 include(LinkOptions/StackSize)
 
-file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_stack_size.f90
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_stack_size.f90.in
+add_executable(use_stack_size_f90 ${CMAKE_CURRENT_LIST_DIR}/use_stack_size.f90)
+set_target_properties(use_stack_size_f90 PROPERTIES LINK_STACK_SIZE 1024000)
+target_link_libraries(use_stack_size_f90 PRIVATE LinkOptions::StackSize)
+
+add_executable(use_stack_size_c ${CMAKE_CURRENT_LIST_DIR}/use_stack_size.c)
+set_target_properties(use_stack_size_c PROPERTIES LINK_STACK_SIZE 1024000)
+target_link_libraries(use_stack_size_c PRIVATE LinkOptions::StackSize)
+
+add_executable(use_stack_size_cpp ${CMAKE_CURRENT_LIST_DIR}/use_stack_size.cpp)
+set_target_properties(use_stack_size_cpp PROPERTIES LINK_STACK_SIZE 1024000)
+target_link_libraries(use_stack_size_cpp PRIVATE LinkOptions::StackSize)
+
+add_custom_target(run_use_stack_size_f90 ALL
+  COMMAND use_stack_size_f90
+  DEPENDS use_stack_size_f90
 )
 
-add_executable(use_stack_size ${CMAKE_CURRENT_BINARY_DIR}/use_stack_size.f90)
-set_target_properties(use_stack_size PROPERTIES LINK_STACK_SIZE 1024)
-target_link_libraries(use_stack_size PRIVATE LinkOptions::StackSize)
-
-add_custom_target(run_use_stack_size ALL
-  COMMAND use_stack_size
+add_custom_target(run_use_stack_size_c ALL
+  COMMAND use_stack_size_c
+  DEPENDS use_stack_size_c
 )
-add_dependencies(run_use_stack_size use_stack_size)
 
-if( WIN32 AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}_win32)
-  add_test(NAME run_use_stack_size
-    COMMAND ${CMAKE_COMMAND} -E compare_files
-      ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}_win32
-  )
-else()
-  add_test(NAME run_use_stack_size
-    COMMAND ${CMAKE_COMMAND} -E compare_files
-      ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}
-  )
-endif()
+add_custom_target(run_use_stack_size_cpp ALL
+  COMMAND use_stack_size_cpp
+  DEPENDS use_stack_size_cpp
+)

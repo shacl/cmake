@@ -1,6 +1,6 @@
 program use_stack_size
   implicit none
   open(unit=42,file="terminal_output",status="unknown")
-  write(42,"(a)") "$<TARGET_PROPERTY:use_stack_size,LINK_FLAGS>"
+  write(42,"(a)") ""
   close(42)
 end program

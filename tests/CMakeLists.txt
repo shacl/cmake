@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2.0)
-project(shacl_cmake LANGUAGES Fortran VERSION 1.0.0)
+project(shacl_cmake LANGUAGES C CXX Fortran VERSION 1.0.0)
 
 include(CTest)
 

@@ -18,8 +18,4 @@ string(CONCAT generator
   ">"
 )
 
-string(CONCAT generator
-  "$<$<STREQUAL:Fortran,$<TARGET_PROPERTY:LINKER_LANGUAGE>>:${generator}>"
-)
-
 target_link_libraries(LinkOptions_StackSize INTERFACE ${generator})
