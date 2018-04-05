@@ -7,7 +7,9 @@ BRIEF_DOCS
 FULL_DOCS
 "This property contains zero or more entries.
  Each entry is a number corresponding to an 
- intel diagnostic e.g. 1138.")
+ intel diagnostic e.g. 1138.
+ 
+ multiple entries must be semicolon separated e.g. 1138;1138")
 
 add_library(Fortran_IntelDiagDisable INTERFACE)
 add_library(FortranCompileOptions::IntelDiagDisable ALIAS Fortran_IntelDiagDisable)
