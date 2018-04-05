@@ -6,7 +6,9 @@ BRIEF_DOCS
 "Intel Fortran warning keywords"
 FULL_DOCS
 "This property contains zero or more entries.
- Each entry is a corresponds to a warning keyword")
+ Each entry corresponds to a warning keyword
+ 
+ multiple entries must be semicolon separated e.g. unused;unused")
 
 add_library(Fortran_IntelWarn INTERFACE)
 add_library(FortranCompileOptions::IntelWarn ALIAS Fortran_IntelWarn)
