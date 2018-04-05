@@ -1,11 +1,11 @@
-set(Fortran.Intel.Warn "unused;unused" CACHE STRING "")
-include(FortranCompileOptions/IntelWarn)
+include(FortranCompileOptions)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90
               INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_warn.f90.in
 )
 
 add_executable(use_intel_warn ${CMAKE_CURRENT_BINARY_DIR}/use_intel_warn.f90)
+set_target_properties(use_intel_diag_disable PROPERTIES Intel_DISABLE_DIAGNOSTICS "unused;unused")
 target_link_libraries(use_intel_warn PRIVATE FortranCompileOptions::IntelWarn)
 
 add_custom_target(run_use_intel_warn ALL

@@ -1,10 +1,10 @@
-include(FortranCompileOptions/Standard)
+include(FortranCompileOptions)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_standard.f90
               INPUT ${CMAKE_CURRENT_LIST_DIR}/use_standard.f90.in)
 
 add_executable(use_standard ${CMAKE_CURRENT_BINARY_DIR}/use_standard.f90)
-set_target_properties(use_standard PROPERTIES Fortran_Standard 2008)
+set_target_properties(use_standard PROPERTIES Fortran_STANDARD 2008)
 target_link_libraries(use_standard PRIVATE FortranCompileOptions::Standard)
 
 add_custom_target(run_use_standard ALL COMMAND use_standard)

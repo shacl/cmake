@@ -1,19 +1,23 @@
 include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
-if( "Intel" STREQUAL "${CMAKE_Fortran_COMPILER_ID}")
-  set(Fortran.Intel.Warn "" CACHE STRING "semicolon-separated list of Intel Fortran warning keyword")
-  mark_as_advanced(Fortran.Intel.Warn)
-endif()
+define_property(TARGET PROPERTY Intel_WARN
+BRIEF_DOCS
+"Intel Fortran warning keywords"
+FULL_DOCS
+"This property contains zero or more entries.
+ Each entry corresponds to a warning keyword
+ 
+ multiple entries must be semicolon separated e.g. unused;unused")
 
 add_library(Fortran_IntelWarn INTERFACE)
 add_library(FortranCompileOptions::IntelWarn ALIAS Fortran_IntelWarn)
 
 string(CONCAT generator
-  "$<$<BOOL:$<JOIN:${Fortran.Intel.Warn},>>:"
+  "$<$<BOOL:$<TARGET_PROPERTY:Intel_WARN>>:"
     "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-warn;$<JOIN:${Fortran.Intel.Warn},$<COMMA>>>"
-      "$<$<PLATFORM_ID:Windows>:/warn:$<JOIN:${Fortran.Intel.Warn},$<COMMA>>>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-warn;$<JOIN:$<TARGET_PROPERTY:Intel_WARN>,$<COMMA>>>"
+      "$<$<PLATFORM_ID:Windows>:/warn:$<JOIN:$<TARGET_PROPERTY:Intel_WARN>,$<COMMA>>>"
     ">"
   ">"
 )

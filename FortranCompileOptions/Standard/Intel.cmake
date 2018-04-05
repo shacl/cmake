@@ -1,7 +1,7 @@
 string(CONCAT generator
-  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_Standard>,95>:f95>"
-  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_Standard>,2003>:f03>"
-  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_Standard>,2008>:f08>")
+  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_STANDARD>,95>:f95>"
+  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_STANDARD>,2003>:f03>"
+  "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_STANDARD>,2008>:f08>")
 
 string(CONCAT generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
