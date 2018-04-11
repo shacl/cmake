@@ -30,13 +30,22 @@ function(target_sources target tag linkage)
 
       unset(generator_expression)
       previous_target_sources(${stripped_target_name}.generated_sources.${linkage} INTERFACE "${entry}")
-      file(RELATIVE_PATH relative_path "${PROJECT_BINARY_DIR}" "${entry}")
+      get_filename_component(directory ${entry} DIRECTORY)
+      get_filename_component(file ${entry} NAME)
+      
+      file(RELATIVE_PATH relative_path "${PROJECT_BINARY_DIR}" "${directory}")
 
-      string(SHA256 path_hash ${relative_path})
+      string(SHA256 path_hash "${relative_path}")
 
-      set(custom_target ${stripped_target_name}.${path_hash})
+      foreach(index RANGE 7 64)
+	string(SUBSTRING ${path_hash} 1 ${index} potential_hash)
+	set(custom_target ${stripped_target_name}.${potential_hash}.${file})
+        if(NOT TARGET ${custom_target})
+          break()
+	endif()
+      endforeach()
+      
       add_custom_target(${custom_target} DEPENDS ${entry})
-
       set_target_properties(
         ${custom_target} PROPERTIES FOLDER generated)
 
