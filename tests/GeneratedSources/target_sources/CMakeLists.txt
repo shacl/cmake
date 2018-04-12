@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.2.0)
-project(shacl_cmake_generated_sources_target_sources LANGUAGES C)
-
 include(CTest)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
@@ -8,8 +5,37 @@ include(GeneratedSources)
 
 add_library(foo STATIC baz.c)
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.c "")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90 "")
 file(WRITE baz.c "")
 
 target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/bar.c)
-#get_target_property(dependencies foo.generated_sources.INTERFACE MANUALLY_ADDED_DEPENDENCIES)
-message("${dependencies}")
+
+string(SHA256 sha "")
+string(SUBSTRING "${sha}" 1 7 test_string)
+
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "foo.${test_string}.bar_c")
+
+add_test(
+  NAME
+    target_sources1
+  COMMAND
+    ${CMAKE_COMMAND} -E compare_files
+    "${CMAKE_CURRENT_SOURCE_DIR}/test1"
+    "${CMAKE_CURRENT_BINARY_DIR}/target_name1"
+    )
+
+target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90)
+
+string(SHA256 sha "dir")
+string(SUBSTRING "${sha}" 1 7 test_string)
+
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "foo.${test_string}.baz_f90")
+
+add_test(
+  NAME
+    target_sources2
+  COMMAND
+    ${CMAKE_COMMAND} -E compare_files
+    "${CMAKE_CURRENT_SOURCE_DIR}/test1"
+    "${CMAKE_CURRENT_BINARY_DIR}/target_name1"
+    )
