@@ -13,7 +13,11 @@ target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/bar.c)
 string(SHA256 sha "")
 string(SUBSTRING "${sha}" 1 7 test_string)
 
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "foo.${test_string}.bar_c")
+if(TARGET foo.${test_string}.bar_c)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "foo.${test_string}.bar_c")
+else()
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "")
+endif()
 
 add_test(
   NAME
@@ -29,7 +33,11 @@ target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90)
 string(SHA256 sha "dir")
 string(SUBSTRING "${sha}" 1 7 test_string)
 
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "foo.${test_string}.baz_f90")
+if(TARGET foo.${test_string}.bar_c)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "foo.${test_string}.baz_f90")
+else()
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "")
+endif()
 
 add_test(
   NAME
