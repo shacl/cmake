@@ -30,8 +30,10 @@ function(target_sources target tag linkage)
 
       unset(generator_expression)
       previous_target_sources(${stripped_target_name}.generated_sources.${linkage} INTERFACE "${entry}")
+      
       get_filename_component(directory ${entry} DIRECTORY)
       get_filename_component(file ${entry} NAME)
+      string(REPLACE "." "_" file "${file}")
       
       file(RELATIVE_PATH relative_path "${PROJECT_BINARY_DIR}" "${directory}")
 
@@ -44,7 +46,7 @@ function(target_sources target tag linkage)
           break()
 	endif()
       endforeach()
-      
+     
       add_custom_target(${custom_target} DEPENDS ${entry})
       set_target_properties(
         ${custom_target} PROPERTIES FOLDER generated)
