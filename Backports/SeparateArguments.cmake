@@ -1,0 +1,31 @@
+include(Backports/IncludeGuard)
+include(FunctionExtension)
+
+include_guard(GLOBAL)
+
+if(CMAKE_VERSION VERSION_LESS 3.9.6)
+  macro(previous_separate_arguments)
+    if(NOT previous_separate_arguments_fn)
+      set(previous_separate_arguments_fn separate_arguments)
+    endif()
+
+    push(previous_separate_arguments_fn)
+    set(previous_separate_arguments_fn _${previous_separate_arguments_fn})
+    call(${previous_separate_arguments_fn} ${ARGN})
+    pop(previous_separate_arguments_fn)
+  endmacro()
+
+  backup(separate_arguments)
+
+  function(separate_arguments var policy args)
+    if (policy STREQUAL "NATIVE_COMMAND")
+      if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+        previous_separate_arguments(${var} WINDOWS_COMMAND "${args}")
+      else()
+        previous_separate_arguments(${var} UNIX_COMMAND "${args}")
+      endif()
+    else()
+      previous_separate_arguments(${var} ${policy} "${args}")
+    endif()
+  endfunction()
+endif()

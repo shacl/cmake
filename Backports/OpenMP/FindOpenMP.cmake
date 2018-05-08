@@ -79,6 +79,8 @@ cmake_policy(SET CMP0012 NEW) # if() recognizes numbers and booleans
 cmake_policy(SET CMP0054 NEW) # if() quoted variables not dereferenced
 cmake_policy(SET CMP0057 NEW) # if IN_LIST
 
+include(Backports/SeperateArguments)
+
 function(_OPENMP_FLAG_CANDIDATES LANG)
   if(NOT OpenMP_${LANG}_FLAG)
     unset(OpenMP_FLAG_CANDIDATES)
@@ -170,11 +172,8 @@ function(_OPENMP_GET_FLAGS LANG FLAG_MODE OPENMP_FLAG_VAR OPENMP_LIB_NAMES_VAR)
   _OPENMP_WRITE_SOURCE_FILE("${LANG}" "TEST_SOURCE" OpenMPTryFlag _OPENMP_TEST_SRC)
 
   unset(OpenMP_VERBOSE_COMPILE_OPTIONS)
-  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
-    separate_arguments(OpenMP_VERBOSE_OPTIONS WINDOWS_COMMAND "${CMAKE_${LANG}_VERBOSE_FLAG}")
-  else()
-    separate_arguments(OpenMP_VERBOSE_OPTIONS UNIX_COMMAND "${CMAKE_${LANG}_VERBOSE_FLAG}")
-  endif()
+  separate_arguments(OpenMP_VERBOSE_OPTIONS NATIVE_COMMAND "${CMAKE_${LANG}_VERBOSE_FLAG}")
+
   foreach(_VERBOSE_OPTION IN LISTS OpenMP_VERBOSE_OPTIONS)
     if(NOT _VERBOSE_OPTION MATCHES "^-Wl,")
       list(APPEND OpenMP_VERBOSE_COMPILE_OPTIONS ${_VERBOSE_OPTION})
@@ -472,11 +471,7 @@ foreach(LANG IN LISTS OpenMP_FINDLIST)
         add_library(OpenMP::OpenMP_${LANG} INTERFACE IMPORTED)
       endif()
       if(OpenMP_${LANG}_FLAGS)
-        if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
-          separate_arguments(_OpenMP_${LANG}_OPTIONS WINDOWS_COMMAND "${OpenMP_${LANG}_FLAGS}")
-        else()
-          separate_arguments(_OpenMP_${LANG}_OPTIONS UNIX_COMMAND "${OpenMP_${LANG}_FLAGS}")
-        endif()
+        separate_arguments(_OpenMP_${LANG}_OPTIONS NATIVE_COMMAND "${OpenMP_${LANG}_FLAGS}")
 
         set_property(TARGET OpenMP::OpenMP_${LANG} PROPERTY
           INTERFACE_COMPILE_OPTIONS "$<$<COMPILE_LANGUAGE:${LANG}>:${_OpenMP_${LANG}_OPTIONS}>")
