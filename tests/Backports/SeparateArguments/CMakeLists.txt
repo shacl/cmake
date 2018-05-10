@@ -11,4 +11,4 @@ string(REPLACE ";" "\n" file_contents "${arg_list}")
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/argument_reference.txt" "${file_contents}")
 
 add_test(NAME test_separate_arguments
-  COMMAND test_separate_arguments argment_reference.txt ${arg_list})
+  COMMAND test_separate_arguments argument_reference.txt ${arg_list})
