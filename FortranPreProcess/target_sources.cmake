@@ -26,7 +26,8 @@ function(target_sources target tag linkage)
       FortranPreProcess(
         "${CMAKE_CURRENT_LIST_DIR}/${path}"
         "${LIST_BINARY_DIR}/${preprocessed_path}"
-        DEFINE $<TARGET_PROPERTY:${target},COMPILE_DEFINITIONS>)
+        DEFINE $<TARGET_PROPERTY:${target},COMPILE_DEFINITIONS>
+        INCLUDE $<TARGET_PROPERTY:${target},INCLUDE_DIRECTORIES>)
 
       previous_target_sources(${target} GENERATED ${linkage}
         "${LIST_BINARY_DIR}/${preprocessed_path}")
