@@ -1,5 +1,6 @@
 include(FortranCompileOptions/Backtrace)
 include(FortranCompileOptions/IntelDiagDisable)
+include(FortranCompileOptions/IntelFPModel)
 include(FortranCompileOptions/IntelWarn)
 include(FortranCompileOptions/Standard)
 include(FortranCompileOptions/TempArrayHeapAlloc)
