@@ -1,5 +1,6 @@
 add_subdirectory(Backtrace)
 add_subdirectory(IntelDiagDisable)
+add_subdirectory(IntelFPModel)
 add_subdirectory(IntelWarn)
 add_subdirectory(Standard)
 add_subdirectory(TempArrayHeapAlloc)
