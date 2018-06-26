@@ -1,0 +1,8 @@
+include(Backports/IncludeGuard)
+include_guard(GLOBAL)
+
+add_library(Fortran_NoBackslashEscape INTERFACE)
+add_library(FortranCompileOptions::NoBackslashEscape ALIAS Fortran_NoBackslashEscape)
+
+include(FortranCompileOptions/NoBackslashEscape/Flang)
+include(FortranCompileOptions/NoBackslashEscape/PGI)
