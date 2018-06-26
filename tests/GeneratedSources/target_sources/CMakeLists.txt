@@ -9,9 +9,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90 "")
 file(WRITE baz.c "")
 
 target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/bar.c)
-
-string(SHA256 sha "")
-string(SUBSTRING "${sha}" 0 6 test_string)
+string(SHA256 sha "GeneratedSources/target_sources")
+string(SUBSTRING "${sha}" 0 7 test_string)
 
 if(TARGET foo.${test_string}.bar_c)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "foo.${test_string}.bar_c")
@@ -30,10 +29,9 @@ add_test(
 
 target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90)
 
-string(SHA256 sha "dir")
-string(SUBSTRING "${sha}" 1 7 test_string)
-
-if(TARGET foo.${test_string}.bar_c)
+string(SHA256 sha "GeneratedSources/target_sources/dir")
+string(SUBSTRING "${sha}" 0 7 test_string)
+if(TARGET foo.${test_string}.baz_f90)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "foo.${test_string}.baz_f90")
 else()
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "")
@@ -44,6 +42,6 @@ add_test(
     target_sources2
   COMMAND
     ${CMAKE_COMMAND} -E compare_files
-    "${CMAKE_CURRENT_SOURCE_DIR}/test1"
-    "${CMAKE_CURRENT_BINARY_DIR}/target_name1"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test2"
+    "${CMAKE_CURRENT_BINARY_DIR}/target_name2"
     )
