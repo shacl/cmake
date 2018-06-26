@@ -17,9 +17,6 @@ if(NOT git.submodule.packages.cmake)
     "Update git submodule packages tracking branches on configure" ON
     "git.submodule.packages" OFF)
 
-  set(git.submodule.default_branch "master" CACHE STRING
-    "if git.submodule.update is ON, <submodule>.submodule.branch will default to this value.")
-
   find_package(Git REQUIRED)
   include(FunctionExtension)
   include(git/submodule/packages/collect_state)
