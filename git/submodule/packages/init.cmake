@@ -12,20 +12,7 @@ function(git_submodule_init name)
     endif()
   endif()
 
-  git_submodule_collect_state(${name})
-
-  if(NOT ${name}.submodule.hash)
-    set(${name}.submodule.hash ${current_hash} CACHE STRING
-      "${name} git submodule hash")
-  endif()
-
   if(NOT DEFINED ${name}.submodule.branch)
-    if(git.submodule.update)
-      set(${name}.submodule.branch ${git.submodule.default_branch} CACHE STRING
-        "${name} git submodule branch")
-    else()
-      set(${name}.submodule.branch ${current_branch} CACHE STRING
-        "${name} git submodule branch")
-    endif()
+    git_submodule_collect_state(${name})
   endif()
 endfunction()

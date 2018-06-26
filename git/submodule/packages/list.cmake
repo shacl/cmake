@@ -3,19 +3,21 @@ function(git_submodule_list)
     execute_process(
       COMMAND ${GIT_EXECUTABLE} config --file ${PROJECT_SOURCE_DIR}/.gitmodules --get-regexp path
       WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-      OUTPUT_VARIABLE output
+      OUTPUT_VARIABLE path_output
       OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-    string(REPLACE "\n" ";" output "${output}")
+    string(REPLACE "\n" ";" path_output "${path_output}")
 
-    foreach(arg IN LISTS output)
+    message("path_output: ${path_output}")
+    foreach(arg IN LISTS path_output)
       string(REPLACE " " ";" arg "${arg}")
-      list(GET arg -1 arg)
-      set(path "${PROJECT_SOURCE_DIR}/${arg}")
+      message("arg: ${arg}")
+      list(GET arg 0 first)
+      list(GET arg -1 second)
+      set(path "${PROJECT_SOURCE_DIR}/${second}")
 
       if (EXISTS ${path})
         get_filename_component(name ${path} NAME)
-
         list(APPEND submodules ${name})
 
         CMAKE_DEPENDENT_OPTION(
@@ -27,6 +29,19 @@ function(git_submodule_list)
           set(${name}.submodule.path
             "${path}"
             CACHE PATH "Absolute path to ${name} git submodule")
+
+          string(REPLACE ".path" ".branch" query "${first}")
+          execute_process(
+            COMMAND ${GIT_EXECUTABLE} config --file ${PROJECT_SOURCE_DIR}/.gitmodules --get ${query}
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+            OUTPUT_VARIABLE branch
+            RESULT_VARIABLE failure
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+          if(NOT failure)
+            set(${name}.submodule.branch "${branch}"
+              CACHE STRING "Branch tracked by ${name} git submodule")
+          endif()
         endif()
       endif()
     endforeach()
