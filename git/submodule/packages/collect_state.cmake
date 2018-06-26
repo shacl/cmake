@@ -5,12 +5,13 @@ macro(git_submodule_collect_state name)
     WORKING_DIRECTORY "${${name}.submodule.path}"
     RESULT_VARIABLE failure
     OUTPUT_VARIABLE current_hash
+    OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_VARIABLE error_output)
 
   if(failure)
     message(FATAL ${error_output})
   endif()
-
+  
   set(${name}.submodule.hash ${current_hash} CACHE STRING
       "${name} git submodule hash")
 

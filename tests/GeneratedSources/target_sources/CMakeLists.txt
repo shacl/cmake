@@ -11,7 +11,7 @@ file(WRITE baz.c "")
 target_sources(foo GENERATED INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/bar.c)
 
 string(SHA256 sha "")
-string(SUBSTRING "${sha}" 1 7 test_string)
+string(SUBSTRING "${sha}" 0 6 test_string)
 
 if(TARGET foo.${test_string}.bar_c)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "foo.${test_string}.bar_c")

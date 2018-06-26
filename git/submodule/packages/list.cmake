@@ -1,20 +1,22 @@
 function(git_submodule_list)
-  if(EXISTS "${PROJECT_SOURCE_DIR}/.gitmodules")
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse --show-toplevel
+    OUTPUT_VARIABLE git_root
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  if(EXISTS "${git_root}/.gitmodules")
     execute_process(
-      COMMAND ${GIT_EXECUTABLE} config --file ${PROJECT_SOURCE_DIR}/.gitmodules --get-regexp path
-      WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+      COMMAND ${GIT_EXECUTABLE} config --file ${git_root}/.gitmodules --get-regexp path
       OUTPUT_VARIABLE path_output
       OUTPUT_STRIP_TRAILING_WHITESPACE)
 
     string(REPLACE "\n" ";" path_output "${path_output}")
 
-    message("path_output: ${path_output}")
     foreach(arg IN LISTS path_output)
       string(REPLACE " " ";" arg "${arg}")
-      message("arg: ${arg}")
       list(GET arg 0 first)
       list(GET arg -1 second)
-      set(path "${PROJECT_SOURCE_DIR}/${second}")
+      set(path "${git_root}/${second}")
 
       if (EXISTS ${path})
         get_filename_component(name ${path} NAME)
@@ -32,8 +34,8 @@ function(git_submodule_list)
 
           string(REPLACE ".path" ".branch" query "${first}")
           execute_process(
-            COMMAND ${GIT_EXECUTABLE} config --file ${PROJECT_SOURCE_DIR}/.gitmodules --get ${query}
-            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+            COMMAND ${GIT_EXECUTABLE} config --file .gitmodules --get ${query}
+            WORKING_DIRECTORY "${git_root}"
             OUTPUT_VARIABLE branch
             RESULT_VARIABLE failure
             OUTPUT_STRIP_TRAILING_WHITESPACE)
