@@ -20,7 +20,7 @@ if(NOT git.submodule.packages.cmake)
   set(git.submodule.default_branch "master" CACHE STRING
     "if git.submodule.update is ON, <submodule>.submodule.branch will default to this value.")
 
-  find_package(git REQUIRED)
+  find_package(Git REQUIRED)
   include(FunctionExtension)
   include(git/submodule/packages/collect_state)
   include(git/submodule/packages/init)
