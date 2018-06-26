@@ -5,7 +5,6 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_no_backslash_escape.F90
 )
 
 add_executable(use_no_backslash_escape ${CMAKE_CURRENT_BINARY_DIR}/use_no_backslash_escape.F90)
-set_target_properties(use_no_backslash_escape PROPERTIES Intel_FLOATING_POINT_MODEL "precise")
 
 target_link_libraries(use_no_backslash_escape PRIVATE FortranCompileOptions::NoBackslashEscape)
 
