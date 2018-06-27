@@ -1,52 +1,55 @@
-# Here we're using the existance of global properties to act as something
-# analoguous to C/C++ header guards to ensure the contents of this file are not
-# redundantly defined.
+function(git_submodule_list)
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse --show-toplevel
+    OUTPUT_VARIABLE git_root
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-get_property(
-  git.submodule.packages.list.cmake
-  GLOBAL PROPERTY git.submodule.packages.list.cmake SET)
+  if(EXISTS "${git_root}/.gitmodules")
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} config --file ${git_root}/.gitmodules --get-regexp path
+      OUTPUT_VARIABLE path_output
+      OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-if(NOT git.submodule.packages.list.cmake)
-  include(CMakeDependentOption)
+    string(REPLACE "\n" ";" path_output "${path_output}")
 
-  function(git_submodule_list)
-    if(EXISTS "${PROJECT_SOURCE_DIR}/.gitmodules")
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} config --file ${PROJECT_SOURCE_DIR}/.gitmodules --get-regexp path
-        WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-        OUTPUT_VARIABLE output
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    foreach(arg IN LISTS path_output)
+      string(REPLACE " " ";" arg "${arg}")
+      list(GET arg 0 first)
+      list(GET arg -1 second)
+      set(path "${git_root}/${second}")
 
-      string(REPLACE " " ";" output ${output})
+      if (EXISTS ${path})
+        get_filename_component(name ${path} NAME)
+        list(APPEND submodules ${name})
 
-      foreach(arg IN LISTS output)
-        set(path "${PROJECT_SOURCE_DIR}/${arg}")
+        CMAKE_DEPENDENT_OPTION(
+          ${name}.submodule
+          "Use dependency submodule rather than system installations" ON
+          "git.submodule.packages" OFF)
 
-        if (EXISTS ${path})
-          get_filename_component(name ${path} NAME)
+        if(git.submodule.packages AND ${${name}.submodule})
+          set(${name}.submodule.path
+            "${path}"
+            CACHE PATH "Absolute path to ${name} git submodule")
 
-          list(APPEND submodules ${name})
+          string(REPLACE ".path" ".branch" query "${first}")
+          execute_process(
+            COMMAND ${GIT_EXECUTABLE} config --file .gitmodules --get ${query}
+            WORKING_DIRECTORY "${git_root}"
+            OUTPUT_VARIABLE branch
+            RESULT_VARIABLE failure
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-          CMAKE_DEPENDENT_OPTION(
-            ${name}.submodule
-            "Use dependency submodule rather than system installations" ON
-            "git.submodule.packages" OFF)
-
-          if(git.submodule.packages AND ${${name}.submodule})
-            set(${name}.submodule.path
-              "${path}"
-              CACHE PATH "Absolute path to ${name} git submodule")
+          if(NOT failure)
+            set(${name}.submodule.branch "${branch}"
+              CACHE STRING "Branch tracked by ${name} git submodule")
           endif()
         endif()
-      endforeach()
-    endif()
+      endif()
+    endforeach()
+  endif()
 
-    set(${CMAKE_PROJECT_NAME}.submodules
-      ${submodules} CACHE INTERNAL
-      "A CMake list of git submodules for ${CMAKE_PROJECT_NAME}")
-  endfunction()
-
-  set_property(
-    GLOBAL PROPERTY git.submodule.packages.list.cmake
-    "This is a header guard")
-endif()
+  set(${CMAKE_PROJECT_NAME}.submodules
+    ${submodules} CACHE INTERNAL
+    "A CMake list of git submodules for ${CMAKE_PROJECT_NAME}")
+endfunction()
