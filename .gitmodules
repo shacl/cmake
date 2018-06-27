@@ -1,0 +1,7 @@
+[submodule "tests/git/submodule/packages/fmt"]
+	path = tests/git/submodule/packages/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "tests/git/submodule/packages/Catch2"]
+	path = tests/git/submodule/packages/Catch2
+	url = https://github.com/catchorg/Catch2.git
+	branch = master

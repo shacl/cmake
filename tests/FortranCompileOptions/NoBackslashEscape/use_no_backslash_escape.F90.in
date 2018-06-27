@@ -1,0 +1,5 @@
+program use_standard_semantics
+  open(unit=42,file="terminal_output",status="unknown")
+  write(42,'(a)') "$<TARGET_PROPERTY:use_no_backslash_escape,COMPILE_OPTIONS>"
+  close(42)
+end program
