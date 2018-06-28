@@ -27,7 +27,7 @@ option(tsan.default
 mark_as_advanced(tsan.default)
 
 option(ubsan.default
-  "Default thread sanitizer behavior (ON/OFF)" OFF)
+  "Default undefined behavior sanitizer behavior (ON/OFF)" OFF)
 mark_as_advanced(ubsan.default)
 
 add_library(sanitizers INTERFACE)
