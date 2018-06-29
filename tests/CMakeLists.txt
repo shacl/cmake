@@ -9,4 +9,4 @@ add_subdirectory(FortranCompileOptions)
 add_subdirectory(LinkOptions)
 add_subdirectory(GeneratedSources)
 add_subdirectory(git/submodule/packages)
-
+add_subdirectory(Warnings)
