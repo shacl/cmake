@@ -64,12 +64,15 @@ add_library(shacl::sanitizers_C ALIAS sanitizers_C)
 add_library(shacl::sanitizers_CXX ALIAS sanitizers_CXX)
 add_library(shacl::sanitizers_Fortran ALIAS sanitizers_Fortran)
 
+get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 foreach(language IN ITEMS C CXX Fortran)
   set(vendor_discrimination)
-  string(CONCAT linking_generator
-    "$<$<OR:$<STREQUAL:GNU,${CMAKE_${language}_COMPILER_ID}>,"
-           "$<STREQUAL:Clang,${CMAKE_${language}_COMPILER_ID}>,"
-           "$<STREQUAL:AppleClang,${CMAKE_${language}_COMPILER_ID}>>"
+  if(language IN_LIST languages)
+    string(CONCAT vendor_discrimination
+      "$<$<OR:$<STREQUAL:GNU,${CMAKE_${language}_COMPILER_ID}>,"
+      "$<STREQUAL:Clang,${CMAKE_${language}_COMPILER_ID}>,"
+      "$<STREQUAL:AppleClang,${CMAKE_${language}_COMPILER_ID}>>"
       ":shacl::sanitizers>")
-  target_link_libraries(sanitizers_${language} INTERFACE ${vendor_discrimination})
+    target_link_libraries(sanitizers_${language} INTERFACE ${vendor_discrimination})
+  endif()
 endforeach()
