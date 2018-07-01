@@ -1,0 +1,20 @@
+include(CTest)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../..)
+
+include(Sanitizers)
+
+set(asan_supported Linux Darwin)
+set(msan_supported Linux)
+set(tsan_supported Linux Darwin)
+set(ubsan_supported Linux Darwin)
+
+foreach(san asan msan tsan ubsan)
+  list(FIND ${san}_supported ${CMAKE_SYSTEM_NAME} index)
+  if(NOT index EQUAL "-1")
+    add_executable(trigger_${san} trigger_${san}.cpp)
+    target_link_libraries(trigger_${san} PUBLIC shacl::sanitizers)
+    target_compile_features(trigger_${san} PUBLIC cxx_std_14)
+    set_target_properties(trigger_${san} PROPERTIES ${san} ON)
+    add_test(NAME trigger_${san} COMMAND trigger_${san})
+  endif()
+endforeach()
