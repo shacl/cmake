@@ -13,7 +13,7 @@ function(target_sources target tag linkage)
       set(linkage ${arg})
     else()
       if(NOT "${arg}" MATCHES ".*\.F([0-9][0-9])?$")
-        previous_target_source(${target} PREPROCESS ${linkage} "${arg}")
+        previous_target_sources(${target} PREPROCESS ${linkage} "${arg}")
         return()
       endif()
 
