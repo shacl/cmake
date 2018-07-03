@@ -25,6 +25,8 @@ else()
   set(C_Intel "-w3")
 endif()
 
+set(C_MSVC "/W3")
+
 add_executable(warnings.c.test "")
 target_link_libraries(warnings.c.test PUBLIC shacl::warnings_C)
 
@@ -53,6 +55,7 @@ string(CONCAT CXX_Clang
 set(CXX_AppleClang "${CXX_Clang}")
 
 set(CXX_Intel "${C_INTEL}")
+set(CXX_MSVC "${C_MSVC}")
 
 add_executable(warnings.cpp.test "")
 target_link_libraries(warnings.cpp.test PUBLIC shacl::warnings_CXX)
