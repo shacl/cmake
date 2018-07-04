@@ -13,7 +13,7 @@ set(C_Clang -Wall -Wextra -Wpedantic -Wassign-enum
             -Wbad-function-cast -Wkeyword-macro
             -Wnonportable-system-include-path
             -Wsometimes-uninitialized)
-string(REPLACE ";" "\;" C_GNU "${C_Clang}")
+string(REPLACE ";" "\;" C_Clang "${C_Clang}")
 
 set(C_AppleClang "${C_Clang}")
 
