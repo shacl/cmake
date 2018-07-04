@@ -1,9 +1,14 @@
 add_library(warnings_Fortran_Intel INTERFACE)
 
 string(CONCAT generator
-  "$<IF:$<PLATFORM_ID:Windows>,/W3,-w3>;"
+  "$<IF:$<PLATFORM_ID:Windows>"
+      ",$<1:/W1;/warn:all>"
+      ",$<1:-W1;-warn;all>"
+   ">;"
   "$<$<BOOL:$<TARGET_PROPERTY:werror>>"
-   ":$<PLATFORM_ID:Windows>,/WX,-Werror>;")
+   ":$<IF:$<PLATFORM_ID:Windows>,"
+         "$<1:/warn:error;/warn:stderror>,"
+         "$<1:-warn error;-warn stderror>>>")
 
 target_compile_options(warnings_Fortran_Intel INTERFACE ${generator})
 

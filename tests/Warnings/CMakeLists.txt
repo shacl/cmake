@@ -1,21 +1,19 @@
 include(Warnings)
 
-string(CONCAT C_GNU
-  "-Wall\;"
-  "-Wextra\;"
-  "-Wpedantic\;"
-  "-Wduplicated-branches\;"
-  "-Wduplicated-cond")
+set(C_GNU -Wall -Wextra -Wpedantic)
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "7.0")
+  list(APPEND C_GNU -Wduplicated-branches)
+endif()
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6.0")
+  list(APPEND C_GNU -Wduplicated-cond)
+endif()
 
-string(CONCAT C_Clang
-  "-Wall\;"
-  "-Wextra\;"
-  "-Wpedantic\;"
-  "-Wassign-enum\;"
-  "-Wbad-function-cast\;"
-  "-Wkeyword-macro\;"
-  "-Wnonportable-system-include-path\;"
-  "-Wsometimes-uninitialized")
+string(REPLACE ";" "\;" C_GNU "${C_GNU}")
+set(C_Clang -Wall -Wextra -Wpedantic -Wassign-enum
+            -Wbad-function-cast -Wkeyword-macro
+            -Wnonportable-system-include-path
+            -Wsometimes-uninitialized)
+string(REPLACE ";" "\;" C_GNU "${C_Clang}")
 
 set(C_AppleClang "${C_Clang}")
 
@@ -37,12 +35,13 @@ file(GENERATE
 target_sources(warnings.c.test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/warnings.c)
 
 add_test(NAME warnings.c.test COMMAND warnings.c.test)
+
 set_tests_properties(warnings.c.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${C_${CMAKE_C_COMPILER_ID}}\n$")
 
 string(CONCAT CXX_GNU
   "-Wold-style-cast\;"
-  "-Wsiggest-override\;"
+  "-Wsuggest-override\;"
   "${C_GNU}")
 
 string(CONCAT CXX_Clang
@@ -54,7 +53,7 @@ string(CONCAT CXX_Clang
 
 set(CXX_AppleClang "${CXX_Clang}")
 
-set(CXX_Intel "${C_INTEL}")
+set(CXX_Intel "${C_Intel}")
 set(CXX_MSVC "${C_MSVC}")
 
 add_executable(warnings.cpp.test "")
@@ -79,7 +78,11 @@ string(CONCAT Fortran_GNU
   "-Wsurprising\;"
   "-Wuse-without-only")
 
-set(Fortran_Intel "${C_INTEL}")
+if(WIN32)
+  set(Fortran_Intel "${C_INTEL}\;/warn:all")
+else()
+  set(Fortran_Intel "${C_INTEL}\;-warn;all")
+endif()
 
 add_executable(warnings.fortran.test "")
 target_link_libraries(warnings.fortran.test PUBLIC shacl::warnings_Fortran)
