@@ -10,5 +10,5 @@ add_subdirectory(LinkOptions)
 add_subdirectory(GeneratedSources)
 add_subdirectory(Sanitizers)
 add_subdirectory(git/submodule/packages)
+add_subdirectory(DependencyInjection)
 add_subdirectory(Warnings)
-
