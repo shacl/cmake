@@ -19,11 +19,11 @@ if(NOT git.submodule.packages.cmake)
 
   find_package(Git REQUIRED)
   include(FunctionExtension)
-  include(git/submodule/packages/collect_state)
-  include(git/submodule/packages/init)
-  include(git/submodule/packages/update)
-  include(git/submodule/packages/list)
-  include(git/submodule/packages/find_package)
+  include(Git/Submodule/Packages/collect_state)
+  include(Git/Submodule/Packages/init)
+  include(Git/Submodule/Packages/update)
+  include(Git/Submodule/Packages/list)
+  include(Git/Submodule/Packages/find_package)
 
   set_property(
     GLOBAL PROPERTY git.packages.cmake

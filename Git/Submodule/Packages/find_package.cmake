@@ -1,4 +1,4 @@
-function(find_package package)
+macro(find_package package)
   if(${package}_FOUND)
     return()
   endif()
@@ -25,6 +25,6 @@ function(find_package package)
   endif()
 
   previous_find_package(${ARGV})
-endfunction()
+endmacro()
 
 wrap_find_package()
