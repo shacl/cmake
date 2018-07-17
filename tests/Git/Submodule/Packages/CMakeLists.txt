@@ -1,9 +1,12 @@
 include(CTest)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../..)
 
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/../../../../.gitmodules.testing
-          ${CMAKE_CURRENT_LIST_DIR}/../../../../.gitmodules)
-
+if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/../../../../.gitmodules)
+  file(COPY ${CMAKE_CURRENT_LIST_DIR}/../../../../.gitmodules.testing
+    DESTINATION ${CMAKE_CURRENT_LIST_DIR}/)
+  file(RENAME ${CMAKE_CURRENT_LIST_DIR}/.gitmodules.testing
+    ${CMAKE_CURRENT_LIST_DIR}//../../../../.gitmodules)
+endif()
 include(Git/Submodule/Packages)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")

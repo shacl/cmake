@@ -5,10 +5,10 @@ include(CTest)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/..)
 
+add_subdirectory(Git/Submodule/Packages)
 add_subdirectory(FortranCompileOptions)
 add_subdirectory(LinkOptions)
 add_subdirectory(GeneratedSources)
 add_subdirectory(Sanitizers)
-add_subdirectory(Git/Submodule/Packages)
 add_subdirectory(DependencyInjection)
 add_subdirectory(Warnings)
