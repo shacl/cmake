@@ -1,14 +1,10 @@
 program main
-  use iso_c_binding
   implicit none
   real :: dummy
   integer :: size
 
-  size = c_sizeof(dummy)
-  if (size == 8) then
-     stop 0
-  else
-     write(*,*) "size: ", size
-     stop 1
+  size = storage_size(dummy)
+  if (size /= 64) then
+     write(*,*) "size: ", size / 8
   endif
 end program main

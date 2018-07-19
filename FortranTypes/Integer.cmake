@@ -3,13 +3,16 @@ include(CMakeDependentOption)
 
 include_guard(GLOBAL)
 
-CMAKE_DEPENDENT_OPTION(FortranTypes.integer.64
-  "Require the Fortran default integer be 64-bit integer" OFF
-  "NOT FortranTypes.integer.32" OFF)
+if(NOT DEFINED FortranTypes.integer.64 
+    AND NOT DEFINED FortranTypes.integer.32)
+  CMAKE_DEPENDENT_OPTION(FortranTypes.integer.64
+    "Require the Fortran default integer be 64-bit integer" OFF
+    "NOT FortranTypes.integer.32" OFF)
 
-CMAKE_DEPENDENT_OPTION(FortranTypes.integer.32
-  "Require the Fortran default integer be 32-bit integer" OFF
-  "NOT FortranTypes.integer.64" OFF)
+  CMAKE_DEPENDENT_OPTION(FortranTypes.integer.32
+    "Require the Fortran default integer be 32-bit integer" OFF
+    "NOT FortranTypes.integer.64" OFF)
+endif()
 
 add_library(Fortran_Integer_C INTERFACE)
 target_compile_definitions(Fortran_Integer_C INTERFACE
