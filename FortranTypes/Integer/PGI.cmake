@@ -1,13 +1,14 @@
 string(CONCAT generator
-  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>:"
-    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-fdefault-integer-8>"
+  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},PGI>:"
+    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:-i4>"
+    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-i8>"
   ">"
 )
 
 target_compile_options(Fortran_Integer_Fortran INTERFACE ${generator})
 
 string(CONCAT generator
-  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>:"
+  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},PGI>:"
     "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>>>:F90_REAL_4BYTE>"
   ">"
 )

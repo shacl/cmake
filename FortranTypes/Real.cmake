@@ -3,18 +3,11 @@ include(CMakeDependentOption)
 
 include_guard(GLOBAL)
 
-CMAKE_DEPENDENT_OPTION(FortranTypes.real.64
-  "Require the Fortran default real be 64-bit integer" OFF
-  "NOT FortranTypes.real.32" OFF)
-
-CMAKE_DEPENDENT_OPTION(FortranTypes.real.32
-  "Require the Fortran default real be 32-bit integer" OFF
-  "NOT FortranTypes.real.64" OFF)
-
 add_library(Fortran_Real_C INTERFACE)
 target_compile_definitions(Fortran_Real_C INTERFACE
-  $<$<BOOL:${FortranTypes.real.64}>:F90_REAL_8BYTE>
-  $<$<BOOL:${FortranTypes.real.32}>:F90_REAL_4BYTE>)
+  $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:F90_REAL_4BYTE>
+  $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:F90_REAL_8BYTE>)
+set_property(TARGET Fortran_Real_C APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
 
 add_library(Fortran_Real_CXX INTERFACE)
 target_link_libraries(Fortran_Real_CXX INTERFACE Fortran_Real_C)
@@ -22,8 +15,10 @@ target_link_libraries(Fortran_Real_CXX INTERFACE Fortran_Real_C)
 add_library(Fortran_Real_Fortran INTERFACE)
 target_link_libraries(Fortran_Real_Fortran INTERFACE Fortran_Real_C)
 
+
 include(FortranTypes/Real/GNU)
 include(FortranTypes/Real/Flang)
+include(FortranTypes/Real/PGI)
 include(FortranTypes/Real/Intel)
 
 add_library(FortranTypes::Real_C ALIAS Fortran_Real_C)
