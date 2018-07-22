@@ -11,9 +11,11 @@ set_property(TARGET Fortran_Integer_C APPEND PROPERTY COMPATIBLE_INTERFACE_STRIN
 
 add_library(Fortran_Integer_CXX INTERFACE)
 target_link_libraries(Fortran_Integer_CXX INTERFACE Fortran_Integer_C)
+set_property(TARGET Fortran_Integer_CXX APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_INTEGER_SIZE_BYTES)
 
 add_library(Fortran_Integer_Fortran INTERFACE)
 target_link_libraries(Fortran_Integer_Fortran INTERFACE Fortran_Integer_C)
+set_property(TARGET Fortran_Integer_Fortran APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_INTEGER_SIZE_BYTES)
 
 include(FortranTypes/Integer/GNU)
 include(FortranTypes/Integer/Flang)

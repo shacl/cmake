@@ -11,10 +11,11 @@ set_property(TARGET Fortran_Real_C APPEND PROPERTY COMPATIBLE_INTERFACE_STRING F
 
 add_library(Fortran_Real_CXX INTERFACE)
 target_link_libraries(Fortran_Real_CXX INTERFACE Fortran_Real_C)
+set_property(TARGET Fortran_Real_CXX APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
 
 add_library(Fortran_Real_Fortran INTERFACE)
 target_link_libraries(Fortran_Real_Fortran INTERFACE Fortran_Real_C)
-
+set_property(TARGET Fortran_Real_Fortran APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
 
 include(FortranTypes/Real/GNU)
 include(FortranTypes/Real/Flang)
