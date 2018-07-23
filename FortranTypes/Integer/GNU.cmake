@@ -8,7 +8,7 @@ target_compile_options(Fortran_Integer_Fortran INTERFACE ${generator})
 
 string(CONCAT generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},GNU>:"
-    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>>>:F90_REAL_4BYTE>"
+    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>>>:F90_INT_4BYTE>"
   ">"
 )
 
