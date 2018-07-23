@@ -1,8 +1,8 @@
-function(CMAKE_DEPENDENT_VARIABLE option type doc default depends force)
+function(CMAKE_DEPENDENT_CACHE_VAR option type doc default depends force)
   list(APPEND type_list FILEPATH PATH STRING BOOL)
   list(FIND type_list ${type} type_found)
   if( type_found LESS 0 )
-    message(FATAL_ERROR "CMAKE_DEPENDENT_CHOICE error: variable type '${type}' must be one of FILEPATH, PATH, STRING, or BOOL")
+    message(FATAL_ERROR "CMAKE_DEPENDENT_CACHE_VAR error: variable type '${type}' must be one of FILEPATH, PATH, STRING, or BOOL")
   endif()
 
   set(${option}_AVAILABLE 1)
