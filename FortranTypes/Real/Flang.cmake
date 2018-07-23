@@ -1,13 +1,16 @@
 string(CONCAT generator
-  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>"
-    ":$<$<BOOL:${FortranTypes.real.64}>:-fdefault-real-8>>")
+  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>:"
+    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:-fdefault-real-8;-fdefault-double-8>"
+  ">"
+)
 
 target_compile_options(Fortran_Real_Fortran INTERFACE ${generator})
 
 string(CONCAT generator
-  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>"
-     ":$<$<NOT:$<OR:$<BOOL:${FortranTypes.integer.64}>,"
-                  "$<BOOL:${FortranTypes.integer.32}>>>:F90_REAL_4BYTE>>")
+  "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>:"
+    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>>>:F90_REAL_4BYTE>"
+  ">"
+)
 
 target_compile_definitions(Fortran_Real_C INTERFACE ${generator})
 
