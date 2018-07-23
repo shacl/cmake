@@ -3,6 +3,11 @@ include(CMakeDependentOption)
 
 include_guard(GLOBAL)
 
+define_property(TARGET PROPERTY Fortran_INTEGER_SIZE_BYTES
+  BRIEF_DOCS "the size of the default Fortran integer in bytes"
+  FULL_DOCS "This property specifies the size in bytes of the default Fortran integer, e.g., in the expression 'integer :: i' where no kind is given"
+)
+
 add_library(Fortran_Integer_C INTERFACE)
 target_compile_definitions(Fortran_Integer_C INTERFACE
   $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:F90_INT_4BYTE>

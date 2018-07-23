@@ -3,6 +3,11 @@ include(CMakeDependentOption)
 
 include_guard(GLOBAL)
 
+define_property(TARGET PROPERTY Fortran_REAL_SIZE_BYTES
+  BRIEF_DOCS "the size of the default Fortran real in bytes"
+  FULL_DOCS "This property specifies the size in bytes of the default Fortran real, e.g., in the expression 'real :: r' where no kind is given"
+)
+
 add_library(Fortran_Real_C INTERFACE)
 target_compile_definitions(Fortran_Real_C INTERFACE
   $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:F90_REAL_4BYTE>
