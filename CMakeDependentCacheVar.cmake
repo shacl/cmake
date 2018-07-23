@@ -15,8 +15,11 @@ function(CMAKE_DEPENDENT_CACHE_VAR option type doc default depends force)
   endforeach()
 
   if(${option}_AVAILABLE)
-    set(${option} "${default}" CACHE "${type}" "${doc}" FORCE)
+    set(${option} "${default}" CACHE "${type}" "${doc}")
+    set(${option} "${${option}}" CACHE "${type}" "${doc}" FORCE)
   else()
-    set(${option} "${force}" CACHE INTERNAL "${doc}" FORCE)
+    set(${option} "${${option}}" CACHE INTERNAL "${doc}")
+    set(${option} "${force}" PARENT_SCOPE)
   endif()
+
 endfunction()
