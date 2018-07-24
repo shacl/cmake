@@ -5,7 +5,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.c
 )
 
 add_executable(use_intel_fp_model_C ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.c)
-set_target_properties(use_intel_fp_model_C PROPERTIES Intel_FLOATING_POINT_MODEL "${intel.fpmodel.default}")
+set_target_properties(use_intel_fp_model_C PROPERTIES Intel_FLOATING_POINT_MODEL "consistent")
 target_link_libraries(use_intel_fp_model_C PRIVATE Intel::FPModel_C)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.cpp
@@ -13,7 +13,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.cpp
 )
 
 add_executable(use_intel_fp_model_CXX ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.cpp)
-set_target_properties(use_intel_fp_model_CXX PROPERTIES Intel_FLOATING_POINT_MODEL "${intel.fpmodel.default}")
+set_target_properties(use_intel_fp_model_CXX PROPERTIES Intel_FLOATING_POINT_MODEL "consistent")
 target_link_libraries(use_intel_fp_model_CXX PRIVATE Intel::FPModel_CXX)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.F90
@@ -21,7 +21,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.F90
 )
 
 add_executable(use_intel_fp_model_Fortran ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_model.F90)
-set_target_properties(use_intel_fp_model_Fortran PROPERTIES Intel_FLOATING_POINT_MODEL "${intel.fpmodel.default}")
+set_target_properties(use_intel_fp_model_Fortran PROPERTIES Intel_FLOATING_POINT_MODEL "consistent")
 target_link_libraries(use_intel_fp_model_Fortran PRIVATE Intel::FPModel_Fortran)
 
 set(expected_C "")

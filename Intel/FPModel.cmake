@@ -9,11 +9,6 @@ FULL_DOCS
 Options are: precise, fast[=1|2], consistent, strict, source"
 )
 
-set(intel.fpmodel.default "consistent" CACHE STRING
-  "the default selection for the floating-point model flag"
-)
-mark_as_advanced(intel.fpmodel.default)
-
 add_library(Intel_FPModel_C INTERFACE)
 add_library(Intel::FPModel_C ALIAS Intel_FPModel_C)
 
