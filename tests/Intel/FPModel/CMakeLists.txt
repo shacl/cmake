@@ -65,4 +65,4 @@ add_test(
   NAME intel_fp_model_Fortran
   COMMAND use_intel_fp_model_Fortran
 )
-set_tests_properties(intel_fp_model_C PROPERTIES PASS_REGULAR_EXPRESSION "^${expected_Fortran}$")
+set_tests_properties(intel_fp_model_Fortran PROPERTIES PASS_REGULAR_EXPRESSION "^${expected_Fortran}$")
