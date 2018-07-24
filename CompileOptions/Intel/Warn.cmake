@@ -11,7 +11,7 @@ FULL_DOCS
  multiple entries must be semicolon separated e.g. unused;unused")
 
 add_library(Intel_Warn_Fortran INTERFACE)
-add_library(CompileOptions::Intel::Warn::Fortran ALIAS Intel_Warn_Fortran)
+add_library(CompileOptions::Intel::Warn_Fortran ALIAS Intel_Warn_Fortran)
 
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_WARN>>:"

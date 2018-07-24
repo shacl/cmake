@@ -12,7 +12,7 @@ FULL_DOCS
  multiple entries must be semicolon separated e.g. 1138;1138")
 
 add_library(Intel_DiagDisable_Fortran INTERFACE)
-add_library(CompileOptions::Intel::DiagDisable::Fortran ALIAS Intel_DiagDisable_Fortran)
+add_library(CompileOptions::Intel::DiagDisable_Fortran ALIAS Intel_DiagDisable_Fortran)
 
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_DISABLE_DIAGNOSTICS>>:"

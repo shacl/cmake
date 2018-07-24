@@ -15,7 +15,7 @@ set(intel.fpmodel.default "consistent" CACHE STRING
 mark_as_advanced(intel.fpmodel.default)
 
 add_library(Intel_FPModel_Fortran INTERFACE)
-add_library(CompileOptions::Intel::FPModel::Fortran ALIAS Intel_FPModel_Fortran)
+add_library(CompileOptions::Intel::FPModel_Fortran ALIAS Intel_FPModel_Fortran)
 
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_FLOATING_POINT_MODEL>>:"

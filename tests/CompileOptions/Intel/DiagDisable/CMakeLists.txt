@@ -7,7 +7,7 @@ file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90
 add_executable(use_intel_diag_disable ${CMAKE_CURRENT_BINARY_DIR}/use_intel_diag_disable.f90)
 set_target_properties(use_intel_diag_disable PROPERTIES Intel_Fortran_DISABLE_DIAGNOSTICS "1138;1138")
 
-target_link_libraries(use_intel_diag_disable PRIVATE CompileOptions::Intel::DiagDisable::Fortran)
+target_link_libraries(use_intel_diag_disable PRIVATE CompileOptions::Intel::DiagDisable_Fortran)
 
 add_custom_target(run_use_intel_diag_disable ALL
   COMMAND use_intel_diag_disable
