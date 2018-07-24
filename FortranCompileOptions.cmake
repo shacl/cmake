@@ -1,8 +1,0 @@
-include(FortranCompileOptions/Backtrace)
-include(FortranCompileOptions/IntelDiagDisable)
-include(FortranCompileOptions/IntelFPModel)
-include(FortranCompileOptions/IntelWarn)
-include(FortranCompileOptions/IntelStandardAdherence)
-include(FortranCompileOptions/Standard)
-include(FortranCompileOptions/TempArrayHeapAlloc)
-include(FortranCompileOptions/NoBackslashEscape)

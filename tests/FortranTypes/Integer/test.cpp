@@ -1,7 +1,3 @@
-extern "C" {
-int integer_size();
-}
-
 int main(){
 
 #ifdef F90_INT_4BYTE
@@ -12,5 +8,5 @@ int main(){
   int value = 8;
 #endif
   
-  return integer_size() == value ? 0 : 1;
+  return EXPECTED == value ? 0 : 1;
 }
