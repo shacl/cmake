@@ -1,6 +1,6 @@
 string(CONCAT generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>:"
-    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:-fdefault-real-8;-fdefault-double-8>"
+    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:-fdefault-real-8>"
   ">"
 )
 
