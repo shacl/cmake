@@ -1,5 +1,5 @@
 include(FortranTypes)
-include(FortranCompileOptions)
+include(CompileOptions/Fortran)
 
 foreach( size 4 8 )
   add_library(int_size_${size} STATIC size_mod.F90)

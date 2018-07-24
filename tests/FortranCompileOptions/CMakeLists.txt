@@ -1,8 +1,0 @@
-add_subdirectory(Backtrace)
-add_subdirectory(IntelDiagDisable)
-add_subdirectory(IntelFPModel)
-add_subdirectory(IntelWarn)
-add_subdirectory(IntelStandardAdherence)
-add_subdirectory(Standard)
-add_subdirectory(TempArrayHeapAlloc)
-add_subdirectory(NoBackslashEscape)
