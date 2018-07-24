@@ -8,13 +8,16 @@ add_executable(use_no_backslash_escape ${CMAKE_CURRENT_BINARY_DIR}/use_no_backsl
 
 target_link_libraries(use_no_backslash_escape PRIVATE Fortran::NoBackslashEscape)
 
-add_custom_target(run_use_no_backslash_escape ALL
+set(expected "")
+
+if( "${CMAKE_Fortran_COMPILER_ID}" STREQUAL "PGI" )
+  set(expected "-Mbackslash\n")
+elseif( "${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Flang" )
+  set(expected "-fno-backslash\n")
+endif()
+
+add_test(
+  NAME no_backslash_escape
   COMMAND use_no_backslash_escape
 )
-add_dependencies(run_use_no_backslash_escape use_no_backslash_escape)
-
-add_test(NAME run_use_no_backslash_escape
-  COMMAND ${CMAKE_COMMAND} -E compare_files
-    ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-    ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}
-)
+set_tests_properties(no_backslash_escape PROPERTIES PASS_REGULAR_EXPRESSION "^${expected}$")
