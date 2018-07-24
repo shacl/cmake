@@ -13,6 +13,6 @@ add_library(Fortran_TempArrayHeapAlloc INTERFACE)
 add_library(CompileOptions::Fortran::TempArrayHeapAlloc ALIAS Fortran_TempArrayHeapAlloc)
 
 include(CompileOptions/Fortran/TempArrayHeapAlloc/GNU)
-include(CompileOptions/Fortran/TempArrayHeapAlloc/Flang)
+# include(CompileOptions/Fortran/TempArrayHeapAlloc/Flang) # not implemented as of 20180716
 include(CompileOptions/Fortran/TempArrayHeapAlloc/Intel)
 include(CompileOptions/Fortran/TempArrayHeapAlloc/PGI)
