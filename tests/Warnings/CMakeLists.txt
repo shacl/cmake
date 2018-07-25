@@ -7,7 +7,7 @@ endif()
 if(CMAKE_C_COMPILER_VERSION VERSION_GREATER "6.0")
   list(APPEND C_GNU -Wduplicated-cond)
 endif()
-list(APPEND C_GNU -Wformat-overflow -Wnonnull)
+list(APPEND C_GNU -Wstrict-overflow -Wnonnull)
 list(APPEND C_GNU -Wno-null-dereference -Wno-implicit)
 
 string(REPLACE ";" "\;" C_GNU "${C_GNU}")
@@ -35,7 +35,7 @@ add_executable(warnings.c.test "")
 set_target_properties(warnings.c.test PROPERTIES
   WARN_ALL ON
   WARN_ERROR ON
-  GNU_ENABLED_WARNINGS "format-overflow;nonnull"
+  GNU_ENABLED_WARNINGS "strict-overflow;nonnull"
   GNU_DISABLED_WARNINGS "null-dereference;implicit"
   LLVM_ENABLED_WARNINGS "abstract-vbase-init;array-bounds-pointer-arithmetic"
   LLVM_DISABLED_WARNINGS "asm-operand-widths;assign-enum"
@@ -64,10 +64,10 @@ endif()
 if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6.0")
   list(APPEND CXX_GNU -Wduplicated-cond)
 endif()
-list(APPEND CXX_GNU -Wformat-overflow -Wnonnull)
-list(APPEND CXX_GNU -Wno-null-dereference -Wno-implicit)
+list(APPEND CXX_GNU -Wstrict-overflow -Wnonnull)
+list(APPEND CXX_GNU -Wno-null-dereference)
 
-string(REPLACE ";" "\;" CXX_GNU "${C_GNU}")
+string(REPLACE ";" "\;" CXX_GNU "${CXX_GNU}")
 set(CXX_Clang
   -Werror
   -Wall
@@ -102,8 +102,8 @@ add_executable(warnings.cxx.test "")
 set_target_properties(warnings.cxx.test PROPERTIES
   WARN_ALL ON
   WARN_ERROR ON
-  GNU_ENABLED_WARNINGS "format-overflow;nonnull"
-  GNU_DISABLED_WARNINGS "null-dereference;implicit"
+  GNU_ENABLED_WARNINGS "strict-overflow;nonnull"
+  GNU_DISABLED_WARNINGS "null-dereference"
   LLVM_ENABLED_WARNINGS "abstract-vbase-init;array-bounds-pointer-arithmetic"
   LLVM_DISABLED_WARNINGS "asm-operand-widths;assign-enum"
   INTEL_ENABLED_WARNINGS "117;230"
@@ -132,7 +132,7 @@ set(Fortran_GNU
 -Wrealloc-lhs
 -Wsurprising
 -Wuse-without-only
--Wargument-mismatch
+-Wconversion
 -Wline-truncation
 -Wno-array-temporaries
 -Wno-c-binding-type")
@@ -157,7 +157,7 @@ add_executable(warnings.fortran.test "")
 set_target_properties(warnings.fortran.test PROPERTIES
   WARN_ALL ON
   WARN_ERROR ON
-  GNU_ENABLED_WARNINGS "argument-mismatch;line-truncation"
+  GNU_ENABLED_WARNINGS "conversion;line-truncation"
   GNU_DISABLED_WARNINGS "array-temporaries;c-binding-type"
   INTEL_ENABLED_WARNINGS "alignments;declarations"
   INTEL_DISABLED_WARNINGS "truncated_source;unused")
