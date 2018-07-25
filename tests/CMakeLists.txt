@@ -5,7 +5,6 @@ include(CTest)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/..)
 
-add_subdirectory(FortranTypes)
 add_subdirectory(Fortran)
 add_subdirectory(Intel)
 add_subdirectory(LinkOptions)
