@@ -1,32 +1,44 @@
-include(Fortran)
+include(Fortran/Backtrace)
 
-file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_backtrace.f90
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_backtrace.f90.in
-)
+set(Intel.Windows.ON "/traceback")
+set(Intel.Windows.OFF "/notraceback")
+set(Intel.Darwin.ON "-traceback")
+set(Intel.Darwin.OFF "-notraceback")
+set(Intel.Linux.ON "-traceback")
+set(Intel.Linux.OFF "-notraceback")
+set(PGI.Windows.ON "-traceback")
+set(PGI.Windows.OFF "-notraceback")
+set(PGI.Darwin.ON "-traceback")
+set(PGI.Darwin.OFF "-notraceback")
+set(PGI.Linux.ON "-traceback")
+set(PGI.Linux.OFF "-notraceback")
+set(GNU.Windows.ON "-fbacktrace")
+set(GNU.Windows.OFF "-fno-backtrace")
+set(GNU.Darwin.ON "-fbacktrace")
+set(GNU.Darwin.OFF "-fno-backtrace")
+set(GNU.Linux.ON "-fbacktrace")
+set(GNU.Linux.OFF "-fno-backtrace")
 
-add_executable(use_backtrace ${CMAKE_CURRENT_BINARY_DIR}/use_backtrace.f90)
-target_link_libraries(use_backtrace PRIVATE Fortran::Backtrace)
+foreach(toggle ON OFF)
+  add_executable(backtrace.${toggle} "")
+  set_target_properties(backtrace.${toggle} 
+    PROPERTIES Fortran_BACKTRACE ${toggle})
+  target_link_libraries(backtrace.${toggle} PRIVATE Fortran::Backtrace)  
+  set(target backtrace.${toggle})
 
-add_custom_target(run_use_backtrace ALL
-  COMMAND use_backtrace
-)
-add_dependencies(run_use_backtrace use_backtrace)
+  configure_file(
+    ${CMAKE_CURRENT_LIST_DIR}/backtrace.f90.in
+    ${CMAKE_CURRENT_BINARY_DIR}/backtrace.${toggle}.f90.in
+    @ONLY)
 
-if( WIN32 )
-	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}_win32 
-                 ${CMAKE_CURRENT_BINARY_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}_win32
-                 NEWLINE_STYLE DOS
-  )
+  file(GENERATE 
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/backtrace.${toggle}.f90
+    INPUT ${CMAKE_CURRENT_BINARY_DIR}/backtrace.${toggle}.f90.in)
 
-  add_test(NAME run_use_backtrace
-    COMMAND ${CMAKE_COMMAND} -E compare_files
-      ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-      ${CMAKE_CURRENT_BINARY_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}_win32
-  )
-else()
-  add_test(NAME run_use_backtrace
-    COMMAND ${CMAKE_COMMAND} -E compare_files
-      ${CMAKE_CURRENT_BINARY_DIR}/terminal_output
-      ${CMAKE_CURRENT_SOURCE_DIR}/terminal_output_${CMAKE_Fortran_COMPILER_ID}
-  )
-endif()
+  target_sources(backtrace.${toggle} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/backtrace.${toggle}.f90)
+  add_test(NAME Fortran.Backtrace.${toggle} COMMAND backtrace.${toggle})
+  set_tests_properties(Fortran.Backtrace.${toggle} PROPERTIES
+    PASS_REGULAR_EXPRESSION 
+    "^${${CMAKE_Fortran_COMPILER_ID}.${CMAKE_HOST_SYSTEM_NAME}.${toggle}}\n$")
+
+endforeach()
