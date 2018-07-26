@@ -1,16 +1,28 @@
 add_library(warnings_Fortran_Intel INTERFACE)
 
 string(CONCAT generator
-  "$<IF:$<PLATFORM_ID:Windows>"
-      ",$<1:/W1;/warn:all>"
-      ",$<1:-W1;-warn;all>"
+  "$<$<PLATFORM_ID:Windows>:/warn:>"
+  "$<$<NOT:$<PLATFORM_ID:Windows>>:-warn;>")
+
+string(CONCAT generator
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>"
+   ":${generator}error$<COMMA>stderror"
+   ">"
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>"
+   ":$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:$<COMMA>>"
+    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>>:${generator}>"
+     "all"
    ">;"
-  "$<$<BOOL:$<TARGET_PROPERTY:werror>>"
-   ":$<IF:$<PLATFORM_ID:Windows>,"
-         "$<1:/warn:error;/warn:stderror>,"
-         "$<1:-warn error;-warn stderror>>>")
+  "$<$<BOOL:$<TARGET_PROPERTY:INTEL_ENABLED_WARNINGS>>"
+   ":$<$<PLATFORM_ID:Windows>:/Qdiag-enable:>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-enable=>"
+    "$<JOIN:$<TARGET_PROPERTY:INTEL_ENABLED_WARNINGS>,$<COMMA>>"
+   ">;"
+  "$<$<BOOL:$<TARGET_PROPERTY:INTEL_DISABLED_WARNINGS>>"
+   ":$<$<PLATFORM_ID:Windows>:/Qdiag-disable:>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-disable=>"
+    "$<JOIN:$<TARGET_PROPERTY:INTEL_DISABLED_WARNINGS>,$<COMMA>>"
+   ">;")
 
-target_compile_options(warnings_Fortran_Intel INTERFACE ${generator})
-
-target_link_libraries(warnings_Fortran INTERFACE
-  $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:warnings_Fortran_Intel>)
+target_compile_options(warnings_Fortran INTERFACE
+  $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:${generator}>)

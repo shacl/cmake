@@ -1,8 +1,11 @@
-add_library(warnings_C_MSVC INTERFACE)
+string(CONCAT generator
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:/WX>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:/W4>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:MSVC_ENABLED_WARNINGS>>:"
+    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>>:/W1>;"
+    "/w1$<JOIN:$<TARGET_PROPERTY:MSVC_ENABLED_WARNINGS>,;/w1>>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:MSVC_DISABLED_WARNINGS>>:"
+    "/wd$<JOIN:$<TARGET_PROPERTY:MSVC_DISABLED_WARNINGS>,;/wd>>;")
 
-target_compile_options(warnings_C_MSVC INTERFACE
-  /Wall
-  $<$<BOOL:$<TARGET_PROPERTY:werror>>:/WX>)
-
-target_link_libraries(warnings_C INTERFACE
-  $<$<C_COMPILER_ID:MSVC>:warnings_C_MSVC>)
+target_compile_options(warnings_C INTERFACE
+  $<$<C_COMPILER_ID:MSVC>:${generator}>)

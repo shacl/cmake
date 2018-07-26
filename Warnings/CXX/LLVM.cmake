@@ -1,11 +1,22 @@
-add_library(warnings_CXX_LLVM INTERFACE)
+string(CONCAT generator
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:-Werror>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:"
+    "-Wall;"
+    "-Wextra;"
+    "-Wpedantic;"
+    "-Wassign-enum;"
+    "-Wbad-function-cast;"
+    "-Wkeyword-macro;"
+    "-Wnonportable-system-include-path;"
+    "-Wsometimes-uninitialized;"
+    "-Wold-style-cast;"
+    "-Wnon-virtual-dtor;"
+    "-Wrange-loop-analysis;"
+    "-Wredundant-move>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>>:"
+    "-W$<JOIN:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>,;-W>>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>>:"
+    "-Wno-$<JOIN:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>,;-Wno->>;")
 
-target_compile_options(warnings_CXX_LLVM INTERFACE
-  -Wold-style-cast
-  -Wnon-virtual-dtor
-  -Wrange-loop-analysis
-  -Wredundant-move)
-
-target_link_libraries(warnings_CXX_LLVM INTERFACE warnings_C_LLVM)
-target_link_libraries(warnings_CXX INTERFACE
-  $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>>:warnings_CXX_LLVM>)
+target_compile_options(warnings_CXX INTERFACE
+  $<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>>:${generator}>)

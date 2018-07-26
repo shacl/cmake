@@ -1,5 +1,4 @@
-add_subdirectory(DiagDisable)
 add_subdirectory(FortranAssumptions)
-add_subdirectory(FPModel)
-add_subdirectory(Warn)
 add_subdirectory(FortranStandardAdherence)
+add_subdirectory(FPModel)
+
