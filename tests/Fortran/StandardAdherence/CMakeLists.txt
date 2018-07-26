@@ -9,7 +9,7 @@ target_link_libraries(fortran_standard_adherence PRIVATE Fortran::StandardAdhere
 
 set(expected_PGI "-Mbackslash\n")
 set(expected_Intel "-standard-semantics -assume nostd_mod_proc_name\n")
-if( Win32 )
+if( WIN32 )
   set(expected_Intel "/standard-semantics /assume:nostd_mod_proc_name\n")
 endif()
 
