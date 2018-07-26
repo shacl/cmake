@@ -7,5 +7,5 @@ string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:MSVC_DISABLED_WARNINGS>>:"
     "/wd$<JOIN:$<TARGET_PROPERTY:MSVC_DISABLED_WARNINGS>,;/wd>>;")
 
-target_link_libraries(warnings_C INTERFACE
+target_compile_options(warnings_C INTERFACE
   $<$<C_COMPILER_ID:MSVC>:${generator}>)
