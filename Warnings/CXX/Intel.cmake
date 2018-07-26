@@ -10,5 +10,5 @@ string(CONCAT generator
    ":$<IF:$<PLATFORM_ID:Windows>,/Qdiag-disable$<1::>,-diag-disable=>"
    "$<JOIN:$<TARGET_PROPERTY:INTEL_DISABLED_WARNINGS>,$<COMMA>>>;")
 
-target_link_libraries(warnings_CXX INTERFACE
+target_compile_options(warnings_CXX INTERFACE
   $<$<CXX_COMPILER_ID:Intel>:${generator}>)

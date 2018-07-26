@@ -139,18 +139,15 @@ set(Fortran_GNU
 
 if(WIN32)
   set(Fortran_Intel
-"/warn:error
-/warn:stderror
-/warn:all
-/warn:alignments,declarations
-/nowarn:truncated_source,unused")
+"/warn:error,stderror,all
+/Qdiag-enable:8689,8685
+/Qdiag-disable:8694,8695")
 else()
   set(Fortran_Intel
-"-warn error
--warn stderror
--warn all
--warn alignments,declarations
--nowarn truncated_source,unused")
+"-warn
+error,stderror,all
+-diag-enable=8689,8685
+-diag-disable=8694,8695")
 endif()
 
 add_executable(warnings.fortran.test "")
@@ -159,8 +156,8 @@ set_target_properties(warnings.fortran.test PROPERTIES
   WARN_ERROR ON
   GNU_ENABLED_WARNINGS "conversion;line-truncation"
   GNU_DISABLED_WARNINGS "array-temporaries;c-binding-type"
-  INTEL_ENABLED_WARNINGS "alignments;declarations"
-  INTEL_DISABLED_WARNINGS "truncated_source;unused")
+  INTEL_ENABLED_WARNINGS "8689;8685"
+  INTEL_DISABLED_WARNINGS "8694;8695")
 target_link_libraries(warnings.fortran.test PUBLIC warnings::warnings_Fortran)
 
 file(GENERATE
