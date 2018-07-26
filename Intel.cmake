@@ -1,5 +1,5 @@
 include(Intel/DiagDisable)
-include(Intel/Assumptions)
+include(Intel/FortranAssumptions)
 include(Intel/FPModel)
 include(Intel/Warn)
 include(Intel/FortranStandardAdherence)

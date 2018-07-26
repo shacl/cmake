@@ -1,7 +1,0 @@
-program warnings
-  write(*,'(a)') "$<JOIN:$<TARGET_PROPERTY:assumptions.test,Intel_ENABLED_ASSUMPTIONS>,"
-  write(*,'(a)') ">"
-  write(*,'(a)') ""
-  write(*,'(a)') "$<JOIN:$<TARGET_PROPERTY:assumptions.test,Intel_DISABLED_ASSUMPTIONS>,"
-  write(*,'(a)') ">"
-end program
