@@ -1,14 +1,22 @@
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>"
-   ":$<IF:$<PLATFORM_ID:Windows>,/WX,-Werror>>;"
+   ":$<$<PLATFORM_ID:Windows>:/WX>"
+    "$<$<NOT:<$<PLATFORM_ID:Windows>>:-Werror>"
+   ">;"
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>"
-   ":$<IF:$<PLATFORM_ID:Windows>,/W3,-w3>>;"
+   ":$<$<PLATFORM_ID:Windows>:/W3>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-w3>"
+   ">;"
   "$<$<BOOL:$<TARGET_PROPERTY:INTEL_ENABLED_WARNINGS>>"
-   ":$<IF:$<PLATFORM_ID:Windows>,/Qdiag-enable$<1::>,-diag-enable=>"
-    "$<JOIN:$<TARGET_PROPERTY:INTEL_ENABLED_WARNINGS>,$<COMMA>>>;"
+   ":$<$<PLATFORM_ID:Windows>:/Qdiag-enable:>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-enable=>"
+    "$<JOIN:$<TARGET_PROPERTY:INTEL_ENABLED_WARNINGS>,$<COMMA>>"
+   ">;"
   "$<$<BOOL:$<TARGET_PROPERTY:INTEL_DISABLED_WARNINGS>>"
-   ":$<IF:$<PLATFORM_ID:Windows>,/Qdiag-disable$<1::>,-diag-disable=>"
-   "$<JOIN:$<TARGET_PROPERTY:INTEL_DISABLED_WARNINGS>,$<COMMA>>>;")
+   ":$<$<PLATFORM_ID:Windows>:/Qdiag-disable:>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-diag-disable=>"
+    "$<JOIN:$<TARGET_PROPERTY:INTEL_DISABLED_WARNINGS>,$<COMMA>>"
+   ">;")
 
 target_compile_options(warnings_CXX INTERFACE
   $<$<CXX_COMPILER_ID:Intel>:${generator}>)
