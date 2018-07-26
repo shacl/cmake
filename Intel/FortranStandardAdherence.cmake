@@ -8,8 +8,8 @@ string(CONCAT generator
       "$<$<NOT:$<PLATFORM_ID:Windows>>:-standard-semantics;-assume;nostd_mod_proc_name>"
           "$<$<PLATFORM_ID:Windows>:/standard-semantics;/assume:nostd_mod_proc_name>>")
 
-add_library(Intel_Fortran_StandardAdherence INTERFACE)
-add_library(Intel::FortranStandardAdherence ALIAS Intel_Fortran_StandardAdherence)
-target_compile_options(Intel_Fortran_StandardAdherence INTERFACE
+add_library(Intel_FortranStandardAdherence INTERFACE)
+add_library(Intel::FortranStandardAdherence ALIAS Intel_FortranStandardAdherence)
+target_compile_options(Intel_FortranStandardAdherence INTERFACE
   ${generator}
 )
