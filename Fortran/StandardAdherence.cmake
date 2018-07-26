@@ -6,5 +6,4 @@ add_library(Fortran::StandardAdherence ALIAS Fortran_StandardAdherence)
 
 target_link_libraries(Fortran_StandardAdherence INTERFACE
   Fortran::NoBackslashEscape
-  Intel::FortranStandardAdherence
-)
+  Intel::FortranStandardAdherence)

@@ -10,7 +10,8 @@ add_library(Intel::FortranStandardAdherence ALIAS Intel_Fortran_StandardAdherenc
 set_target_properties(Intel_Fortran_StandardAdherence PROPERTIES
   INTERFACE_Intel_FORTRAN_DISABLED_ASSUMPTIONS std_mod_proc_name)
 set_property(TARGET Intel_Fortran_StandardAdherence APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING Intel_FORTRAN_DISABLED_ASSUMPTIONS)
+  COMPATIBLE_INTERFACE_STRING 
+  Intel_FORTRAN_DISABLED_ASSUMPTIONS;INTERFACE_Intel_FORTRAN_DISABLED_ASSUMPTIONS)
 
 string(CONCAT generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
