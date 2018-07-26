@@ -1,7 +1,7 @@
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>"
    ":$<$<PLATFORM_ID:Windows>:/WX>"
-    "$<$<NOT:<$<PLATFORM_ID:Windows>>:-Werror>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-Werror>"
    ">;"
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>"
    ":$<$<PLATFORM_ID:Windows>:/W3>"
