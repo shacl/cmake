@@ -6,8 +6,8 @@ BRIEF_DOCS
 "Intel assumption keywords"
 FULL_DOCS
 "This property contains zero or more entries specifying assumption options
- used when compiling with an Intel compiler. Each entry corresponds to a
- assumption keyword, e.g., specifying `buffered_io` will add the
+ used when compiling with the Intel Fortran compiler. Each entry corresponds
+ to an assumption keyword, e.g., specifying `buffered_io` will add the
  `-assume buffered_io` or `/assume:buffered_io` flag as appropriate for
  the host platform.
 
@@ -18,8 +18,8 @@ BRIEF_DOCS
 "Intel assumption keywords"
 FULL_DOCS
 "This property contains zero or more entries specifying assumption options
- used when compiling with an Intel compiler. Each entry corresponds to a
- assumption keyword, e.g., specifying `buffered_io` will add the
+ used when compiling with the Intel Fortran compiler. Each entry corresponds
+ to an assumption keyword, e.g., specifying `buffered_io` will add the
  `-assume nobuffered_io` or `/assume:nobuffered_io` flag as appropriate for
  the host platform.
 
