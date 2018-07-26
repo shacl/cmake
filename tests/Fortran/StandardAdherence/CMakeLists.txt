@@ -2,8 +2,7 @@ include(Fortran)
 
 file(GENERATE 
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_fortran_standard_adherence.f90
-  INPUT ${CMAKE_CURRENT_LIST_DIR}/use_fortran_standard_adherence.F90.in
-)
+  INPUT ${CMAKE_CURRENT_LIST_DIR}/use_fortran_standard_adherence.F90.in)
 
 add_executable(fortran_standard_adherence ${CMAKE_CURRENT_BINARY_DIR}/use_fortran_standard_adherence.f90)
 target_link_libraries(fortran_standard_adherence PUBLIC Fortran::StandardAdherence)
@@ -16,10 +15,8 @@ endif()
 
 set(expected "${expected_${CMAKE_Fortran_COMPILER_ID}}")
 
-add_test(
-  NAME Fortran.StandardAdherence
-  COMMAND fortran_standard_adherence
-)
+add_test(NAME Fortran.StandardAdherence
+  COMMAND fortran_standard_adherence)
+
 set_tests_properties(Fortran.StandardAdherence PROPERTIES
-  PASS_REGULAR_EXPRESSION "^${expected}$"
-)
+  PASS_REGULAR_EXPRESSION "^${expected}$")
