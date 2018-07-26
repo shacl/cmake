@@ -1,15 +1,18 @@
-add_library(warnings_C_LLVM INTERFACE)
+string(CONCAT generator
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:-Werror>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:"
+    "-Wall;"
+    "-Wextra;"
+    "-Wpedantic;"
+    "-Wassign-enum;"
+    "-Wbad-function-cast;"
+    "-Wkeyword-macro;"
+    "-Wnonportable-system-include-path;"
+    "-Wsometimes-uninitialized>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>>:"
+    "-W$<JOIN:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>,;-W>>;"
+  "$<$<BOOL:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>>:"
+    "-Wno-$<JOIN:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>,;-Wno->>;")
 
-target_compile_options(warnings_C_LLVM INTERFACE
-  -Wall
-  -Wextra
-  -Wpedantic
-  -Wassign-enum
-  -Wbad-function-cast
-  -Wkeyword-macro
-  -Wnonportable-system-include-path
-  -Wsometimes-uninitialized
-  $<$<BOOL:$<TARGET_PROPERTY:werror>>:-Werror>)
-
-target_link_libraries(warnings_C INTERFACE
-  $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>>:warnings_C_LLVM>)
+target_compile_options(warnings_C INTERFACE
+  $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>>:${generator}>)
