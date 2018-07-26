@@ -8,9 +8,9 @@ add_executable(fortran_standard_adherence ${CMAKE_CURRENT_BINARY_DIR}/use_fortra
 target_link_libraries(fortran_standard_adherence PRIVATE Fortran::StandardAdherence)
 
 set(expected_PGI "-Mbackslash\n")
-set(expected_Intel "-standard-semantics;-assume;nostd_mod_proc_name\n")
+set(expected_Intel "-standard-semantics -assume nostd_mod_proc_name\n")
 if( Win32 )
-  set(expected_Intel "/standard-semantics;/assume:nostd_mod_proc_name\n")
+  set(expected_Intel "/standard-semantics /assume:nostd_mod_proc_name\n")
 endif()
 
 set(expected "${expected_${CMAKE_Fortran_COMPILER_ID}}")
