@@ -30,23 +30,20 @@ add_library(Intel::FortranAssumptions ALIAS Intel_Assumptions)
 
 string(CONCAT generator
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
-         ",$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>>"
-   ":$<IF:$<PLATFORM_ID:Windows>"
-        ",/assume$<1::>"
-        ",-assume;"
-     ">"
+         ",$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>>:"
+    "$<$<PLATFORM_ID:Windows>:/assume:>"
+    "$<$<NOT:$<PLATFORM_ID:Windows>>:-assume;>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>,$<COMMA>>"
-   ">"
+  ">"
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
-         ",$<BOOL:$<TARGET_PROPERTY:Intel_DISABLED_FORTRAN_ASSUMPTIONS>>>"
-   ":$<IF:$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>"
-        ",$<COMMA>"
-        ",$<IF:$<PLATFORM_ID:Windows>"
-             ",/assume$<1::>no"
-             ",-assume;no"
-          ">"
-     ">"
+         ",$<BOOL:$<TARGET_PROPERTY:Intel_DISABLED_FORTRAN_ASSUMPTIONS>>>:"
+    "$<$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>:$<COMMA>no>"
+    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>>:"
+      "$<$<PLATFORM_ID:Windows>:/assume:no>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-assume;no>"
+    ">"
     "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_FORTRAN_ASSUMPTIONS>,$<COMMA>no>"
-   ">;")
+  ">;"
+)
 
 target_compile_options(Intel_Assumptions INTERFACE ${generator})

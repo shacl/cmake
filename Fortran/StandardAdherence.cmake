@@ -1,9 +1,15 @@
 include(Fortran/NoBackslashEscape)
-include(Intel/FortranStandardAdherence)
+include(Intel/FortranAssumptions)
 
 add_library(Fortran_StandardAdherence INTERFACE)
 add_library(Fortran::StandardAdherence ALIAS Fortran_StandardAdherence)
+set_target_properties(Fortran_StandardAdherence PROPERTIES
+  INTERFACE_Intel_DISABLED_FORTRAN_ASSUMPTIONS std_mod_proc_name
+)
+set_property(TARGET Fortran_StandardAdherence APPEND PROPERTY COMPATIBLE_INTERFACE_STRING 
+  Intel_DISABLED_FORTRAN_ASSUMPTIONS
+)
 
 target_link_libraries(Fortran_StandardAdherence INTERFACE
   Fortran::NoBackslashEscape
-  Intel::FortranStandardAdherence)
+  Intel::FortranAssumptions)
