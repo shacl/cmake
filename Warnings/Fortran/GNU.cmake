@@ -13,5 +13,5 @@ string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:GNU_DISABLED_WARNINGS>>:"
    "-Wno-$<JOIN:$<TARGET_PROPERTY:GNU_DISABLED_WARNINGS>,;-Wno->>;")
 
-target_compile_options(warnings_Fortran INTERFACE
+target_compile_options(Warnings_Fortran INTERFACE
   $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},GNU>:${generator}>)

@@ -18,5 +18,5 @@ string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>>:"
     "-Wno-$<JOIN:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>,;-Wno->>;")
 
-target_compile_options(warnings_CXX INTERFACE
+target_compile_options(Warnings_CXX INTERFACE
   $<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>>:${generator}>)

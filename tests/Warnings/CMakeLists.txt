@@ -39,11 +39,11 @@ set_target_properties(warnings.c.test PROPERTIES
   GNU_DISABLED_WARNINGS "null-dereference;implicit"
   LLVM_ENABLED_WARNINGS "abstract-vbase-init;array-bounds-pointer-arithmetic"
   LLVM_DISABLED_WARNINGS "asm-operand-widths;assign-enum"
-  INTEL_ENABLED_WARNINGS "117;230"
-  INTEL_DISABLED_WARNINGS "450"
+  Intel_ENABLED_WARNINGS "117;230"
+  Intel_DISABLED_WARNINGS "450"
   MSVC_ENABLED_WARNINGS "4806;4807"
   MSVC_DISABLED_WARNINGS "4810;4811")
-target_link_libraries(warnings.c.test PUBLIC warnings::warnings_C)
+target_link_libraries(warnings.c.test PUBLIC Warnings::Warnings_C)
 
 file(GENERATE
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/warnings.c
@@ -106,11 +106,11 @@ set_target_properties(warnings.cxx.test PROPERTIES
   GNU_DISABLED_WARNINGS "null-dereference"
   LLVM_ENABLED_WARNINGS "abstract-vbase-init;array-bounds-pointer-arithmetic"
   LLVM_DISABLED_WARNINGS "asm-operand-widths;assign-enum"
-  INTEL_ENABLED_WARNINGS "117;230"
-  INTEL_DISABLED_WARNINGS "450"
+  Intel_ENABLED_WARNINGS "117;230"
+  Intel_DISABLED_WARNINGS "450"
   MSVC_ENABLED_WARNINGS "4806;4807"
   MSVC_DISABLED_WARNINGS "4810;4811")
-target_link_libraries(warnings.cxx.test PUBLIC warnings::warnings_CXX)
+target_link_libraries(warnings.cxx.test PUBLIC Warnings::Warnings_CXX)
 
 file(GENERATE
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/warnings.cpp
@@ -156,9 +156,9 @@ set_target_properties(warnings.fortran.test PROPERTIES
   WARN_ERROR ON
   GNU_ENABLED_WARNINGS "conversion;line-truncation"
   GNU_DISABLED_WARNINGS "array-temporaries;c-binding-type"
-  INTEL_ENABLED_WARNINGS "8689;8685"
-  INTEL_DISABLED_WARNINGS "8694;8695")
-target_link_libraries(warnings.fortran.test PUBLIC warnings::warnings_Fortran)
+  Intel_ENABLED_WARNINGS "8689;8685"
+  Intel_DISABLED_WARNINGS "8694;8695")
+target_link_libraries(warnings.fortran.test PUBLIC Warnings::Warnings_Fortran)
 
 file(GENERATE
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/warnings.f90
