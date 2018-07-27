@@ -1,5 +1,0 @@
-program use_standard_semantics
-  open(unit=42,file="terminal_output",status="unknown")
-  write(42,*) "$<TARGET_PROPERTY:use_temp_array_heap_alloc,COMPILE_OPTIONS>"
-  close(42)
-end program

@@ -101,15 +101,15 @@ FULL_DOCS
 
  Multiple entries must be semicolon separated e.g. unused;unused")
 
-add_library(warnings_C INTERFACE)
+add_library(Warnings_C INTERFACE)
 include(Warnings/C)
 
-add_library(warnings_CXX INTERFACE)
+add_library(Warnings_CXX INTERFACE)
 include(Warnings/CXX)
 
-add_library(warnings_Fortran INTERFACE)
+add_library(Warnings_Fortran INTERFACE)
 include(Warnings/Fortran)
 
-add_library(warnings::warnings_C ALIAS warnings_C)
-add_library(warnings::warnings_CXX ALIAS warnings_CXX)
-add_library(warnings::warnings_Fortran ALIAS warnings_Fortran)
+add_library(Warnings::Warnings_C ALIAS Warnings_C)
+add_library(Warnings::Warnings_CXX ALIAS Warnings_CXX)
+add_library(Warnings::Warnings_Fortran ALIAS Warnings_Fortran)
