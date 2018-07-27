@@ -1,7 +1,7 @@
 include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
-define_property(TARGET PROPERTY Intel_ENABLED_FORTRAN_ASSUMPTIONS
+define_property(TARGET PROPERTY Intel_Fortran_ENABLED_ASSUMPTIONS
 BRIEF_DOCS
 "Intel assumption keywords (for Fortran) to ensable"
 FULL_DOCS
@@ -13,7 +13,7 @@ FULL_DOCS
 
  Multiple entries must be semicolon separated e.g. unused;unused")
 
-define_property(TARGET PROPERTY Intel_DISABLED_FORTRAN_ASSUMPTIONS
+define_property(TARGET PROPERTY Intel_Fortran_DISABLED_ASSUMPTIONS
 BRIEF_DOCS
 "Intel assumption keywords (for Fortran) to disable"
 FULL_DOCS
@@ -30,19 +30,19 @@ add_library(Intel::FortranAssumptions ALIAS Intel_Assumptions)
 
 string(CONCAT generator
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
-         ",$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>>:"
+         ",$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>>:"
     "$<$<PLATFORM_ID:Windows>:/assume:>"
     "$<$<NOT:$<PLATFORM_ID:Windows>>:-assume;>"
-    "$<JOIN:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>,$<COMMA>>"
+    "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>,$<COMMA>>"
   ">"
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
-         ",$<BOOL:$<TARGET_PROPERTY:Intel_DISABLED_FORTRAN_ASSUMPTIONS>>>:"
-    "$<$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>:$<COMMA>no>"
-    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_FORTRAN_ASSUMPTIONS>>>:"
+         ",$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_DISABLED_ASSUMPTIONS>>>:"
+    "$<$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>:$<COMMA>no>"
+    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>>:"
       "$<$<PLATFORM_ID:Windows>:/assume:no>"
       "$<$<NOT:$<PLATFORM_ID:Windows>>:-assume;no>"
     ">"
-    "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_FORTRAN_ASSUMPTIONS>,$<COMMA>no>"
+    "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_DISABLED_ASSUMPTIONS>,$<COMMA>no>"
   ">;"
 )
 
