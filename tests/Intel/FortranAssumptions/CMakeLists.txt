@@ -2,8 +2,8 @@ include(Intel/FortranAssumptions)
 
 add_executable(assumptions.test "")
 set_target_properties(assumptions.test PROPERTIES
-  Intel_ENABLED_FORTRAN_ASSUMPTIONS "old_xor;std_intent_in"
-  Intel_DISABLED_FORTRAN_ASSUMPTIONS "protect_parens;realloc_lhs")
+  Intel_Fortran_ENABLED_ASSUMPTIONS "old_xor;std_intent_in"
+  Intel_Fortran_DISABLED_ASSUMPTIONS "protect_parens;realloc_lhs")
 target_link_libraries(assumptions.test PUBLIC Intel::FortranAssumptions)
 
 file(GENERATE
