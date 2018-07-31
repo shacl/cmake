@@ -79,7 +79,7 @@ cmake_policy(SET CMP0012 NEW) # if() recognizes numbers and booleans
 cmake_policy(SET CMP0054 NEW) # if() quoted variables not dereferenced
 cmake_policy(SET CMP0057 NEW) # if IN_LIST
 
-include(Backports/SeperateArguments)
+include(Backports/SeparateArguments)
 
 function(_OPENMP_FLAG_CANDIDATES LANG)
   if(NOT OpenMP_${LANG}_FLAG)
