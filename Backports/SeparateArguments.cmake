@@ -4,14 +4,15 @@ include(FunctionExtension)
 include_guard(GLOBAL)
 
 if(CMAKE_VERSION VERSION_LESS 3.9.6)
-  macro(previous_separate_arguments)
+  macro(previous_separate_arguments arg policy)
     if(NOT previous_separate_arguments_fn)
       set(previous_separate_arguments_fn separate_arguments)
     endif()
 
     push(previous_separate_arguments_fn)
     set(previous_separate_arguments_fn _${previous_separate_arguments_fn})
-    call(${previous_separate_arguments_fn} ${ARGN})
+    string(REGEX REPLACE "\"" "" argn_string "${ARGN}")
+    call(${previous_separate_arguments_fn} ${arg} ${policy} "\"${argn_string}\"")
     pop(previous_separate_arguments_fn)
   endmacro()
 
