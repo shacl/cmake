@@ -9,10 +9,20 @@ FULL_DOCS
  compilers. This property provides an interface to that functionality
  if available.")
 
-add_library(Fortran_Backtrace INTERFACE)
-add_library(Fortran::Backtrace ALIAS Fortran_Backtrace)
+add_library(Backtrace INTERFACE)
+add_library(Fortran::Backtrace ALIAS Backtrace)
 
 include(Fortran/Backtrace/Intel)
 include(Fortran/Backtrace/PGI)
 include(Fortran/Backtrace/GNU)
 # traceback with Flang is default
+
+include(install)
+install(TARGETS Backtrace EXPORT Backtrace-export)
+install(EXPORT Backtrace-export
+  FILE
+    Backtrace.cmake
+  NAMESPACE
+    Fortran::
+  DESTINATION
+    ${shacl.module_path}/Fortran)

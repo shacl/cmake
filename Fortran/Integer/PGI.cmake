@@ -5,7 +5,7 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_options(Fortran_Integer_Fortran INTERFACE ${generator})
+target_compile_options(Integer_Fortran INTERFACE ${generator})
 
 string(CONCAT generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},PGI>:"
@@ -13,6 +13,6 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_definitions(Fortran_Integer_C INTERFACE ${generator})
+target_compile_definitions(Integer_C INTERFACE ${generator})
 
 unset(generator)

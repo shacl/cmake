@@ -11,4 +11,4 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_options(Fortran_Backtrace INTERFACE ${generator})
+target_compile_options(Backtrace INTERFACE ${generator})
