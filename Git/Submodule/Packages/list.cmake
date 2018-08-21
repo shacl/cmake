@@ -49,7 +49,7 @@ function(git_submodule_list)
     endforeach()
   endif()
 
-  set(${CMAKE_PROJECT_NAME}.submodules
-    ${submodules} CACHE INTERNAL
-    "A CMake list of git submodules for ${CMAKE_PROJECT_NAME}")
+  set(${PROJECT_NAME}.submodules
+    ${submodules} CACHE STRING
+    "A CMake list of git submodules for ${PROJECT_NAME}")
 endfunction()

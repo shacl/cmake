@@ -11,7 +11,7 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
 "#include <cassert>
 
  int main(){
-   assert(\"${json.submodule.hash}\" == \"7bfc406ded0434c438dd22139a8baa97f2ffa90e\" );
+   assert(\"${json.submodule.hash}\" == \"3760a38b7e37c23a944d2c4fdec9028ae5ebde3a\" );
    assert(\"${Catch2.submodule.branch}\" == \"master\" );
  }")
 
