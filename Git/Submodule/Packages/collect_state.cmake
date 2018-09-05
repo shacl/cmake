@@ -18,6 +18,7 @@ macro(git_submodule_collect_state name)
   set(${name}.submodule.hash ${current_hash} CACHE STRING
     "${name} git submodule hash")
 
+  mark_as_advanced(${name}.submodule.hash)
   unset(failure)
   unset(error_output)
 endmacro()
