@@ -27,6 +27,8 @@ function(git_submodule_list)
           "Use dependency submodule rather than system installations" ON
           "git.submodule.packages" OFF)
 
+        mark_as_advanced(${name}.submodule)
+
         if(git.submodule.packages AND ${${name}.submodule})
           set(${name}.submodule.path
             "${path}"
@@ -43,13 +45,14 @@ function(git_submodule_list)
           if(NOT failure)
             set(${name}.submodule.branch "${branch}"
               CACHE STRING "Branch tracked by ${name} git submodule")
+            mark_as_advanced(${name}.submodule.branch)
           endif()
         endif()
       endif()
     endforeach()
   endif()
 
-  set(${CMAKE_PROJECT_NAME}.submodules
+  set(${PROJECT_NAME}.submodules
     ${submodules} CACHE INTERNAL
-    "A CMake list of git submodules for ${CMAKE_PROJECT_NAME}")
+    "A CMake list of git submodules for ${PROJECT_NAME}")
 endfunction()

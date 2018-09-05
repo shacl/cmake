@@ -9,12 +9,16 @@ macro(git_submodule_collect_state name)
     ERROR_VARIABLE error_output)
 
   if(failure)
+    if(NOT EXISTS "${${name}.submodule.path}")
+      file(MAKE_DIRECTORY "${${name}.submodule.path}")
+    endif()
     message(FATAL_ERROR ${error_output})
   endif()
 
   set(${name}.submodule.hash ${current_hash} CACHE STRING
-      "${name} git submodule hash")
+    "${name} git submodule hash")
 
+  mark_as_advanced(${name}.submodule.hash)
   unset(failure)
   unset(error_output)
 endmacro()
