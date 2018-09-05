@@ -38,6 +38,8 @@ macro(find_package package)
 
   if("${ARGV0}" MATCHES "[0-9]+(\\.[0-9])*")
     set(PACKAGE_FIND_VERSION ${ARGV0})
+  else()
+    set(PACKAGE_FIND_VERSION "")
   endif()
 
   set(options EXACT QUIET REQUIRED)
