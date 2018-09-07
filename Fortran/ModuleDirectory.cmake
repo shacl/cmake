@@ -19,7 +19,7 @@ function(target_Fortran_module_directory target linkage)
     $<BUILD_INTERFACE:${target_Fortran_module_directory_BUILD_INTERFACE}${multiconfig_suffix}>
   )
   set_target_properties("${target}" PROPERTIES
-    Fortran_MODULE_DIRECTORY "${target_Fortran_module_directory_BUILD_INTERFACE}${multiconfig_suffix}"
+    Fortran_MODULE_DIRECTORY ${target_Fortran_module_directory_BUILD_INTERFACE}
   )
 
   if( target_Fortran_module_directory_INSTALL_INTERFACE )
