@@ -11,7 +11,7 @@ target_link_libraries(use_temp_arrays PRIVATE Fortran::TempArrays)
 set(expected_GNU "-fmax-stack-var-size=1024000\n")
 set(expected_Intel "-heap-arrays 1024\n")
 if( WIN32 )
-  set(expected_Intel "/heap-arrays 1024\n")
+  set(expected_Intel "/heap-arrays:1024\n")
 endif()
 set(expected_PGI "-Mnostack_arrays\n")
 
