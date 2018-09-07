@@ -45,18 +45,18 @@ macro(find_package package)
   set(options EXACT QUIET REQUIRED)
   set(multiValueArgs COMPONENTS OPTIONAL_COMPONENTS)
 
-  cmake_parse_arguments(${package}_FIND_
+  cmake_parse_arguments(${package}_FIND
     "${options}" "" "${multiValueArgs}" ${ARGN})
 
   set(${package}_FIND_QUIETLY ${${package}_FIND_QUIET})
 
   foreach(component IN LISTS ${package}_FIND_COMPONENTS)
-    push(${package}_FIND_REQUIRED_{component})
-    set(${package}_FIND_REQUIRED_{component} TRUE)
+    push(${package}_FIND_REQUIRED_${component})
+    set(${package}_FIND_REQUIRED_${component} TRUE)
   endforeach()
   foreach(component IN LISTS ${package}_FIND_OPTIONAL_COMPONENTS)
-    push(${package}_FIND_REQUIRED_{component})
-    set(${package}_FIND_REQUIRED_{component} FALSE)
+    push(${package}_FIND_REQUIRED_${component})
+    set(${package}_FIND_REQUIRED_${component} FALSE)
   endforeach()
 
   list(APPEND ${package}_FIND_COMPONENTS ${${package}_FIND_OPTIONAL_COMPONENTS})
