@@ -22,7 +22,7 @@ macro(find_package package)
 
   if(NOT EXISTS "${${package}.submodule.path}/.git")
     git_submodule_init(${package})
-    if(${name}.submodule.branch AND git.submodule.update)
+    if(git.submodule.update)
       git_submodule_update(${package})
     endif()
     if(NOT EXISTS "${${package}.submodule.path}/CMakeLists.txt")
