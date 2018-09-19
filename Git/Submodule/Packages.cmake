@@ -8,14 +8,20 @@ get_property(
 
 if(NOT git.submodule.packages.cmake)
   include(CMakeDependentOption)
+  include(CMakeDependentCacheVar)
 
   option(git.submodule.packages
     "Enable git submodule support for CMake package" ON)
 
   CMAKE_DEPENDENT_OPTION(
     git.submodule.update
-    "Update git submodule packages tracking branches on configure" ON
+    "Update git submodule packages tracking branches on initial configure" ON
     "git.submodule.packages" OFF)
+
+  CMAKE_DEPENDENT_CACHE_VAR(
+    git.submodule.sync STRING
+    "Git submodule packages to update on every configure" ""
+    "git.submodule.packages" "")
 
   find_package(Git REQUIRED)
   include(FunctionExtension)
