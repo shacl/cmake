@@ -1,5 +1,6 @@
 # This macro populates the current_hash and current_branch variables
 macro(git_submodule_collect_state name)
+  message(STATUS "git_submodule_collect_state: ${git_submodule_collect_state}")
   execute_process(
     COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
     WORKING_DIRECTORY "${${name}.submodule.path}"
