@@ -129,8 +129,17 @@ set(Fortran_GNU
 -Wextra
 -Wpedantic
 -Wcharacter-truncation
--Wrealloc-lhs
--Wsurprising
+-Wrealloc-lhs"
+)
+
+if( ${CMAKE_Fortran_COMPILER_VERSION} VERSION_LESS 7.3 )
+  set(Fortran_GNU 
+"${Fortran_GNU}
+-Wno-surprising")
+endif()
+
+set(Fortran_GNU
+"${Fortran_GNU}
 -Wuse-without-only
 -Wconversion
 -Wline-truncation
