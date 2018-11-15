@@ -6,7 +6,7 @@ include(CTest)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/..)
 
 include(CMakeDependentCacheVar)
-include(selection)
+include(Selection)
 include(CMakeDependentSelection)
 
 CMAKE_DEPENDENT_CACHE_VAR(test_dependent_var STRING
