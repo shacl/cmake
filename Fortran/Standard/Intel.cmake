@@ -5,7 +5,7 @@ string(CONCAT generator
 
 string(CONCAT generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand;${generator}>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-stand=${generator}>"
           "$<$<PLATFORM_ID:Windows>:/stand:${generator}>>"
 )
 
