@@ -9,7 +9,7 @@ set_target_properties(use_temp_arrays PROPERTIES Fortran_TEMP_ARRAY_THRESHOLD 10
 target_link_libraries(use_temp_arrays PRIVATE Fortran::TempArrays)
 
 set(expected_GNU "-fmax-stack-var-size=1024000")
-set(expected_Intel "-heap-arrays=1024")
+set(expected_Intel "-heap-arrays 1024")
 if( WIN32 )
   set(expected_Intel "/heap-arrays:1024")
 endif()
