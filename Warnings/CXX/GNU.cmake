@@ -4,7 +4,6 @@ string(CONCAT generator
     "-Wall;"
     "-Wextra;"
     "-Wpedantic;"
-    "-Wold-style-cast;"
     "-Wsuggest-override;"
     "$<$<VERSION_GREATER:$<C_COMPILER_VERSION>,7.0>:-Wduplicated-branches>;"
     "$<$<VERSION_GREATER:$<C_COMPILER_VERSION>,6.0>:-Wduplicated-cond>>;"
