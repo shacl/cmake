@@ -15,7 +15,7 @@ add_library(Intel::FPModel_C ALIAS Intel_FPModel_C)
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
     "$<$<STREQUAL:Intel,${CMAKE_C_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-fp-model;$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-fp-model=$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
       "$<$<PLATFORM_ID:Windows>:/fp:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
     ">"
   ">"
@@ -29,7 +29,7 @@ add_library(Intel::FPModel_CXX ALIAS Intel_FPModel_CXX)
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
     "$<$<STREQUAL:Intel,${CMAKE_CXX_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-fp-model;$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-fp-model=$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
       "$<$<PLATFORM_ID:Windows>:/fp:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
     ">"
   ">"
@@ -43,7 +43,7 @@ add_library(Intel::FPModel_Fortran ALIAS Intel_FPModel_Fortran)
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
     "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-fp-model;$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:-fp-model=$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
       "$<$<PLATFORM_ID:Windows>:/fp:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>"
     ">"
   ">"

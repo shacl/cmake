@@ -15,7 +15,5 @@ function(git_submodule_init name)
     endif()
   endif()
 
-  if(NOT DEFINED ${name}.submodule.branch)
-    git_submodule_collect_state(${name})
-  endif()
+  git_submodule_collect_state(${name})
 endfunction()

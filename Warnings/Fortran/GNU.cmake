@@ -6,7 +6,7 @@ string(CONCAT generator
     "-Wpedantic;"
     "-Wcharacter-truncation;"
     "-Wrealloc-lhs;"
-    "-Wsurprising;"
+    "$<$<VERSION_LESS:${CMAKE_Fortran_COMPILER_VERSION},7.3>:-Wno-surprising;>"
     "-Wuse-without-only>;"
   "$<$<BOOL:$<TARGET_PROPERTY:GNU_ENABLED_WARNINGS>>:"
    "-W$<JOIN:$<TARGET_PROPERTY:GNU_ENABLED_WARNINGS>,;-W>>;"
