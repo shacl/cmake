@@ -3,6 +3,11 @@ backup(add_executable)
 function(add_executable target)
   previous_add_executable(${ARGV} "")
 
+  get_target_property(is_imported ${target} IMPORTED)
+  if( is_imported )
+    return()
+  endif() 
+
   stripped(${target})
   previous_add_library(${stripped_target_name}.generated_sources.PUBLIC INTERFACE)
   target_link_libraries(${target} PUBLIC
