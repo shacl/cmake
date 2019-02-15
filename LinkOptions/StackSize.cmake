@@ -25,4 +25,4 @@ install(FILES
   DESTINATION share/cmake/shacl/.cmake/LinkOptions)
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/StackSize
-  DESTINATION share/cmake/shacl/.cmake/LinkOptions/)
+  DESTINATION share/cmake/shacl/.cmake/LinkOptions)
