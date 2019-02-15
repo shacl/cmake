@@ -16,9 +16,9 @@ add_library(shacl::cmake::Intel::FloatingPoint::Speculation_C
 # the imported target defined above as soon as reasonably possible.
 #
 add_library(Intel_FPSpeculation_C ALIAS
-  shacl::cmake::Intel::FloatingPoint::Speculation)
+  shacl::cmake::Intel::FloatingPoint::Speculation_C)
 add_library(Intel::FPSpeculation_C ALIAS
-  shacl::cmake::Intel::FloatingPoint::Speculation)
+  shacl::cmake::Intel::FloatingPoint::Speculation_C)
 
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
