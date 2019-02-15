@@ -123,9 +123,8 @@ add_library(Warnings::Warnings_CXX ALIAS shacl::cmake::Warnings_CXX)
 add_library(Warnings_Fortran ALIAS shacl::cmake::Warnings_Fortran)
 add_library(Warnings::Warnings_Fortran ALIAS shacl::cmake::Warnings_Fortran)
 
-install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/Warnings.cmake
+install(FILES "${CMAKE_CURRENT_LIST_DIR}/Warnings.cmake"
   DESTINATION share/cmake/shacl/.cmake)
 
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Warnings
+install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Warnings"
   DESTINATION share/cmake/shacl/.cmake)
