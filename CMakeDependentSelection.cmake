@@ -1,5 +1,5 @@
-include(Backports/IncludeGuard)
 include_guard(GLOBAL)
+include(Selection)
 
 function(CMAKE_DEPENDENT_SELECTION variable docstring)
   cmake_parse_arguments(${variable}_selection
@@ -54,3 +54,7 @@ function(CMAKE_DEPENDENT_SELECTION variable docstring)
     set(${variable} "${${variable}_selection_fallback}" PARENT_SCOPE)
   endif()
 endfunction()
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/CMakeDependentSelection.cmake
+  DESTINATION share/cmake/shacl/.cmake)
