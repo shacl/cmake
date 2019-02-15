@@ -4,4 +4,4 @@ string(CONCAT generator
      "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Fortran_BACKTRACE>>>:-fno-backtrace>;"
    ">")
 
-target_compile_options(Fortran_Backtrace INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Backtrace INTERFACE ${generator})

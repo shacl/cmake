@@ -10,7 +10,7 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_options(Fortran_Real_Fortran INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Real_Fortran INTERFACE ${generator})
 
 string(CONCAT generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:"
@@ -18,6 +18,6 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_definitions(Fortran_Real_C INTERFACE ${generator})
+target_compile_definitions(shacl::cmake::Fortran::Real_C INTERFACE ${generator})
 
 unset(generator)
