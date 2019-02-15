@@ -1,4 +1,3 @@
-include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 if( SLURM_SRUN_COMMAND ) 
    set( BATCH_COMMAND ${SLURM_SRUN_COMMAND} CACHE STRING "Batch run command" )
@@ -6,3 +5,7 @@ if( SLURM_SRUN_COMMAND )
    set( BATCH_NUMPROC_FLAG -n  CACHE STRING "Flag for number of MPI processes" )
    set( BATCH_NTHREAD_FLAG -c  CACHE STRING "Flag for number of threads" ) 
 endif()
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/Slurm.cmake
+  DESTINATION share/cmake/shacl/.cmake/Batch)
