@@ -12,7 +12,6 @@ string(CONCAT generator
         "$<TARGET_PROPERTY:LINK_STACK_SIZE>"
       ">"
     ">"
-  ">"
-)
+  ">")
 
-target_link_libraries(LinkOptions_StackSize INTERFACE ${generator})
+target_link_libraries(shacl::cmake::LinkOptions::StackSize INTERFACE ${generator})
