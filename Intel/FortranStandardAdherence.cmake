@@ -35,5 +35,5 @@ target_link_libraries(shacl::cmake::Intel::Fortran::StandardAdherence
   INTERFACE shacl::cmake::Intel::Fortran::Assumptions)
 
 install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/FortranAdherence.cmake
+  ${CMAKE_CURRENT_LIST_DIR}/FortranStandardAdherence.cmake
   DESTINATION share/cmake/shacl/.cmake/Intel)
