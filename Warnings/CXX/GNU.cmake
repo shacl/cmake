@@ -12,5 +12,5 @@ string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:GNU_DISABLED_WARNINGS>>:"
     "-Wno-$<JOIN:$<TARGET_PROPERTY:GNU_DISABLED_WARNINGS>,;-Wno->>;")
 
-target_compile_options(Warnings_CXX INTERFACE
+target_compile_options(shacl::cmake::Warnings_CXX INTERFACE
   $<$<CXX_COMPILER_ID:GNU>:${generator}>)

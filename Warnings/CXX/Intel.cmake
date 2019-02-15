@@ -18,5 +18,5 @@ string(CONCAT generator
     "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>,$<COMMA>>"
    ">;")
 
-target_compile_options(Warnings_CXX INTERFACE
+target_compile_options(shacl::cmake::Warnings_CXX INTERFACE
   $<$<CXX_COMPILER_ID:Intel>:${generator}>)

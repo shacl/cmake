@@ -78,10 +78,8 @@ set(CXX_Clang
   -Wkeyword-macro
   -Wnonportable-system-include-path
   -Wsometimes-uninitialized
-  -Wold-style-cast
   -Wnon-virtual-dtor
   -Wrange-loop-analysis
-  -Wredundant-move
   -Wabstract-vbase-init
   -Warray-bounds-pointer-arithmetic
   -Wno-asm-operand-widths
@@ -133,7 +131,7 @@ set(Fortran_GNU
 )
 
 if( ${CMAKE_Fortran_COMPILER_VERSION} VERSION_LESS 7.3 )
-  set(Fortran_GNU 
+  set(Fortran_GNU
 "${Fortran_GNU}
 -Wno-surprising")
 endif()
