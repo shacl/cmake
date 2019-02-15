@@ -15,7 +15,7 @@ add_library(Fortran::StandardAdherence ALIAS shacl::cmake::Fortran::StandardAdhe
 
 target_link_libraries(shacl::cmake::Fortran::StandardAdherence INTERFACE
   shacl::cmake::Fortran::NoBackslashEscape
-  shacl::cmake::Intel::FortranStandardAdherence)
+  shacl::cmake::Intel::Fortran::StandardAdherence)
 
 install(FILES
   ${CMAKE_CURRENT_LIST_DIR}/StandardAdherence.cmake
