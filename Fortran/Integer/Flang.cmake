@@ -4,7 +4,7 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_options(Fortran_Integer_Fortran INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Integer_Fortran INTERFACE ${generator})
 
 string(CONCAT generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Flang>:"
@@ -12,6 +12,6 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_definitions(Fortran_Integer_C INTERFACE ${generator})
+target_compile_definitions(shacl::cmake::Fortran::Integer_C INTERFACE ${generator})
 
 unset(generator)

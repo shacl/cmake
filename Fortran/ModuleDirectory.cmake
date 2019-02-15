@@ -1,3 +1,4 @@
+include_guard(GLOBAL)
 include(CMakeParseArguments)
 
 function(target_Fortran_module_directory target linkage)
@@ -32,3 +33,7 @@ function(target_Fortran_module_directory target linkage)
     )
   endif()
 endfunction()
+
+install(FILES 
+  ${CMAKE_CURRENT_LIST_DIR}/ModuleDirectory.cmake
+  DESTINATION share/cmake/shacl/.cmake/Fortran)

@@ -7,4 +7,4 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_options(Fortran_TempArrays INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::TempArrays INTERFACE ${generator})

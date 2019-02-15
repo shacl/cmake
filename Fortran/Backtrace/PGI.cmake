@@ -5,4 +5,4 @@ string(CONCAT generator
   ">"
 )
 
-target_compile_options(Fortran_Backtrace INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Backtrace INTERFACE ${generator})
