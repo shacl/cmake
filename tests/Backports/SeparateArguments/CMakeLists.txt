@@ -10,5 +10,5 @@ separate_arguments(arg_list NATIVE_COMMAND "a b c d")
 string(REPLACE ";" "\n" file_contents "${arg_list}")
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/argument_reference.txt" "${file_contents}")
 
-add_test(NAME test_separate_arguments
+add_test(NAME shacl.cmake.test_separate_arguments
   COMMAND test_separate_arguments argument_reference.txt ${arg_list})

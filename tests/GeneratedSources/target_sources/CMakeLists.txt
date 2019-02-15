@@ -20,7 +20,7 @@ endif()
 
 add_test(
   NAME
-    target_sources1
+    shacl.cmake.target_sources1
   COMMAND
     ${CMAKE_COMMAND} -E compare_files
     "${CMAKE_CURRENT_SOURCE_DIR}/test1"
@@ -39,7 +39,7 @@ endif()
 
 add_test(
   NAME
-    target_sources2
+    shacl.cmake.target_sources2
   COMMAND
     ${CMAKE_COMMAND} -E compare_files
     "${CMAKE_CURRENT_SOURCE_DIR}/test2"

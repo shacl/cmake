@@ -18,5 +18,5 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
 add_executable(Git.Submodule.Packages.test ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp)
 
 add_test(
-  NAME Git.Submodule.Packages.test
+  NAME shacl.cmake.Git.Submodule.Packages.test
   COMMAND Git.Submodule.Packages.test)
