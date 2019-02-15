@@ -5,6 +5,12 @@ define_property(TARGET PROPERTY LINK_STACK_SIZE
   FULL_DOCS "minimum link-time stack size in bytes to be set by the linker")
 
 add_library(shacl::cmake::LinkOptions::StackSize INTERFACE IMPORTED GLOBAL)
+
+# These aliases are provided for short term backwards compatability.
+#
+# Please don't not use in new work and update existing work to use the
+# the imported target defined above as soon as reasonably possible.
+#
 add_library(LinkOptions_StackSize ALIAS shacl::cmake::LinkOptions::StackSize)
 add_library(LinkOptions::StackSize ALIAS shacl::cmake::LinkOptions::StackSize)
 
