@@ -1,4 +1,3 @@
-include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
 function(selection variable docstring)
@@ -24,3 +23,7 @@ function(selection variable docstring)
     message(FATAL_ERROR "${variable} must be one of ${selection_OPTIONS}")
   endif()
 endfunction()
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/Selection.cmake
+  DESTINATION share/cmake/shacl/.cmake)
