@@ -32,3 +32,7 @@ if(CMAKE_VERSION VERSION_LESS 3.10.2)
   endmacro()
 
 endif()
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/IncludeGuard.cmake
+  DESTINATION share/cmake/shacl/.cmake/Backports)

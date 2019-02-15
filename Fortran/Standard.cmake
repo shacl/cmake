@@ -1,4 +1,3 @@
-include(Backports/IncludeGuard)
 include_guard(GLOBAL)
 
 define_property(TARGET PROPERTY Fortran_STANDARD
@@ -12,10 +11,18 @@ FULL_DOCS
 
  Supported values are 95, 2003, and 2008")
 
-add_library(Fortran_Standard INTERFACE)
+add_library(Fortran_Standard INTERFACE IMPORTED GLOBAL)
 add_library(Fortran::Standard ALIAS Fortran_Standard)
+add_library(shacl::cmake::Fortran::Standard ALIAS Fortran_Standard)
 
 include(Fortran/Standard/Intel)
 include(Fortran/Standard/GNU)
 include(Fortran/Standard/PGI)
 # TODO: Flang -- it does not implement standards checking yet
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/Standard.cmake
+  DESTINATION share/cmake/shacl/.cmake/Fortran)
+
+install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Standard
+  DESTINATION share/cmake/shacl/.cmake/Fortran)
