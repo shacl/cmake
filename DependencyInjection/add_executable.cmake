@@ -12,3 +12,7 @@ macro(add_executable target_)
 
   pop(target)
 endmacro()
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/add_executable.cmake
+  DESTINATION share/cmake/shacl/.cmake/DependencyInjection)
