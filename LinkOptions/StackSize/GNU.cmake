@@ -7,16 +7,15 @@ string(CONCAT generator
                 "$<CXX_COMPILER_ID:GNU>>>:"
     "$<$<BOOL:$<TARGET_PROPERTY:LINK_STACK_SIZE>>:"
       "$<$<OR:$<PLATFORM_ID:Windows>,"
-	         "$<PLATFORM_ID:Darwin>,"
-			 "$<PLATFORM_ID:CYGWIN>>:"
-	    "-Wl$<COMMA>"
+                 "$<PLATFORM_ID:Darwin>,"
+                         "$<PLATFORM_ID:CYGWIN>>:"
+            "-Wl$<COMMA>"
         "$<$<PLATFORM_ID:Darwin>:-stack_size$<COMMA>>"
         "$<$<OR:$<PLATFORM_ID:CYGWIN>,"
-		       "$<PLATFORM_ID:Windows>>:--stack$<COMMA>>"
+                       "$<PLATFORM_ID:Windows>>:--stack$<COMMA>>"
         "$<TARGET_PROPERTY:LINK_STACK_SIZE>"
       ">"
     ">"
-  ">"
-)
+  ">")
 
-target_link_libraries(LinkOptions_StackSize INTERFACE ${generator})
+target_link_libraries(shacl::cmake::LinkOptions::StackSize INTERFACE ${generator})
