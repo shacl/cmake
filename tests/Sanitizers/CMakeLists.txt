@@ -8,7 +8,7 @@ set(msan_supported Linux_Clang)
 set(tsan_supported Linux_GNU Linux_Clang Darwin_AppleClang)
 set(ubsan_supported Linux_GNU Linux_Clang Darwin_AppleClang)
 
-option(Sanitizer.tests "enable sanitizer tests" ON)
+option(Sanitizer.tests "enable sanitizer tests" OFF)
 
 if(Sanitizer.tests)
   foreach(san asan msan tsan ubsan)
