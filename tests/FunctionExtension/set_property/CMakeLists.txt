@@ -25,5 +25,5 @@ add_library(foo INTERFACE)
 
 set_property(TARGET foo PROPERTY INTERFACE_bar hello)
 
-add_test(NAME set_property_extension
+add_test(NAME shacl.cmake.set_property_extension
   COMMAND ${CMAKE_COMMAND} -E compare_files "${CMAKE_CURRENT_BINARY_DIR}/sink1" "${CMAKE_CURRENT_BINARY_DIR}/sink2")

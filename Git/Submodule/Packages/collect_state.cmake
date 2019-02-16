@@ -14,9 +14,11 @@ macro(git_submodule_collect_state name)
     endif()
     message(FATAL_ERROR ${error_output})
   endif()
+  message("GOT HERE")
 
   set(${name}.submodule.hash "${current_hash}" CACHE STRING
     "${name} git submodule hash")
+  message("${name}.submodule.hash")
 
   mark_as_advanced(${name}.submodule.hash)
   unset(failure)
