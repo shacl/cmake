@@ -24,5 +24,5 @@ string(CONCAT generator
     "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>,$<COMMA>>"
    ">;")
 
-target_compile_options(Warnings_Fortran INTERFACE
+target_compile_options(shacl::cmake::Warnings_Fortran INTERFACE
   $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:${generator}>)

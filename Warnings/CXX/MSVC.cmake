@@ -7,5 +7,5 @@ string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:MSVC_DISABLED_WARNINGS>>:"
     "/wd$<JOIN:$<TARGET_PROPERTY:MSVC_DISABLED_WARNINGS>,;/wd>>;")
 
-target_compile_options(Warnings_CXX INTERFACE
+target_compile_options(shacl::cmake::Warnings_CXX INTERFACE
   $<$<CXX_COMPILER_ID:MSVC>:${generator}>)
