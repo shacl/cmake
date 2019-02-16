@@ -12,3 +12,7 @@ include(GeneratedSources/target_sources)
 install(FILES
   ${CMAKE_CURRENT_LIST_DIR}/GeneratedSources.cmake
   DESTINATION share/cmake/shacl/.cmake)
+
+install(DIRECTORY
+  ${CMAKE_CURRENT_LIST_DIR}/GeneratedSources
+  DESTINATION share/cmake/shacl/.cmake)
