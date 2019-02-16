@@ -26,7 +26,7 @@ set(C_AppleClang "${C_Clang}")
 if(WIN32)
   set(C_Intel "/WX" "/W3" "/Qdiag-enable:117,230" "/Qdiag-disable:450")
 else()
-  set(C_Intel "-Werror" "-w3" "-diag-enable=117,230" "-diag-disable=450")
+  set(C_Intel "-Werror" "-w2" "-diag-enable=117,230" "-diag-disable=450")
 endif()
 
 set(C_MSVC "/WX" "/W4" "/w14806" "/w14807" "/wd14810" "/wd14811")
@@ -57,7 +57,7 @@ set_tests_properties(warnings.c.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${C_${CMAKE_C_COMPILER_ID}}\n$")
 
 set(CXX_GNU
-  -Werror -Wall -Wextra -Wpedantic -Wold-style-cast -Wsuggest-override)
+  -Werror -Wall -Wextra -Wpedantic -Wsuggest-override)
 if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "7.0")
   list(APPEND CXX_GNU -Wduplicated-branches)
 endif()
