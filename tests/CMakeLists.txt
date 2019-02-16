@@ -21,6 +21,7 @@ CMAKE_DEPENDENT_SELECTION(test_selection
   DEFAULT red OPTIONS red yellow green
   CONDITION "NOT selection_fallback" green)
 
+add_subdirectory(Backports)
 add_subdirectory(Fortran)
 add_subdirectory(Intel)
 add_subdirectory(LinkOptions)

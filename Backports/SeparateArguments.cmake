@@ -1,7 +1,5 @@
-include(Backports/IncludeGuard)
-include(FunctionExtension)
-
 include_guard(GLOBAL)
+include(FunctionExtension)
 
 if(CMAKE_VERSION VERSION_LESS 3.9.6)
   macro(previous_separate_arguments arg policy)
@@ -30,3 +28,7 @@ if(CMAKE_VERSION VERSION_LESS 3.9.6)
     endif()
   endfunction()
 endif()
+
+install(FILES
+  ${CMAKE_CURRENT_LIST_DIR}/SeparateArguments.cmake
+  DESTINATION share/cmake/shacl/.cmake/Backports)
