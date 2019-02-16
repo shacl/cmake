@@ -82,5 +82,5 @@ target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_Fortran
   INTERFACE ${generator})
 
 install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/FPSeculation.cmake
+  ${CMAKE_CURRENT_LIST_DIR}/FPSpeculation.cmake
   DESTINATION share/cmake/shacl/.cmake/Intel)
