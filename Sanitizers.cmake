@@ -72,6 +72,9 @@ add_library(shacl::cmake::sanitizers_Fortran INTERFACE IMPORTED GLOBAL)
 # Please don't not use in new work and update existing work to use the
 # the imported target defined above as soon as reasonably possible.
 
+add_library(sanitizers_C ALIAS shacl::cmake::sanitizers_C)
+add_library(sanitizers_CXX ALIAS shacl::cmake::sanitizers_CXX)
+add_library(sanitizers_Fortran ALIAS shacl::cmake::sanitizers_Fortran)
 add_library(shacl::sanitizers_C ALIAS shacl::cmake::sanitizers_C)
 add_library(shacl::sanitizers_CXX ALIAS shacl::cmake::sanitizers_CXX)
 add_library(shacl::sanitizers_Fortran ALIAS shacl::cmake::sanitizers_Fortran)
