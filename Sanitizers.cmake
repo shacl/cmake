@@ -29,15 +29,7 @@ option(ubsan.default
   "Default undefined behavior sanitizer behavior (ON/OFF)" OFF)
 mark_as_advanced(ubsan.default)
 
-add_library(shacl::cmake::sanitizers INTERFACE IMPORTED GLOBAL)
-
-# These aliases are provided for short term backwards compatability.
-#
-# Please don't not use in new work and update existing work to use the
-# the imported target defined above as soon as reasonably possible.
-
-add_library(sanitizers ALIAS shacl::cmake::sanitizers)
-add_library(shacl::sanitizers ALIAS shacl::cmake::sanitizers)
+add_library(shacl::cmake::detail::sanitizers INTERFACE IMPORTED GLOBAL)
 
 set(asan address)
 set(msan memory)
@@ -60,24 +52,12 @@ foreach(sanitizer IN ITEMS asan msan tsan ubsan)
       ">:-fsanitize=${${sanitizer}}>;")
 endforeach()
 
-target_compile_options(shacl::cmake::sanitizers INTERFACE ${compilation_generator})
-target_link_libraries(shacl::cmake::sanitizers INTERFACE ${linking_generator})
+target_compile_options(shacl::cmake::detail::sanitizers INTERFACE ${compilation_generator})
+target_link_libraries(shacl::cmake::detail::sanitizers INTERFACE ${linking_generator})
 
 add_library(shacl::cmake::sanitizers_C INTERFACE IMPORTED GLOBAL)
 add_library(shacl::cmake::sanitizers_CXX INTERFACE IMPORTED GLOBAL)
 add_library(shacl::cmake::sanitizers_Fortran INTERFACE IMPORTED GLOBAL)
-
-# These aliases are provided for short term backwards compatability.
-#
-# Please don't not use in new work and update existing work to use the
-# the imported target defined above as soon as reasonably possible.
-
-add_library(sanitizers_C ALIAS shacl::cmake::sanitizers_C)
-add_library(sanitizers_CXX ALIAS shacl::cmake::sanitizers_CXX)
-add_library(sanitizers_Fortran ALIAS shacl::cmake::sanitizers_Fortran)
-add_library(shacl::sanitizers_C ALIAS shacl::cmake::sanitizers_C)
-add_library(shacl::sanitizers_CXX ALIAS shacl::cmake::sanitizers_CXX)
-add_library(shacl::sanitizers_Fortran ALIAS shacl::cmake::sanitizers_Fortran)
 
 get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 foreach(language IN ITEMS C CXX Fortran)
@@ -87,7 +67,7 @@ foreach(language IN ITEMS C CXX Fortran)
       "$<$<OR:$<STREQUAL:GNU,${CMAKE_${language}_COMPILER_ID}>,"
       "$<STREQUAL:Clang,${CMAKE_${language}_COMPILER_ID}>,"
       "$<STREQUAL:AppleClang,${CMAKE_${language}_COMPILER_ID}>>"
-      ":shacl::sanitizers>")
+      ":shacl::cmake::detail::sanitizers>")
     target_link_libraries(shacl::cmake::sanitizers_${language} INTERFACE ${vendor_discrimination})
   endif()
 endforeach()
