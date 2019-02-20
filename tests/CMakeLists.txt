@@ -22,6 +22,7 @@ CMAKE_DEPENDENT_SELECTION(test_selection
   CONDITION "NOT selection_fallback" green)
 
 add_subdirectory(Fortran)
+add_subdirectory(FortranPreProcess)
 add_subdirectory(Intel)
 add_subdirectory(LinkOptions)
 add_subdirectory(GeneratedSources)
