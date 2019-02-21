@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 if( SLURM_SRUN_COMMAND ) 
    set( BATCH_COMMAND ${SLURM_SRUN_COMMAND} CACHE STRING "Batch run command" )

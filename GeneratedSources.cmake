@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

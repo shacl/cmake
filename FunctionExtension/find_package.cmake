@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 macro(previous_find_package)
   if(NOT previous_find_package_fn)
     set(previous_find_package_fn find_package)

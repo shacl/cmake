@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 function(git_submodule_init name)
   if(NOT EXISTS "${${name}.submodule.path}/.git" )
     execute_process(

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 include(Warnings/CXX/GNU)
 include(Warnings/CXX/LLVM)
 include(Warnings/CXX/MSVC)

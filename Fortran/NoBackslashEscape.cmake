@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 add_library(shacl::cmake::Fortran::NoBackslashEscape INTERFACE IMPORTED GLOBAL)

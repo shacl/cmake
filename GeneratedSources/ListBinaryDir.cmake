@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 function(update_LIST_BINARY_DIR variable access)
   if(${access} STREQUAL UNKNOWN_READ_ACCESS 
       OR ${access} STREQUAL READ_ACCESS)
