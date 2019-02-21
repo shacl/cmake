@@ -1,7 +1,5 @@
-cmake_minimum_required( VERSION 2.8 )
-project( push_pop_test )
+cmake_minimum_required(VERSION 3.12)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../..")
-
 include(FunctionExtension)
 
 macro(foo arg)
@@ -16,7 +14,7 @@ set(function_name foo)
 
 # We can't do this ${function_name}(hello).
 # call provides a workaround for the above limitation
-call(${function_name} hello) 
+call(${function_name} hello)
 if(NOT foo_output STREQUAL "hello")
   message(FATAL_ERROR "foo_output should equal hello")
 endif()
