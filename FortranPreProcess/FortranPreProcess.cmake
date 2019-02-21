@@ -5,7 +5,7 @@ find_package(Perl REQUIRED)
 
 set(
   FPP_PATH "${CMAKE_CURRENT_LIST_DIR}/fpp.pl"
-  CACHE string "path to Fortran preprocessor script")
+  CACHE STRING "path to Fortran preprocessor script")
 
 function(FortranPreProcess infile outfile)
   set(working_directory ${CMAKE_CURRENT_SOURCE_DIR})
