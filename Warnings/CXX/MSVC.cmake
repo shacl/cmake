@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 string(CONCAT generator
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:/WX>;"
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:/W4>;"

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 function(git_submodule_update name)
   if(${name}.submodule.branch)
     if(git.submodule.update)

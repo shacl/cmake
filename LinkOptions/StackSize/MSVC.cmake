@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 string(CONCAT generator
   "$<$<OR:$<AND:$<STREQUAL:C,$<TARGET_PROPERTY:LINKER_LANGUAGE>>,"
                 "$<C_COMPILER_ID:MSVC>>,"

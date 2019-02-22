@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 macro(find_package package)
   if((NOT ${package}.submodule)
       OR (NOT ${package} IN_LIST ${PROJECT_NAME}.submodules))

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 function(git_submodule_list)
   execute_process(
     COMMAND ${GIT_EXECUTABLE} rev-parse --show-toplevel

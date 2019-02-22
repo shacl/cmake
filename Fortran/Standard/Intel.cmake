@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 string(CONCAT generator
   "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_STANDARD>,95>:f95>"
   "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_STANDARD>,2003>:f03>"

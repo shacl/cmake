@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 # PGI cannot check for particular standard, so we check for general standard 
 # compliance
 

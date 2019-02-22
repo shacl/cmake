@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 define_property(TARGET PROPERTY LINK_STACK_SIZE
