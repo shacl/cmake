@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 # Here we're using the existance of global properties to act as something
 # analoguous to C/C++ header guards to ensure the contents of this file are not
 # redundantly defined.
@@ -28,6 +29,12 @@ if(NOT git.submodule.packages.cmake)
   set_property(
     GLOBAL PROPERTY git.packages.cmake
     "This is a header guard")
+
+  install(FILES "${CMAKE_CURRENT_LIST_DIR}/Packages.cmake"
+    DESTINATION share/cmake/shacl/.cmake/Git/Submodule)
+
+  install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Packages"
+    DESTINATION share/cmake/shacl/.cmake/Git/Submodule)
 endif()
 
 git_submodule_list()

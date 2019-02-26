@@ -1,4 +1,4 @@
-include(Backports/IncludeGuard)
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 define_property(TARGET PROPERTY WARN_ALL
@@ -101,15 +101,31 @@ FULL_DOCS
 
  Multiple entries must be semicolon separated e.g. unused;unused")
 
-add_library(Warnings_C INTERFACE)
+add_library(shacl::cmake::Warnings_C INTERFACE IMPORTED GLOBAL)
 include(Warnings/C)
 
-add_library(Warnings_CXX INTERFACE)
+add_library(shacl::cmake::Warnings_CXX INTERFACE IMPORTED GLOBAL)
 include(Warnings/CXX)
 
-add_library(Warnings_Fortran INTERFACE)
+add_library(shacl::cmake::Warnings_Fortran INTERFACE IMPORTED GLOBAL)
 include(Warnings/Fortran)
 
-add_library(Warnings::Warnings_C ALIAS Warnings_C)
-add_library(Warnings::Warnings_CXX ALIAS Warnings_CXX)
-add_library(Warnings::Warnings_Fortran ALIAS Warnings_Fortran)
+# These aliases are provided for short term backwards compatability.
+#
+# Please don't not use in new work and update existing work to use the
+# the imported target defined above as soon as reasonably possible.
+#
+add_library(Warnings_C ALIAS shacl::cmake::Warnings_C)
+add_library(Warnings::Warnings_C ALIAS shacl::cmake::Warnings_C)
+
+add_library(Warnings_CXX ALIAS shacl::cmake::Warnings_CXX)
+add_library(Warnings::Warnings_CXX ALIAS shacl::cmake::Warnings_CXX)
+
+add_library(Warnings_Fortran ALIAS shacl::cmake::Warnings_Fortran)
+add_library(Warnings::Warnings_Fortran ALIAS shacl::cmake::Warnings_Fortran)
+
+install(FILES "${CMAKE_CURRENT_LIST_DIR}/Warnings.cmake"
+  DESTINATION share/cmake/shacl/.cmake)
+
+install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Warnings"
+  DESTINATION share/cmake/shacl/.cmake)

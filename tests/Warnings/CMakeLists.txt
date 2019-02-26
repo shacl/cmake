@@ -26,7 +26,7 @@ set(C_AppleClang "${C_Clang}")
 if(WIN32)
   set(C_Intel "/WX" "/W3" "/Qdiag-enable:117,230" "/Qdiag-disable:450")
 else()
-  set(C_Intel "-Werror" "-w3" "-diag-enable=117,230" "-diag-disable=450")
+  set(C_Intel "-Werror" "-w2" "-diag-enable=117,230" "-diag-disable=450")
 endif()
 
 set(C_MSVC "/WX" "/W4" "/w14806" "/w14807" "/wd14810" "/wd14811")
@@ -51,13 +51,13 @@ file(GENERATE
 
 target_sources(warnings.c.test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/warnings.c)
 
-add_test(NAME warnings.c.test COMMAND warnings.c.test)
+add_test(NAME shacl.cmake.warnings.c.test COMMAND warnings.c.test)
 
-set_tests_properties(warnings.c.test PROPERTIES
+set_tests_properties(shacl.cmake.warnings.c.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${C_${CMAKE_C_COMPILER_ID}}\n$")
 
 set(CXX_GNU
-  -Werror -Wall -Wextra -Wpedantic -Wold-style-cast -Wsuggest-override)
+  -Werror -Wall -Wextra -Wpedantic -Wsuggest-override)
 if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "7.0")
   list(APPEND CXX_GNU -Wduplicated-branches)
 endif()
@@ -78,10 +78,8 @@ set(CXX_Clang
   -Wkeyword-macro
   -Wnonportable-system-include-path
   -Wsometimes-uninitialized
-  -Wold-style-cast
   -Wnon-virtual-dtor
   -Wrange-loop-analysis
-  -Wredundant-move
   -Wabstract-vbase-init
   -Warray-bounds-pointer-arithmetic
   -Wno-asm-operand-widths
@@ -118,9 +116,9 @@ file(GENERATE
 
 target_sources(warnings.cxx.test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/warnings.cpp)
 
-add_test(NAME warnings.cxx.test COMMAND warnings.cxx.test)
+add_test(NAME shacl.cmake.warnings.cxx.test COMMAND warnings.cxx.test)
 
-set_tests_properties(warnings.cxx.test PROPERTIES
+set_tests_properties(shacl.cmake.warnings.cxx.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${CXX_${CMAKE_CXX_COMPILER_ID}}\n$")
 
 set(Fortran_GNU
@@ -133,7 +131,7 @@ set(Fortran_GNU
 )
 
 if( ${CMAKE_Fortran_COMPILER_VERSION} VERSION_LESS 7.3 )
-  set(Fortran_GNU 
+  set(Fortran_GNU
 "${Fortran_GNU}
 -Wno-surprising")
 endif()
@@ -176,6 +174,6 @@ file(GENERATE
 target_sources(warnings.fortran.test PUBLIC
   ${CMAKE_CURRENT_BINARY_DIR}/warnings.f90)
 
-add_test(NAME warnings.fortran.test COMMAND warnings.fortran.test)
-set_tests_properties(warnings.fortran.test PROPERTIES
+add_test(NAME shacl.cmake.warnings.fortran.test COMMAND warnings.fortran.test)
+set_tests_properties(shacl.cmake.warnings.fortran.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${Fortran_${CMAKE_Fortran_COMPILER_ID}}\n$")

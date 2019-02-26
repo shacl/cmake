@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 # This macro populates the current_hash and current_branch variables
 macro(git_submodule_collect_state name)
   execute_process(
@@ -17,6 +18,7 @@ macro(git_submodule_collect_state name)
 
   set(${name}.submodule.hash "${current_hash}" CACHE STRING
     "${name} git submodule hash")
+  message("${name}.submodule.hash")
 
   mark_as_advanced(${name}.submodule.hash)
   unset(failure)
