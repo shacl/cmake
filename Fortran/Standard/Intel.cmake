@@ -10,4 +10,4 @@ string(CONCAT generator
           "$<$<PLATFORM_ID:Windows>:/stand:${generator}>>"
 )
 
-target_compile_options(Fortran_Standard INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Standard INTERFACE ${generator})

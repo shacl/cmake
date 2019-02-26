@@ -7,4 +7,4 @@ string(CONCAT generator
 string(CONCAT generator
   "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:-std=${generator}>")
 
-target_compile_options(Fortran_Standard INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Standard INTERFACE ${generator})
