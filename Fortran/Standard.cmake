@@ -12,9 +12,15 @@ FULL_DOCS
 
  Supported values are 95, 2003, and 2008")
 
-add_library(Fortran_Standard INTERFACE IMPORTED GLOBAL)
-add_library(Fortran::Standard ALIAS Fortran_Standard)
-add_library(shacl::cmake::Fortran::Standard ALIAS Fortran_Standard)
+add_library(shacl::cmake::Fortran::Standard INTERFACE IMPORTED GLOBAL)
+
+# These aliases are provided for short term backwards compatability.
+#
+# Please don't not use in new work and update existing work to use the
+# the imported target defined above as soon as reasonably possible.
+
+add_library(Fortran_Standard ALIAS shacl::cmake::Fortran::Standard)
+add_library(Fortran::Standard ALIAS shacl::cmake::Fortran::Standard)
 
 include(Fortran/Standard/Intel)
 include(Fortran/Standard/GNU)
