@@ -9,6 +9,7 @@ include(Fortran/Integer)
 include(Fortran/Real)
 include(Fortran/StandardAdherence)
 include(Fortran/ModuleDirectory)
+include(Fortran/ExecutableLinkableWith)
 
 install(FILES
   ${CMAKE_CURRENT_LIST_DIR}/Fortran.cmake
