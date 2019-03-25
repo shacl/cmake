@@ -121,8 +121,6 @@ add_test(NAME shacl.cmake.warnings.cxx.test COMMAND warnings.cxx.test)
 set_tests_properties(shacl.cmake.warnings.cxx.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${CXX_${CMAKE_CXX_COMPILER_ID}}\n$")
 
-#CUDA
-
 if (CMAKE_CUDA_COMPILER)
 
   set(CUDA_NVIDIA_GNU ${CXX_GNU})
@@ -165,7 +163,6 @@ if (CMAKE_CUDA_COMPILER)
     PASS_REGULAR_EXPRESSION "^${CUDA_${CMAKE_CUDA_COMPILER_ID}_${CUDA_HOST_COMPILER}}\n$")
 
 endif()
-#END CDUA
 
 set(Fortran_GNU
 "-Werror
