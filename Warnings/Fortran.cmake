@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12.1)
-check_language(C)
+check_language(Fortran)
 if(DEFINED CMAKE_Fortran_COMPILER)
   add_library(shacl::cmake::Warnings_Fortran INTERFACE IMPORTED GLOBAL)
   include(Warnings/Fortran/GNU)
