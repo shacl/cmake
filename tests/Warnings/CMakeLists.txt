@@ -121,6 +121,49 @@ add_test(NAME shacl.cmake.warnings.cxx.test COMMAND warnings.cxx.test)
 set_tests_properties(shacl.cmake.warnings.cxx.test PROPERTIES
   PASS_REGULAR_EXPRESSION "^${CXX_${CMAKE_CXX_COMPILER_ID}}\n$")
 
+if (CMAKE_CUDA_COMPILER)
+
+  set(CUDA_NVIDIA_GNU ${CXX_GNU})
+  set(CUDA_NVIDIA_Clang ${CXX_Clang})
+
+  add_executable(warnings.cu.test "")
+  set_target_properties(warnings.cu.test PROPERTIES
+    WARN_ALL ON
+    WARN_ERROR ON
+    GNU_ENABLED_WARNINGS "strict-overflow;nonnull"
+    GNU_DISABLED_WARNINGS "null-dereference"
+    LLVM_ENABLED_WARNINGS "abstract-vbase-init;array-bounds-pointer-arithmetic"
+    LLVM_DISABLED_WARNINGS "asm-operand-widths;assign-enum"
+    Intel_ENABLED_WARNINGS "117;230"
+    Intel_DISABLED_WARNINGS "450"
+    MSVC_ENABLED_WARNINGS "4806;4807"
+    MSVC_DISABLED_WARNINGS "4810;4811")
+
+  target_link_libraries(warnings.cu.test PUBLIC shacl::cmake::Warnings_CUDA)
+
+  file(GENERATE
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/warnings.cu
+    INPUT ${CMAKE_CURRENT_LIST_DIR}/warnings.cu.in)
+
+  target_sources(warnings.cu.test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/warnings.cu)
+
+  add_test(NAME shacl.cmake.warnings.cu.test COMMAND warnings.cu.test)
+
+  if(CMAKE_CUDA_COMPILER_ID STREQUAL "NVIDIA")
+    if (NOT DEFINED CUDA_HOST_COMPILER)
+      set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER_ID})
+    endif()
+  else()
+    if (NOT DEFINED CUDA_HOST_COMPILER)
+      set(CUDA_HOST_COMPILER "NA")
+    endif()
+  endif()
+  
+  set_tests_properties(shacl.cmake.warnings.cu.test PROPERTIES
+    PASS_REGULAR_EXPRESSION "^${CUDA_${CMAKE_CUDA_COMPILER_ID}_${CUDA_HOST_COMPILER}}\n$")
+
+endif()
+
 set(Fortran_GNU
 "-Werror
 -Wall
