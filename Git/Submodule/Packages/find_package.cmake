@@ -1,7 +1,20 @@
 backup(find_package)
 
 macro(find_package name)
-  if(NOT git.submodule.package.${name})
+  #
+  # git.submodule.package.<name> is dependent on git.submodule.package. Isn't
+  # the check of the git.submodule.package redundant?
+  #
+  # In a perfect world, it would be. Unfortunately, the dispatching
+  # implementation for dependent options, variables, and selections is based
+  # on the way directory scope variables shadow and hide cache variables.
+  #
+  # A consequence of this trivia is that, should a sibling dependencies include
+  # a shared dependency, with and without including the Git Submodule Packages
+  # module, the cache variable will be read by one and the directory variable
+  # by the other, leading to contradictory paths.
+  #
+  if(NOT (git.submodule.package AND git.submodule.package.${name}))
     previous_find_package(${ARGV})
     return()
   endif()
