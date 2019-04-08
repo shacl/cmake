@@ -46,7 +46,7 @@ if(NOT git.submodule.packages.cmake)
     "Update to head of branch-tracking submodules on first configuration"
     ON "git.submodule.packages" OFF)
 
-  mark_as_advanced(git.submodule.package.update)
+  mark_as_advanced(git.submodule.packages.update)
 
   CMAKE_DEPENDENT_CACHE_VAR(git.submodule.packages.cache
     PATH

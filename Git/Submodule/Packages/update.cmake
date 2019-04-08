@@ -60,7 +60,7 @@ function(git_submodule_update name)
     OUTPUT_VARIABLE commit_hash
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-  set(git.submodule.package.${name}.commit_hash
+  set(git.submodule.package.${name}.hash
     "${commit_hash}"
     CACHE STRING
     "Current commit hash tracked by ${name} git submodule"

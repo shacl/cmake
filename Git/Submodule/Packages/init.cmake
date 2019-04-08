@@ -16,7 +16,7 @@ function(git_submodule_init name)
       message(FATAL_ERROR "${error_output}")
     endif()
 
-    set(commit_hash "${git.submodule.package.${name}.commit_hash.initial}")
+    set(commit_hash "${git.submodule.package.${name}.hash.initial}")
 
     execute_process(
       COMMAND "${GIT_EXECUTABLE}" reset --hard "${commit_hash}"

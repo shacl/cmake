@@ -1,4 +1,4 @@
-function(git_submodule_list)
+macro(git_submodule_list)
   # ** NOTE **
   #
   # Variables which are expected to contain file or directory paths are
@@ -6,6 +6,38 @@ function(git_submodule_list)
   # in the path. A frequent offender in this regard are paths including
   # the 'Program Files' directory found on the Windows operating system.
   #
+
+  #
+  # As a macro, an variables we define here are visible in the calling scope.
+  # Moreover, any changes we make to variables here are visible in the calling
+  # scope. In order to be polite, we cache the previous values of the variables
+  # used in the macro and restore them upon exit.
+  #
+  # So why go through the trouble of using a macro? Here we define a number of
+  # dependent options, selections, and variables. The implementation of these
+  # functions assume contingent decision making is in a shared scope. Declaring
+  # dependent variables in a CMake function would violate this assumption.
+  #
+  push(repository.root)
+  push(repository.branch)
+  push(repository.remote.name)
+  push(failure)
+  push(repository.remotes)
+  push(path_output)
+  push(repository.remote.url)
+  push(output)
+  push(line)
+  push(submodule.key)
+  push(truncate_point)
+  push(submodule.path.relative)
+  push(submodule.path.absolute)
+  push(submodule.name)
+  push(repository.index.entry)
+  push(submodule.commit_hash)
+  push(submodule.url)
+  push(repository.remote.url.prefix)
+  push(submodule.branch)
+
   #
   # --------------------------------------------------------------------------
   # Step 1: Determine the repository remote url root for use with relative git
@@ -82,11 +114,6 @@ function(git_submodule_list)
       COMMAND "${GIT_EXECUTABLE}" config --get remote.${repository.remote.name}.url
       OUTPUT_VARIABLE repository.remote.url
       OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    #
-    # Searching backwards, we remove split the repository remote url at the
-    # first forward
-    set(repository.remote.root "${repository.remote.url}")
   else()
     set(repository.remote.url "")
   endif()
@@ -206,7 +233,7 @@ function(git_submodule_list)
         list(GET repository.index.entry 2 submodule.commit_hash)
 
         CMAKE_DEPENDENT_CACHE_VAR(
-          git.submodule.package.${submodule.name}.commit_hash.initial
+          git.submodule.package.${submodule.name}.hash.initial
           STRING
           "Initial commit hash tracked by ${submodule.name} git submodule"
           "${submodule.commit_hash}"
@@ -214,15 +241,15 @@ function(git_submodule_list)
           "")
 
         CMAKE_DEPENDENT_CACHE_VAR(
-          git.submodule.package.${submodule.name}.commit_hash
+          git.submodule.package.${submodule.name}.hash
           STRING
           "Current commit hash tracked by ${submodule.name} git submodule"
           "${submodule.commit_hash}"
           "git.submodule.package.${submodule.name}"
           "")
 
-        mark_as_advanced(git.submodule.package.${submodule.name}.commit_hash.initial)
-        mark_as_advanced(git.submodule.package.${submodule.name}.commit_hash)
+        mark_as_advanced(git.submodule.package.${submodule.name}.hash.initial)
+        mark_as_advanced(git.submodule.package.${submodule.name}.hash)
 
         #
         # Collect the url associated with the submodule.
@@ -352,4 +379,24 @@ function(git_submodule_list)
       endif()
     endforeach()
   endif()
-endfunction()
+
+  pop(repository.root)
+  pop(repository.branch)
+  pop(repository.remote.name)
+  pop(failure)
+  pop(repository.remotes)
+  pop(path_output)
+  pop(repository.remote.url)
+  pop(output)
+  pop(line)
+  pop(submodule.key)
+  pop(truncate_point)
+  pop(submodule.path.relative)
+  pop(submodule.path.absolute)
+  pop(submodule.name)
+  pop(repository.index.entry)
+  pop(submodule.commit_hash)
+  pop(submodule.url)
+  pop(repository.remote.url.prefix)
+  pop(submodule.branch)
+endmacro()
