@@ -43,112 +43,126 @@ macro(find_package name)
   push(${name}_FIND_REQUIRED)
   push(${name}_FIND_COMPONENTS)
   push(${name}_FIND_OPTIONAL_COMPONENTS)
+
   cmake_parse_arguments(${name}_FIND
     "${find_package_options}" "" "${find_package_multiValueArgs}" ${ARGN})
+
   pop(find_package_options)
   pop(find_package_multiValueArgs)
 
   push(${name}_FIND_QUIETLY)
   set(${name}_FIND_QUIETLY ${${name}_FIND_QUIET})
 
-  push(git.submodules.package.${name}.traversed)
-  get_property(git.submodules.package.${name}.traversed GLOBAL PROPERTY
-    git.submodules.package.${name}.traversed)
+  if(NOT DEFINED git.submodule.packages.quiet.${name})
+    set(git.submodule.packages.quiet.${name} ${${name}_FIND_QUIET})
+  endif()
+
+  set(${name}_FOUND FALSE)
 
   push(continue)
-  set(continue FALSE)
+  set(continue TRUE)
 
-  if(NOT git.submodules.package.${name}.traversed)
-    set_property(GLOBAL PROPERTY git.submodules.${name}.traversed TRUE)
-    git_submodule_init(${name})
-    git_submodule_update(${name})
-    set(continue TRUE)
+  push(eager)
+  set(eager "${git.submodule.package.${name}.eager}")
+  if(eager STREQUAL "default")
+    set(eager "${git.submodule.packages.eager}")
   endif()
-  pop(git.submodules.package.${name}.traversed)
 
-  push(git.submodules.package.${name}.traversed.components)
-  get_property(git.submodules.package.${name}.traversed.components
-    GLOBAL PROPERTY git.submodules.package.${name}.traversed.components)
-
-  foreach(component IN LISTS ${name}_FIND_COMPONENTS)
-    if(component IN_LIST git.submodules.${name}.traversed.components)
-      list(REMOVE_ITEM ${name}_FIND_COMPONENTS component)
+  if(NOT eager)
+    push(EXACT_ARG)
+    if(${name}_FIND_EXACT)
+      set(EXACT_ARG EXACT)
     else()
-      set_property(GLOBAL APPEND PROPERTY
-        git.submodules.${name}.traversed.component ${component})
+      set(EXACT_ARG "")
     endif()
 
-    push(${name}_FIND_REQUIRED_${component})
-    set(${name}_FIND_REQUIRED_${component} TRUE)
-  endforeach()
-
-  if(${name}_FIND_COMPONENTS)
-    set(continue TRUE)
-  endif()
-
-  foreach(component IN LISTS ${name}_FIND_OPTIONAL_COMPONENTS)
-    if(component IN_LIST git.submodules.${name}.traversed.components)
-      list(REMOVE_ITEM ${name}_FIND_OPTIONAL_COMPONENTS component)
+    push(COMPONENTS_ARG)
+    if(${name}_FIND_COMPONENTS)
+      set(COMPONENTS_ARG COMPONENTS ${${name}_FIND_COMPONENTS})
     else()
-      set_property(GLOBAL APPEND PROPERTY
-        git.submodules.${name}.traversed.component ${component})
+      set(COMPONENTS_ARG)
     endif()
 
-    push(${name}_FIND_REQUIRED_${component})
-    set(${name}_FIND_REQUIRED_${component} FALSE)
-  endforeach()
+    push(OPTIONAL_COMPONENTS_ARG)
+    if(${name}_FIND_OPTIONAL_COMPONENTS)
+      set(OPTIONAL_COMPONENTS_ARG
+        OPTIONAL_COMPONENTS ${${name}_FIND_OPTIONAL_COMPONENTS})
+    else()
+      set(OPTIONAL_COMPONENTS_ARG)
+    endif()
 
-  if(${name}_FIND_OPTIONAL_COMPONENTS)
-    set(continue TRUE)
+    previous_find_package(${name}
+      ${PACKAGE_FIND_VERSION} ${EXACT_ARG}
+      QUIET
+      ${COMPONENTS_ARG}
+      ${OPTIONAL_CONPONENT_ARG})
+
+    pop(EXACT_ARG)
+    pop(COMPONENTS_ARG)
+    pop(OPTIONAL_COMPONENTS_ARG)
+
+    if(${name}_FOUND)
+      set(continue FALSE)
+    endif()
   endif()
-
-  pop(git.submodules.package.${name}.traversed.components)
 
   if(continue)
-    set(${name}_FOUND FALSE)
-    push(eager)
-    set(eager "${git.submodule.package.${name}.eager}")
-    if(eager STREQUAL "default")
-      set(eager "${git.submodule.packages.eager}")
+    push(git.submodules.package.${name}.traversed)
+    get_property(git.submodules.package.${name}.traversed GLOBAL PROPERTY
+      git.submodules.package.${name}.traversed)
+    if(NOT git.submodules.package.${name}.traversed)
+      set_property(GLOBAL PROPERTY git.submodules.${name}.traversed TRUE)
+      set(continue TRUE)
     endif()
 
-    if(NOT eager)
-      push(EXACT_ARG)
-      if(${name}_FIND_EXACT)
-        set(EXACT_ARG EXACT)
+    push(git.submodules.package.${name}.traversed.components)
+    get_property(git.submodules.package.${name}.traversed.components
+      GLOBAL PROPERTY git.submodules.package.${name}.traversed.components)
+
+    foreach(component IN LISTS ${name}_FIND_COMPONENTS)
+      if(component IN_LIST git.submodules.${name}.traversed.components)
+        list(REMOVE_ITEM ${name}_FIND_COMPONENTS component)
       else()
-        set(EXACT_ARG "")
+        set_property(GLOBAL APPEND PROPERTY
+          git.submodules.${name}.traversed.component ${component})
       endif()
 
-      push(COMPONENTS_ARG)
-      if(${name}_FIND_COMPONENTS)
-        set(COMPONENTS_ARG COMPONENTS ${${name}_FIND_COMPONENTS})
-      else()
-        set(COMPONENTS_ARG)
-      endif()
+      push(${name}_FIND_REQUIRED_${component})
+      set(${name}_FIND_REQUIRED_${component} TRUE)
+    endforeach()
 
-      push(OPTIONAL_COMPONENTS_ARG)
-      if(${name}_FIND_OPTIONAL_COMPONENTS)
-        set(OPTIONAL_COMPONENTS_ARG
-          OPTIONAL_COMPONENTS ${${name}_FIND_OPTIONAL_COMPONENTS})
-      else()
-        set(OPTIONAL_COMPONENTS_ARG)
-      endif()
-
-      previous_find_package(${name}
-        ${PACKAGE_FIND_VERSION} ${EXACT_ARG}
-        QUIET
-        ${COMPONENTS_ARG}
-        ${OPTIONAL_CONPONENT_ARG})
-
-      pop(EXACT_ARG)
-      pop(COMPONENTS_ARG)
-      pop(OPTIONAL_COMPONENTS_ARG)
+    if(${name}_FIND_COMPONENTS)
+      set(continue TRUE)
     endif()
 
-    pop(eager)
+    foreach(component IN LISTS ${name}_FIND_OPTIONAL_COMPONENTS)
+      if(component IN_LIST git.submodules.${name}.traversed.components)
+        list(REMOVE_ITEM ${name}_FIND_OPTIONAL_COMPONENTS component)
+      else()
+        set_property(GLOBAL APPEND PROPERTY
+          git.submodules.${name}.traversed.component ${component})
+      endif()
 
-    if(NOT ${name}_FOUND)
+      push(${name}_FIND_REQUIRED_${component})
+      set(${name}_FIND_REQUIRED_${component} FALSE)
+    endforeach()
+
+    if(${name}_FIND_OPTIONAL_COMPONENTS)
+      set(continue TRUE)
+    endif()
+
+    pop(git.submodules.package.${name}.traversed.components)
+
+    if(continue)
+      if((NOT eager) AND (NOT git.submodule.packages.quiet.${name}))
+        message(STATUS "Failed to find local installation of ${name}.")
+      endif()
+
+      if(NOT git.submodules.package.${name}.traversed)
+        git_submodule_init(${name} ${git.submodule.packages.quiet.${name}})
+        git_submodule_update(${name} ${git.submodule.packages.quiet.${name}})
+      endif()
+
       push(ALL_COMPONENTS)
       set(ALL_COMPONENTS "")
       list(APPEND ALL_COMPONENTS
@@ -198,8 +212,10 @@ macro(find_package name)
       endif()
       set(${name}_FOUND TRUE)
     endif()
+    pop(git.submodules.package.${name}.traversed)
   endif()
   pop(continue)
+  pop(eager)
 
   foreach(component IN LISTS ${package}_FIND_COMPONENTS)
     pop(${name}_FIND_REQUIRED_{component})
