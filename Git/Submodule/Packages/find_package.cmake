@@ -236,5 +236,3 @@ macro(find_package name)
   pop(${package}_FIND_EXACT)
   pop(PACKAGE_FIND_VERSION)
 endmacro()
-
-#wrap_find_package()
