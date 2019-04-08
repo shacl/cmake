@@ -1,124 +1,210 @@
-macro(find_package package)
-  if((NOT ${package}.submodule)
-      OR (NOT ${package} IN_LIST ${PROJECT_NAME}.submodules))
+backup(find_package)
+
+macro(find_package name)
+  if(NOT git.submodule.package.${name})
     previous_find_package(${ARGV})
     return()
   endif()
 
   push(PACKAGE_FIND_VERSION)
-  push(shacl_git_submodule_find_package_options)
-  push(shacl_git_submodule_find_package_multiValueArgs)
-  push(${package}_FIND_EXACT)
-  push(${package}_FIND_QUIET)
-  push(${package}_FIND_REQUIRED)
-  push(${package}_FIND_COMPONENTS)
-  push(${package}_FIND_OPTIONAL_COMPONENTS)
-  push(${package}_FIND_QUIETLY)
-  push(PACKAGE_BINARY_DIR)
-  push(git.submodules.traversed)
-  push(PACKAGE_VERSION_EXACT)
-  push(PACKAGE_VERSION_COMPATIBLE)
-
-  if(NOT EXISTS "${${package}.submodule.path}/.git")
-    git_submodule_init(${package})
-    git_submodule_update(${package})
-    if(NOT EXISTS "${${package}.submodule.path}/CMakeLists.txt")
-      message("")
-      message("=======================")
-      message("git submodule package, ${package}, does not contain a CMakeLists.txt file")
-      message("The ${package} git submodule is located here: ${${package}.submodule.path}")
-      message("${package} requested with find_package by ${PROJECT_NAME}")
-      message("${PROJECT_NAME} is located here: ${PROJECT_SOURCE_DIR}")
-      message("=======================")
-      message("")
-      message(FATAL_ERROR "find_package request failed")
-    endif()
-  endif()
-
-  if("${ARGV0}" MATCHES "[0-9]+(\\.[0-9])*")
-    set(PACKAGE_FIND_VERSION ${ARGV0})
+  push(PACKAGE_FIND_VERSION_MAJOR)
+  if("${ARGV1}" MATCHES "[0-9]+(\\.[0-9])*")
+    set(PACKAGE_FIND_VERSION ${ARGV1})
+    push(truncate_point)
+    string(FIND "${ARGV1}" "." truncate_point)
+    string(SUBSTRING "${ARGV1}" 0 ${truncate_point} PACKAGE_FIND_VERSION_MAJOR)
+    pop(truncate_point)
   else()
     set(PACKAGE_FIND_VERSION "")
+    set(PACKAGE_FIND_VERSION_MAJOR "")
   endif()
 
-  set(shacl_git_submodule_find_package_options EXACT QUIET REQUIRED)
-  set(shacl_git_submodule_find_package_multiValueArgs COMPONENTS OPTIONAL_COMPONENTS)
+  push(find_package_options)
+  set(find_package_options EXACT QUIET REQUIRED)
 
-  cmake_parse_arguments(${package}_FIND
-    "${shacl_git_submodule_find_package_options}"
-    ""
-    "${shacl_git_submodule_find_package_multiValueArgs}" ${ARGN})
+  push(find_package_multiValueArgs)
+  set(find_package_multiValueArgs COMPONENTS OPTIONAL_COMPONENTS)
 
-  set(${package}_FIND_QUIETLY ${${package}_FIND_QUIET})
+  push(${name}_FIND_EXACT)
+  push(${name}_FIND_QUIET)
+  push(${name}_FIND_REQUIRED)
+  push(${name}_FIND_COMPONENTS)
+  push(${name}_FIND_OPTIONAL_COMPONENTS)
+  cmake_parse_arguments(${name}_FIND
+    "${find_package_options}" "" "${find_package_multiValueArgs}" ${ARGN})
+  pop(find_package_options)
+  pop(find_package_multiValueArgs)
 
-  foreach(component IN LISTS ${package}_FIND_COMPONENTS)
-    push(${package}_FIND_REQUIRED_${component})
-    set(${package}_FIND_REQUIRED_${component} TRUE)
-  endforeach()
-  foreach(component IN LISTS ${package}_FIND_OPTIONAL_COMPONENTS)
-    push(${package}_FIND_REQUIRED_${component})
-    set(${package}_FIND_REQUIRED_${component} FALSE)
-  endforeach()
+  push(${name}_FIND_QUIETLY)
+  set(${name}_FIND_QUIETLY ${${name}_FIND_QUIET})
 
-  list(APPEND ${package}_FIND_COMPONENTS ${${package}_FIND_OPTIONAL_COMPONENTS})
+  push(git.submodules.package.${name}.traversed)
+  get_property(git.submodules.package.${name}.traversed GLOBAL PROPERTY
+    git.submodules.package.${name}.traversed)
 
-  get_property(git.submodules.traversed GLOBAL PROPERTY git.submodules.traversed)
-  foreach(component IN LISTS ${package}_FIND_COMPONENTS)
-    if(TARGET ${package}::${component})
-      list(REMOVE_ITEM ${package}_FIND_COMPONENTS component)
+  push(continue)
+  set(continue FALSE)
+
+  if(NOT git.submodules.package.${name}.traversed)
+    set_property(GLOBAL PROPERTY git.submodules.${name}.traversed TRUE)
+    git_submodule_init(${name})
+    git_submodule_update(${name})
+    set(continue TRUE)
+  endif()
+  pop(git.submodules.package.${name}.traversed)
+
+  push(git.submodules.package.${name}.traversed.components)
+  get_property(git.submodules.package.${name}.traversed.components
+    GLOBAL PROPERTY git.submodules.package.${name}.traversed.components)
+
+  foreach(component IN LISTS ${name}_FIND_COMPONENTS)
+    if(component IN_LIST git.submodules.${name}.traversed.components)
+      list(REMOVE_ITEM ${name}_FIND_COMPONENTS component)
+    else()
+      set_property(GLOBAL APPEND PROPERTY
+        git.submodules.${name}.traversed.component ${component})
     endif()
+
+    push(${name}_FIND_REQUIRED_${component})
+    set(${name}_FIND_REQUIRED_${component} TRUE)
   endforeach()
 
-  if(${package}_FIND_COMPONENTS
-      OR NOT ${package} IN_LIST git.submodules.traversed)
-    set_property(GLOBAL APPEND PROPERTY git.submodules.traversed ${package})
-    set(PACKAGE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${package}")
-    # multiple calls to find_package for a given package from a given directory
-    # are not supported
-    add_subdirectory("${${package}.submodule.path}" "${PACKAGE_BINARY_DIR}")
+  if(${name}_FIND_COMPONENTS)
+    set(continue TRUE)
   endif()
 
-  if(PACKAGE_FIND_VERSION)
-    set(PACKAGE_VERSION_EXACT TRUE)
-    set(PACKAGE_VERSION_COMPATIBLE TRUE)
-    if(NOT ${package}_VERSION VERSION_EQUAL PACKAGE_FIND_VERSION)
-      set(PACKAGE_VERSION_EXACT FALSE)
-      if(PACKAGE_FIND_EXACT
-          OR PACKAGE_FIND_VERSION VERSION_GREATER ${package}_VERSION)
-        set(PACKAGE_VERSION_COMPATIBLE FALSE)
-      endif()
+  foreach(component IN LISTS ${name}_FIND_OPTIONAL_COMPONENTS)
+    if(component IN_LIST git.submodules.${name}.traversed.components)
+      list(REMOVE_ITEM ${name}_FIND_OPTIONAL_COMPONENTS component)
+    else()
+      set_property(GLOBAL APPEND PROPERTY
+        git.submodules.${name}.traversed.component ${component})
     endif()
 
-    set(${package}_FOUND ${PACKAGE_VERSION_COMPATIBLE})
-    if(${package}_FIND_REQUIRED AND NOT ${package}_FOUND)
-      if(PACKAGE_FIND_EXACT)
-        message(FATAL_ERROR
-          "${package} requires version ${PACKAGE_FIND_VERSION} but found version ${${package}_VERSION}")
+    push(${name}_FIND_REQUIRED_${component})
+    set(${name}_FIND_REQUIRED_${component} FALSE)
+  endforeach()
+
+  if(${name}_FIND_OPTIONAL_COMPONENTS)
+    set(continue TRUE)
+  endif()
+
+  pop(git.submodules.package.${name}.traversed.components)
+
+  if(continue)
+    set(${name}_FOUND FALSE)
+    push(eager)
+    set(eager "${git.submodule.package.${name}.eager}")
+    if(eager STREQUAL "default")
+      set(eager "${git.submodule.packages.eager}")
+    endif()
+
+    if(NOT eager)
+      push(EXACT_ARG)
+      if(${name}_FIND_EXACT)
+        set(EXACT_ARG EXACT)
       else()
-        message(FATAL_ERROR
-          "${package} requires version ${PACKAGE_FIND_VERSION} or later but found version ${${package}_VERSION}")
+        set(EXACT_ARG "")
       endif()
+
+      push(COMPONENTS_ARG)
+      if(${name}_FIND_COMPONENTS)
+        set(COMPONENTS_ARG COMPONENTS ${${name}_FIND_COMPONENTS})
+      else()
+        set(COMPONENTS_ARG)
+      endif()
+
+      push(OPTIONAL_COMPONENTS_ARG)
+      if(${name}_FIND_OPTIONAL_COMPONENTS)
+        set(OPTIONAL_COMPONENTS_ARG
+          OPTIONAL_COMPONENTS ${${name}_FIND_OPTIONAL_COMPONENTS})
+      else()
+        set(OPTIONAL_COMPONENTS_ARG)
+      endif()
+
+      previous_find_package(${name}
+        ${PACKAGE_FIND_VERSION} ${EXACT_ARG}
+        QUIET
+        ${COMPONENTS_ARG}
+        ${OPTIONAL_CONPONENT_ARG})
+
+      pop(EXACT_ARG)
+      pop(COMPONENTS_ARG)
+      pop(OPTIONAL_COMPONENTS_ARG)
     endif()
-  else()
-    set(${package}_FOUND TRUE)
+
+    pop(eager)
+
+    if(NOT ${name}_FOUND)
+      push(ALL_COMPONENTS)
+      set(ALL_COMPONENTS "")
+      list(APPEND ALL_COMPONENTS
+        ${${name}_FIND_COMPONENTS}
+        ${${name}_FIND_OPTIONAL_COMPONENTS})
+
+      push(${name}_FIND_COMPONENTS)
+      set(${name}_FIND_COMPONENTS ${ALL_COMPONENTS})
+      pop(ALL_COMPONENTS)
+
+      add_subdirectory(
+        "${git.submodule.packages.cache}/${name}"
+        "${CMAKE_CURRENT_BINARY_DIR}/${name}")
+
+      pop(${name}_FIND_COMPONENTS)
+      if(PACKAGE_FIND_VERSION)
+        set(PACKAGE_VERSION_EXACT TRUE)
+        set(PACKAGE_VERSION_COMPATIBLE TRUE)
+        if(NOT ${name}_VERSION VERSION_EQUAL PACKAGE_FIND_VERSION)
+          set(PACKAGE_VERSION_EXACT FALSE)
+          if(PACKAGE_FIND_EXACT)
+            string(CONCAT message
+              "${name} requires version ${PACKAGE_FIND_VERSION}\n"
+              "Found version ${${name}_VERSION} via submodule\n"
+              "\n"
+              "Please update the ${name} repository located at:\n"
+              "${git.submodule.packages.cache}/${name}")
+            message(FATAL_ERROR "${message}")
+          elseif(PACKAGE_FIND_VERSION VERSION_GREATER ${name}_VERSION)
+            string(CONCAT message
+              "${name} requires version ${PACKAGE_FIND_VERSION} or later\n"
+              "Found version ${${name}_VERSION} via submodule\n"
+              "\n"
+              "Please update the ${name} repository located at:\n"
+              "${git.submodule.packages.cache}/${name}")
+            message(FATAL_ERROR "${message}")
+          elseif(NOT PACKAGE_FIND_VERSION_MAJOR EQUAL ${name}_VERSION_MAJOR)
+            string(CONCAT message
+              "${name} requires version ${PACKAGE_FIND_VERSION_MAJOR}\n"
+              "Found version ${${name}_VERSION_MAJOR} via submodule\n"
+              "\n"
+              "Please update the ${name} repository located at:\n"
+              "${git.submodule.packages.cache}/${name}")
+            message(FATAL_ERROR "${message}")
+          endif()
+        endif()
+      endif()
+      set(${name}_FOUND TRUE)
+    endif()
   endif()
+  pop(continue)
 
   foreach(component IN LISTS ${package}_FIND_COMPONENTS)
+    pop(${name}_FIND_REQUIRED_{component})
+  endforeach()
+  pop(${name}_FIND_COMPONENTS)
+
+  foreach(component IN LISTS ${package}_FIND_OPTIONAL_COMPONENTS)
     pop(${package}_FIND_REQUIRED_{component})
   endforeach()
+  pop(${name}_FIND_OPTIONAL_COMPONENTS)
+
   pop(PACKAGE_VERSION_COMPATIBLE)
   pop(PACKAGE_VERSION_EXACT)
-  pop(git.submodules.traversed)
-  pop(PACKAGE_BINARY_DIR)
   pop(${package}_FIND_QUIETLY)
-  pop(${package}_FIND_OPTIONAL_COMPONENTS)
-  pop(${package}_FIND_COMPONENTS)
   pop(${package}_FIND_REQUIRED)
   pop(${package}_FIND_QUIET)
   pop(${package}_FIND_EXACT)
-  pop(shacl_git_submodule_find_package_multiValueArgs)
-  pop(shacl_git_submodule_find_package_options)
   pop(PACKAGE_FIND_VERSION)
 endmacro()
 
-wrap_find_package()
+#wrap_find_package()

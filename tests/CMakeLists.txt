@@ -21,17 +21,17 @@ CMAKE_DEPENDENT_SELECTION(test_selection
   DEFAULT red OPTIONS red yellow green
   CONDITION "NOT selection_fallback" green)
 
-add_subdirectory(Backports)
-add_subdirectory(Fortran)
-add_subdirectory(FortranPreProcess)
-add_subdirectory(Intel)
-add_subdirectory(LinkOptions)
-add_subdirectory(GeneratedSources)
-add_subdirectory(Sanitizers)
+# add_subdirectory(Backports)
+# add_subdirectory(Fortran)
+# add_subdirectory(FortranPreProcess)
+# add_subdirectory(Intel)
+# add_subdirectory(LinkOptions)
+# add_subdirectory(GeneratedSources)
+# add_subdirectory(Sanitizers)
 add_subdirectory(Git/Submodule/Packages)
-add_subdirectory(DependencyInjection)
-add_subdirectory(Warnings)
-add_subdirectory(Batch)
+# add_subdirectory(DependencyInjection)
+# add_subdirectory(Warnings)
+# add_subdirectory(Batch)
 
-# KEEP THIS AT THE BOTTOM
-add_subdirectory(FunctionExtension)
+# # KEEP THIS AT THE BOTTOM
+# add_subdirectory(FunctionExtension)

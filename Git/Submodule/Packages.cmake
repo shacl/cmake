@@ -8,21 +8,92 @@ get_property(
 
 if(NOT git.submodule.packages.cmake)
   include(CMakeDependentOption)
+  include(CMakeDependentCacheVar)
+  include(CMakeDependentSelection)
 
-  option(git.submodule.packages
-    "Enable git submodule support for CMake package" ON)
+  #
+  # This package supports the use of a file to reproduce previous
+  # configurations. We refer to these as specification files.
+  #
+  # Options in this cmake module are written in such a way that they
+  # will not override values specified at the command line or through
+  # a specification file.
+  #
+  if(DEFINED git.submodule.packages.specification)
+    if(NOT EXISTS git.submodule.packages.specification)
+      message("git.submodule.packages.specification variable defined")
+      message("specification file path: ${git.submodule.packages.specification}")
+      message(FATAL_ERROR "No file exists at this path")
+    endif()
 
-  CMAKE_DEPENDENT_OPTION(
-    git.submodule.update
-    "Update git submodule packages tracking branches on configure" ON
-    "git.submodule.packages" OFF)
+    include("${git.submodule.packages.specification}")
+  endif()
 
-  find_package(Git REQUIRED)
+  #
+  # This option is intended to allow an end user to opt-out of the use of git
+  # submodule packages by toggling this option.
+  #
+  # Here we use 'end user' to mean the person invoking CMake, rather than a
+  # project including this module.
+  #
+  option(git.submodule.packages "Enable git submodule package support" ON)
+
+  CMAKE_DEPENDENT_OPTION(git.submodule.packages.eager
+    "find_package will prefer to consume dependencies via submodules when available"
+    ON "git.submodule.packages" OFF)
+
+  CMAKE_DEPENDENT_OPTION(git.submodule.packages.update
+    "Update to head of branch-tracking submodules on first configuration"
+    ON "git.submodule.packages" OFF)
+
+  mark_as_advanced(git.submodule.package.update)
+
+  CMAKE_DEPENDENT_CACHE_VAR(git.submodule.packages.cache
+    PATH
+    "Location for git submodule packages directory clones"
+    "${CMAKE_BINARY_DIR}/git-submodule-packages"
+    "git.submodule.packages" "")
+
+  mark_as_advanced(git.submodule.packages.cache)
+
+  CMAKE_DEPENDENT_CACHE_VAR(git.submodule.packages.specification.sink
+    FILEPATH
+    "Location for generated git submodule packages specification file"
+    "${CMAKE_BINARY_DIR}/git-submodule-packages/specification.cmake"
+    "git.submodule.packages" "")
+
+  mark_as_advanced(git.submodule.packages.specification.sink)
+
+  if(git.submodule.packages)
+    #
+    # We search for and require git iff git submodule packages are enabled.
+    #
+    find_package(Git REQUIRED)
+
+    get_filename_component(
+      git.submodule.packages.specification_dir
+      "${git.submodule.packages.specification.sink}"
+      DIRECTORY)
+
+    file(MAKE_DIRECTORY
+      "${git.submodule.packages.cache}"
+      "${git.submodule.packages.specification_dir}")
+
+    string(CONCAT content
+      "option(git.submodule.packages\n"
+      "  \"Enable git submodule support for CMake find_package\" ON)\n"
+      "\n")
+
+    file(WRITE "${git.submodule.packages.specification.sink}" "${content}")
+  endif()
+
   include(FunctionExtension)
-  include(Git/Submodule/Packages/collect_state)
+  include(GeneratedSources/ListBinaryDir)
+
+  include(Git/Submodule/Packages/list)
   include(Git/Submodule/Packages/init)
   include(Git/Submodule/Packages/update)
-  include(Git/Submodule/Packages/list)
+  include(Git/Submodule/Packages/package)
   include(Git/Submodule/Packages/find_package)
 
   set_property(
