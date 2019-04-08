@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 string(CONCAT generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:"
     "$<$<NOT:$<PLATFORM_ID:Windows>>:"

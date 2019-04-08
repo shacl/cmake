@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 function(CMAKE_DEPENDENT_CACHE_VAR variable type docstring default conditions force)

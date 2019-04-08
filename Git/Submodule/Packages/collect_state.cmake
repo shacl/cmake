@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 # This macro populates the current_hash and current_branch variables
 macro(git_submodule_collect_state name)
   execute_process(

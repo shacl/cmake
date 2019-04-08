@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 macro(call function_name)
   push(indirection_file)
   set(indirection_file "${CMAKE_CURRENT_BINARY_DIR}/indirection")

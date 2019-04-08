@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 # Here we're using the existance of global properties to act as something
 # analoguous to C/C++ header guards to ensure the contents of this file are not
 # redundantly defined.
@@ -91,7 +92,6 @@ if(NOT git.submodule.packages.cmake)
   endif()
 
   include(FunctionExtension)
-  include(GeneratedSources/ListBinaryDir)
 
   include(Git/Submodule/Packages/list)
   include(Git/Submodule/Packages/init)

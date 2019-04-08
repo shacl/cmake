@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 macro(push variable_name)
   if(DEFINED ${variable_name})
     if(DEFINED _${variable_name})

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12.1)
 backup(find_package)
 
 macro(find_package name)

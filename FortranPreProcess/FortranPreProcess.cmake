@@ -1,4 +1,4 @@
-include(Backports/IncludeGuard)
+cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 find_package(Perl REQUIRED)
