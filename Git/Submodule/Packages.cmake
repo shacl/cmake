@@ -19,7 +19,10 @@ if(NOT git.submodule.packages.cmake)
   # will not override values specified at the command line or through
   # a specification file.
   #
-  if(DEFINED git.submodule.packages.specification)
+  set(git.submodule.packages.specification "" CACHE FILEPATH
+    "Path to consumed git submodule packages specification file")
+
+  if(git.submodule.packages.specification)
     if(NOT EXISTS git.submodule.packages.specification)
       message("git.submodule.packages.specification variable defined")
       message("specification file path: ${git.submodule.packages.specification}")
