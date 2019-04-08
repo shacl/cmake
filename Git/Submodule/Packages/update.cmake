@@ -71,7 +71,6 @@ function(git_submodule_update name)
   execute_process(
     COMMAND "${GIT_EXECUTABLE}" rev-parse HEAD
     WORKING_DIRECTORY "${source_dir}"
-    OUTPUT_QUIET
     OUTPUT_VARIABLE commit_hash
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -86,7 +85,7 @@ function(git_submodule_update name)
     "  CACHE STRING \"Remote url for ${name} git submodule\"\n"
     "  FORCE)\n"
     "\n"
-    "set(git.submodule.package.${name}.commit_hash \"${commit_hash}\"\n"
+    "set(git.submodule.package.${name}.hash \"${commit_hash}\"\n"
     "  CACHE STRING \"Current commit hash tracked by ${name} git submodule\"\n"
     "  FORCE)\n"
     "\n"
