@@ -14,7 +14,7 @@ macro(find_package name)
   # module, the cache variable will be read by one and the directory variable
   # by the other, leading to contradictory paths.
   #
-  if(NOT (git.submodule.package AND git.submodule.package.${name}))
+  if(NOT (git.submodule.packages AND git.submodule.package.${name}))
     previous_find_package(${ARGV})
     return()
   endif()
