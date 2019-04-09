@@ -93,9 +93,12 @@ function(git_submodule_package name)
     add_subdirectory(
       "${git.submodule.packages.cache}/${name}"
       "${LIST_BINARY_DIR}/${name}")
-
-    set(${name}_FOUND TRUE PARENT_SCOPE)
   endif()
 
   include(Git/Submodule/Packages/check_version)
+
+  set(${name}_FOUND TRUE PARENT_SCOPE)
+  set(${name}_VERSION ${${name}_VERSION} PARENT_SCOPE)
+  set(${name}_VERSION_MAJOR ${${name}_VERSION_MAJOR} PARENT_SCOPE)
+  set(${name}_VERSION_MINOR ${${name}_VERSION_MINOR} PARENT_SCOPE)
 endfunction()

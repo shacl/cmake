@@ -1,38 +1,40 @@
+get_property(${git.submodule.packages.subject}_VERSION GLOBAL PROPERTY
+  ${git.submodule.packages.subject}_VERSION DEFINED)
+
+if(NOT ${git.submodule.packages.subject}_VERSION)
+  set(${git.submodule.packages.subject}_VERSION
+    "${git.submodule.package.PROJECT_VERSION}")
+  set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION
+    "${${git.submodule.packages.subject}_VERSION}")
+
+  set(${git.submodule.packages.subject}_VERSION_MAJOR
+    "${git.submodule.package.PROJECT_VERSION_MAJOR}")
+  set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION_MAJOR
+    "${${git.submodule.packages.subject}_VERSION_MAJOR}")
+
+  set(${git.submodule.packages.subject}_VERSION_MINOR
+    "${git.submodule.package.PROJECT_VERSION_MINOR}")
+  set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION_MINOR
+    "${${git.submodule.packages.subject}_VERSION_MINOR}")
+
+  pop(git.submodule.package.PROJECT_VERSION)
+  pop(git.submodule.package.PROJECT_VERSION_MAJOR)
+  pop(git.submodule.package.PROJECT_VERSION_MINOR)
+else()
+  get_property(${git.submodule.packages.subject}_VERSION GLOBAL PROPERTY
+    ${git.submodule.packages.subject}_VERSION)
+  get_property(${git.submodule.packages.subject}_VERSION_MAJOR GLOBAL PROPERTY
+    ${git.submodule.packages.subject}_VERSION_MAJOR)
+  get_property(${git.submodule.packages.subject}_VERSION_MINOR GLOBAL PROPERTY
+    ${git.submodule.packages.subject}_VERSION_MINOR)
+endif()
+
 if(PACKAGE_FIND_VERSION)
   push(PACKAGE_VERSION_EXACT)
   set(PACKAGE_VERSION_EXACT TRUE)
 
   push(PACKAGE_VERSION_COMPATIBLE)
   set(PACKAGE_VERSION_COMPATIBLE TRUE)
-
-  get_property(${git.submodule.packages.subject}_VERSION GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION DEFINED)
-  if(NOT ${git.submodule.packages.subject}_VERSION)
-    set(${git.submodule.packages.subject}_VERSION
-      "${git.submodule.package.PROJECT_VERSION}")
-    set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION
-      "${${git.submodule.packages.subject}_VERSION}")
-
-    set(${git.submodule.packages.subject}_VERSION_MAJOR
-      "${git.submodule.package.PROJECT_VERSION_MAJOR}")
-    set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION_MAJOR
-      "${${git.submodule.packages.subject}_VERSION_MAJOR}")
-
-    set(${git.submodule.packages.subject}_VERSION_MINOR
-      "${git.submodule.package.PROJECT_VERSION_MINOR}")
-    set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION_MINOR
-      "${${git.submodule.packages.subject}_VERSION_MINOR}")
-
-    pop(git.submodule.package.PROJECT_VERSION)
-    pop(git.submodule.package.PROJECT_VERSION_MAJOR)
-    pop(git.submodule.package.PROJECT_VERSION_MINOR)
-  else()
-    get_property(${git.submodule.packages.subject}_VERSION GLOBAL PROPERTY
-      ${git.submodule.packages.subject}_VERSION)
-    get_property(${git.submodule.packages.subject}_VERSION_MAJOR GLOBAL PROPERTY
-      ${git.submodule.packages.subject}_VERSION_MAJOR)
-    get_property(${git.submodule.packages.subject}_VERSION_MINOR GLOBAL PROPERTY
-      ${git.submodule.packages.subject}_VERSION_MINOR)
-  endif()
 
   push(git.submodule.package.${git.submodule.packages.subject}.compatibility)
   get_property(
