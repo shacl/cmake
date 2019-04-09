@@ -12,6 +12,26 @@ if(NOT git.submodule.packages.cmake)
   include(CMakeDependentCacheVar)
   include(CMakeDependentSelection)
 
+  macro(git_submodule_packages_moniter var access value)
+    if("${access}" STREQUAL "MODIFIED_ACCESS")
+      set(git.submodule.package.${var} "${value}" PARENT_SCOPE)
+    endif()
+  endmacro()
+
+  variable_watch(PROJECT_VERSION git_submodule_packages_moniter)
+  variable_watch(PROJECT_VERSION_MAJOR git_submodule_packages_moniter)
+  variable_watch(PROJECT_VERSION_MINOR git_submodule_packages_moniter)
+
+  function(git_submodule_packages_cache var access value)
+    if("${access}" STREQUAL "MODIFIED_ACCESS")
+      set(name ${git.submodule.packages.subject})
+      set_property(GLOBAL PROPERTY
+        git.submodule.package.${name}.compatibility "${value}")
+    endif()
+  endfunction()
+
+  variable_watch(CVF_COMPATIBILITY git_submodule_packages_cache)
+
   #
   # This package supports the use of a file to reproduce previous
   # configurations. We refer to these as specification files.

@@ -4,8 +4,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../..)
 include(Git/Submodule/Packages)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-find_package(json REQUIRED)
-find_package(Catch2)
+find_package(json 3.0.2 REQUIRED)
+git_submodule_package(Catch2)
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
 "#include <cassert>
@@ -14,7 +14,6 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
    assert(\"${git.submodule.package.json.hash}\" == \"3760a38b7e37c23a944d2c4fdec9028ae5ebde3a\" );
    assert(\"${json_FOUND}\" == \"TRUE\" );
    assert(\"${git.submodule.package.Catch2.branch}\" == \"master\" );
-   assert(\"${Catch2_FOUND}\" == \"TRUE\" );
  }")
 
 add_executable(Git.Submodule.Packages.test ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp)

@@ -20,17 +20,32 @@ macro(find_package name)
     return()
   endif()
 
+  #
+  # Used in conjunction with the git_submodule_packages_cache and
+  # variable_watch. See the Git/Submodule/Packages.cmake for more context.
+  #
+  push(git.submodule.packages.subject)
+  set(git.submodule.packages.subject "${name}")
   push(PACKAGE_FIND_VERSION)
   push(PACKAGE_FIND_VERSION_MAJOR)
+  push(PACKAGE_FIND_VERSION_MINOR)
   if("${ARGV1}" MATCHES "[0-9]+(\\.[0-9])*")
     set(PACKAGE_FIND_VERSION ${ARGV1})
-    push(truncate_point)
-    string(FIND "${ARGV1}" "." truncate_point)
-    string(SUBSTRING "${ARGV1}" 0 ${truncate_point} PACKAGE_FIND_VERSION_MAJOR)
-    pop(truncate_point)
+    push(version_list)
+    string(REPLACE "." ";" version_list "${PACKAGE_FIND_VERSION}")
+    list(GET version_list 0 PACKAGE_FIND_VERSION_MAJOR)
+    if(NOT PACKAGE_FIND_VERSION_MAJOR)
+      set(PACKAGE_FIND_VERSION_MAJOR 0)
+    endif()
+    list(GET version_list 1 PACKAGE_FIND_VERSION_MINOR)
+    if(NOT PACKAGE_FIND_VERSION_MINOR)
+      set(PACKAGE_FIND_VERSION_MINOR 0)
+    endif()
+    pop(version_list)
   else()
     set(PACKAGE_FIND_VERSION "")
     set(PACKAGE_FIND_VERSION_MAJOR "")
+    set(PACKAGE_FIND_VERSION_MINOR "")
   endif()
 
   push(find_package_options)
@@ -126,10 +141,9 @@ macro(find_package name)
       else()
         set_property(GLOBAL APPEND PROPERTY
           git.submodules.${name}.traversed.component ${component})
+        push(${name}_FIND_REQUIRED_${component})
+        set(${name}_FIND_REQUIRED_${component} TRUE)
       endif()
-
-      push(${name}_FIND_REQUIRED_${component})
-      set(${name}_FIND_REQUIRED_${component} TRUE)
     endforeach()
 
     if(${name}_FIND_COMPONENTS)
@@ -142,10 +156,9 @@ macro(find_package name)
       else()
         set_property(GLOBAL APPEND PROPERTY
           git.submodules.${name}.traversed.component ${component})
+        push(${name}_FIND_REQUIRED_${component})
+        set(${name}_FIND_REQUIRED_${component} FALSE)
       endif()
-
-      push(${name}_FIND_REQUIRED_${component})
-      set(${name}_FIND_REQUIRED_${component} FALSE)
     endforeach()
 
     if(${name}_FIND_OPTIONAL_COMPONENTS)
@@ -174,47 +187,25 @@ macro(find_package name)
       set(${name}_FIND_COMPONENTS ${ALL_COMPONENTS})
       pop(ALL_COMPONENTS)
 
+      push(git.submodule.package.PROJECT_VERSION)
+      push(git.submodule.package.PROJECT_VERSION_MAJOR)
+      push(git.submodule.package.PROJECT_VERSION_MINOR)
+      set(git.submodule.package.PROJECT_VERSION 0.0.0)
+      set(git.submodule.package.PROJECT_VERSION_MAJOR 0)
+      set(git.submodule.package.PROJECT_VERSION_MINOR 0)
+
       add_subdirectory(
         "${git.submodule.packages.cache}/${name}"
         "${CMAKE_CURRENT_BINARY_DIR}/${name}")
 
       pop(${name}_FIND_COMPONENTS)
-      if(PACKAGE_FIND_VERSION)
-        set(PACKAGE_VERSION_EXACT TRUE)
-        set(PACKAGE_VERSION_COMPATIBLE TRUE)
-        if(NOT ${name}_VERSION VERSION_EQUAL PACKAGE_FIND_VERSION)
-          set(PACKAGE_VERSION_EXACT FALSE)
-          if(PACKAGE_FIND_EXACT)
-            string(CONCAT message
-              "${name} requires version ${PACKAGE_FIND_VERSION}\n"
-              "Found version ${${name}_VERSION} via submodule\n"
-              "\n"
-              "Please update the ${name} repository located at:\n"
-              "${git.submodule.packages.cache}/${name}")
-            message(FATAL_ERROR "${message}")
-          elseif(PACKAGE_FIND_VERSION VERSION_GREATER ${name}_VERSION)
-            string(CONCAT message
-              "${name} requires version ${PACKAGE_FIND_VERSION} or later\n"
-              "Found version ${${name}_VERSION} via submodule\n"
-              "\n"
-              "Please update the ${name} repository located at:\n"
-              "${git.submodule.packages.cache}/${name}")
-            message(FATAL_ERROR "${message}")
-          elseif(NOT PACKAGE_FIND_VERSION_MAJOR EQUAL ${name}_VERSION_MAJOR)
-            string(CONCAT message
-              "${name} requires version ${PACKAGE_FIND_VERSION_MAJOR}\n"
-              "Found version ${${name}_VERSION_MAJOR} via submodule\n"
-              "\n"
-              "Please update the ${name} repository located at:\n"
-              "${git.submodule.packages.cache}/${name}")
-            message(FATAL_ERROR "${message}")
-          endif()
-        endif()
-      endif()
       set(${name}_FOUND TRUE)
     endif()
+
+    include(Git/Submodule/Packages/check_version)
     pop(git.submodules.package.${name}.traversed)
   endif()
+
   pop(continue)
   pop(eager)
 
@@ -228,11 +219,13 @@ macro(find_package name)
   endforeach()
   pop(${name}_FIND_OPTIONAL_COMPONENTS)
 
-  pop(PACKAGE_VERSION_COMPATIBLE)
-  pop(PACKAGE_VERSION_EXACT)
   pop(${package}_FIND_QUIETLY)
   pop(${package}_FIND_REQUIRED)
   pop(${package}_FIND_QUIET)
   pop(${package}_FIND_EXACT)
   pop(PACKAGE_FIND_VERSION)
+  pop(PACKAGE_FIND_VERSION_MAJOR)
+  pop(PACKAGE_FIND_VERSION_MINOR)
+  pop(git.submodule.packages.subject)
+  pop(git.submodule.package.${name}.compatibility)
 endmacro()
