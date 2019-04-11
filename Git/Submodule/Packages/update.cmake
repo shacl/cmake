@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12.1)
+
 function(git_submodule_update name)
   set(source_dir "${git.submodule.packages.cache}/${name}")
   set(url "${git.submodule.package.${name}.url}")
@@ -98,6 +99,6 @@ function(git_submodule_update name)
     "  FORCE)\n"
     "\n")
 
-  set(specification_file "${git.submodule.packages.specification.sink}")
+  set(specification_file "${git.submodule.packages.specification.output}")
   file(APPEND "${specification_file}" "${content}")
 endfunction()

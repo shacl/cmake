@@ -8,29 +8,32 @@ get_property(
   GLOBAL PROPERTY git.submodule.packages.cmake SET)
 
 if(NOT git.submodule.packages.cmake)
+  set_property(GLOBAL PROPERTY git.submodule.packages.cmake
+    "This is a header guard")
+
   include(CMakeDependentOption)
   include(CMakeDependentCacheVar)
   include(CMakeDependentSelection)
 
-  macro(git_submodule_packages_moniter var access value)
+  macro(git_submodule_packages_2ParentScope var access value)
     if("${access}" STREQUAL "MODIFIED_ACCESS")
       set(git.submodule.package.${var} "${value}" PARENT_SCOPE)
     endif()
   endmacro()
 
-  variable_watch(PROJECT_VERSION git_submodule_packages_moniter)
-  variable_watch(PROJECT_VERSION_MAJOR git_submodule_packages_moniter)
-  variable_watch(PROJECT_VERSION_MINOR git_submodule_packages_moniter)
+  variable_watch(PROJECT_VERSION git_submodule_packages_2ParentScope)
+  variable_watch(PROJECT_VERSION_MAJOR git_submodule_packages_2ParentScope)
+  variable_watch(PROJECT_VERSION_MINOR git_submodule_packages_2ParentScope)
+  variable_watch(PROJECT_VERSION_PATCH git_submodule_packages_2ParentScope)
+  variable_watch(PROJECT_VERSION_TWEAK git_submodule_packages_2ParentScope)
 
-  function(git_submodule_packages_cache var access value)
+  function(git_submodule_packages_2GlobalProperty var access value)
     if("${access}" STREQUAL "MODIFIED_ACCESS")
-      set(name ${git.submodule.packages.subject})
-      set_property(GLOBAL PROPERTY
-        git.submodule.package.${name}.compatibility "${value}")
+      set_property(GLOBAL PROPERTY git.submodule.package.${var} "${value}")
     endif()
   endfunction()
 
-  variable_watch(CVF_COMPATIBILITY git_submodule_packages_cache)
+  variable_watch(CVF_COMPATIBILITY git_submodule_packages_2GlobalProperty)
 
   #
   # This package supports the use of a file to reproduce previous
@@ -80,13 +83,13 @@ if(NOT git.submodule.packages.cmake)
 
   mark_as_advanced(git.submodule.packages.cache)
 
-  CMAKE_DEPENDENT_CACHE_VAR(git.submodule.packages.specification.sink
+  CMAKE_DEPENDENT_CACHE_VAR(git.submodule.packages.specification.output
     FILEPATH
     "Location for generated git submodule packages specification file"
     "${CMAKE_BINARY_DIR}/git-submodule-packages/specification.cmake"
     "git.submodule.packages" "")
 
-  mark_as_advanced(git.submodule.packages.specification.sink)
+  mark_as_advanced(git.submodule.packages.specification.output)
 
   if(git.submodule.packages)
     #
@@ -96,7 +99,7 @@ if(NOT git.submodule.packages.cmake)
 
     get_filename_component(
       git.submodule.packages.specification_dir
-      "${git.submodule.packages.specification.sink}"
+      "${git.submodule.packages.specification.output}"
       DIRECTORY)
 
     file(MAKE_DIRECTORY
@@ -108,7 +111,7 @@ if(NOT git.submodule.packages.cmake)
       "  \"Enable git submodule support for CMake find_package\" ON)\n"
       "\n")
 
-    file(WRITE "${git.submodule.packages.specification.sink}" "${content}")
+    file(WRITE "${git.submodule.packages.specification.output}" "${content}")
   endif()
 
   include(FunctionExtension)
@@ -118,10 +121,6 @@ if(NOT git.submodule.packages.cmake)
   include(Git/Submodule/Packages/update)
   include(Git/Submodule/Packages/package)
   include(Git/Submodule/Packages/find_package)
-
-  set_property(
-    GLOBAL PROPERTY git.packages.cmake
-    "This is a header guard")
 
   install(FILES "${CMAKE_CURRENT_LIST_DIR}/Packages.cmake"
     DESTINATION share/cmake/shacl/.cmake/Git/Submodule)
