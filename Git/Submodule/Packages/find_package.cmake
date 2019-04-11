@@ -25,7 +25,7 @@ macro(find_package name)
   # variable_watch. See the Git/Submodule/Packages.cmake for more context.
   #
   push(git.submodule.packages.subject)
-  set(git.submodule.packages.subject "${name}")
+  set( git.submodule.packages.subject "${name}")
   push(PACKAGE_FIND_VERSION)
   push(PACKAGE_FIND_VERSION_MAJOR)
   push(PACKAGE_FIND_VERSION_MINOR)
@@ -123,24 +123,24 @@ macro(find_package name)
   endif()
 
   if(continue)
-    push(git.submodules.package.${name}.traversed)
-    get_property(git.submodules.package.${name}.traversed GLOBAL PROPERTY
-      git.submodules.package.${name}.traversed)
-    if(NOT git.submodules.package.${name}.traversed)
-      set_property(GLOBAL PROPERTY git.submodules.${name}.traversed TRUE)
+    push(git.submodule.package.${name}.traversed)
+    get_property(git.submodule.package.${name}.traversed GLOBAL PROPERTY
+      git.submodule.package.${name}.traversed)
+    if(NOT git.submodule.package.${name}.traversed)
+      set_property(GLOBAL PROPERTY git.submodule.package.${name}.traversed TRUE)
       set(continue TRUE)
     endif()
 
-    push(git.submodules.package.${name}.traversed.components)
-    get_property(git.submodules.package.${name}.traversed.components
-      GLOBAL PROPERTY git.submodules.package.${name}.traversed.components)
+    push(git.submodule.package.${name}.traversed.components)
+    get_property(git.submodule.package.${name}.traversed.components
+      GLOBAL PROPERTY git.submodule.package.${name}.traversed.components)
 
     foreach(component IN LISTS ${name}_FIND_COMPONENTS)
-      if(component IN_LIST git.submodules.${name}.traversed.components)
+      if(component IN_LIST git.submodule.package.${name}.traversed.components)
         list(REMOVE_ITEM ${name}_FIND_COMPONENTS component)
       else()
         set_property(GLOBAL APPEND PROPERTY
-          git.submodules.${name}.traversed.component ${component})
+          git.submodule.package.${name}.traversed.components ${component})
         push(${name}_FIND_REQUIRED_${component})
         set(${name}_FIND_REQUIRED_${component} TRUE)
       endif()
@@ -151,11 +151,11 @@ macro(find_package name)
     endif()
 
     foreach(component IN LISTS ${name}_FIND_OPTIONAL_COMPONENTS)
-      if(component IN_LIST git.submodules.${name}.traversed.components)
+      if(component IN_LIST git.submodule.package.${name}.traversed.components)
         list(REMOVE_ITEM ${name}_FIND_OPTIONAL_COMPONENTS component)
       else()
         set_property(GLOBAL APPEND PROPERTY
-          git.submodules.${name}.traversed.component ${component})
+          git.submodule.package.${name}.traversed.components ${component})
         push(${name}_FIND_REQUIRED_${component})
         set(${name}_FIND_REQUIRED_${component} FALSE)
       endif()
@@ -172,7 +172,7 @@ macro(find_package name)
         message(STATUS "Failed to find local installation of ${name}.")
       endif()
 
-      if(NOT git.submodules.package.${name}.traversed)
+      if(NOT git.submodule.package.${name}.traversed)
         git_submodule_init(${name} ${git.submodule.packages.quiet.${name}})
         git_submodule_update(${name} ${git.submodule.packages.quiet.${name}})
       endif()
@@ -203,7 +203,7 @@ macro(find_package name)
     endif()
 
     include(Git/Submodule/Packages/check_version)
-    pop(git.submodules.package.${name}.traversed)
+    pop(git.submodule.package.${name}.traversed)
   endif()
 
   pop(continue)
