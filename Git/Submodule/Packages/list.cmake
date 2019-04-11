@@ -287,7 +287,7 @@ macro(git_submodule_list)
             message("${submodule.name} git submodule has a relative url: ${submodule.url}")
             message("${PROJECT_NAME} git repository branch, \"${repository.branch}\", does not establish a remote")
             message("${PROJECT_NAME} git repository does not provide a remote named \"origin\"")
-            message(FATAL_ERROR "Could not fetch determine remote for git submodule")
+            message(FATAL_ERROR "Could not determine remote for git submodule")
           endif()
         endif()
 
