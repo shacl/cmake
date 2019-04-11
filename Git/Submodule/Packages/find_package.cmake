@@ -189,9 +189,13 @@ macro(find_package name)
         push(git.submodule.package.PROJECT_VERSION)
         push(git.submodule.package.PROJECT_VERSION_MAJOR)
         push(git.submodule.package.PROJECT_VERSION_MINOR)
+        push(git.submodule.package.PROJECT_VERSION_PATCH)
+        push(git.submodule.package.PROJECT_VERSION_TWEAK)
         set(git.submodule.package.PROJECT_VERSION 0.0.0)
         set(git.submodule.package.PROJECT_VERSION_MAJOR 0)
         set(git.submodule.package.PROJECT_VERSION_MINOR 0)
+        set(git.submodule.package.PROJECT_VERSION_PATCH 0)
+        set(git.submodule.package.PROJECT_VERSION_TWEAK 0)
 
         add_subdirectory(
           "${git.submodule.packages.cache}/${name}"

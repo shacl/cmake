@@ -54,6 +54,7 @@ macro(git_submodule_list)
   execute_process(
     COMMAND "${GIT_EXECUTABLE}" rev-parse --show-toplevel
     OUTPUT_VARIABLE repository.root
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
   #
@@ -63,6 +64,7 @@ macro(git_submodule_list)
   execute_process(
     COMMAND "${GIT_EXECUTABLE}" rev-parse --abbrev-ref HEAD
     OUTPUT_VARIABLE repository.branch
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
   #
@@ -74,6 +76,7 @@ macro(git_submodule_list)
   execute_process(
     COMMAND "${GIT_EXECUTABLE}" config --get branch.${repository.branch}.remote
     OUTPUT_VARIABLE repository.remote.name
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     RESULT_VARIABLE failure
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
@@ -91,6 +94,7 @@ macro(git_submodule_list)
     execute_process(
       COMMAND  "${GIT_EXECUTABLE}" remote
       OUTPUT_VARIABLE repository.remotes
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       OUTPUT_STRIP_TRAILING_WHITESPACE)
 
     #
@@ -115,6 +119,7 @@ macro(git_submodule_list)
     execute_process(
       COMMAND "${GIT_EXECUTABLE}" config --get remote.${repository.remote.name}.url
       OUTPUT_VARIABLE repository.remote.url
+      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       OUTPUT_STRIP_TRAILING_WHITESPACE)
   else()
     set(repository.remote.url "")
