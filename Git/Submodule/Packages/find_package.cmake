@@ -176,28 +176,28 @@ macro(find_package name)
         git_submodule_init(${name} ${git.submodule.packages.quiet.${name}})
         git_submodule_update(${name} ${git.submodule.packages.quiet.${name}})
 
-	push(ALL_COMPONENTS)
-	set(ALL_COMPONENTS "")
-	list(APPEND ALL_COMPONENTS
+        push(ALL_COMPONENTS)
+        set(ALL_COMPONENTS "")
+        list(APPEND ALL_COMPONENTS
           ${${name}_FIND_COMPONENTS}
           ${${name}_FIND_OPTIONAL_COMPONENTS})
 
-	push(${name}_FIND_COMPONENTS)
-	set(${name}_FIND_COMPONENTS ${ALL_COMPONENTS})
-	pop(ALL_COMPONENTS)
+        push(${name}_FIND_COMPONENTS)
+        set(${name}_FIND_COMPONENTS ${ALL_COMPONENTS})
+        pop(ALL_COMPONENTS)
 
-	push(git.submodule.package.PROJECT_VERSION)
-	push(git.submodule.package.PROJECT_VERSION_MAJOR)
-	push(git.submodule.package.PROJECT_VERSION_MINOR)
-	set(git.submodule.package.PROJECT_VERSION 0.0.0)
-	set(git.submodule.package.PROJECT_VERSION_MAJOR 0)
-	set(git.submodule.package.PROJECT_VERSION_MINOR 0)
+        push(git.submodule.package.PROJECT_VERSION)
+        push(git.submodule.package.PROJECT_VERSION_MAJOR)
+        push(git.submodule.package.PROJECT_VERSION_MINOR)
+        set(git.submodule.package.PROJECT_VERSION 0.0.0)
+        set(git.submodule.package.PROJECT_VERSION_MAJOR 0)
+        set(git.submodule.package.PROJECT_VERSION_MINOR 0)
 
-	add_subdirectory(
+        add_subdirectory(
           "${git.submodule.packages.cache}/${name}"
           "${CMAKE_CURRENT_BINARY_DIR}/${name}")
 
-	pop(${name}_FIND_COMPONENTS)
+        pop(${name}_FIND_COMPONENTS)
       endif()
 
       set(${name}_FOUND TRUE)
