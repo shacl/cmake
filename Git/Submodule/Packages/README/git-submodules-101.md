@@ -62,6 +62,8 @@ branch (master).
 + using an https address referring to Github as a URI
 + not associated with any branch
 
+------
+
 Our second submodule will be Phil Nash's
 [excellent unit testing library](https://github.com/catchorg/Catch2.git).
 This time, we'll associate the submodule with a branch and explicitly specify
@@ -80,6 +82,8 @@ should track a branch (in this case, `master`). To summarize, this submodule
 + cloned into the `dependencies/Catch2` relative directory
 + using an https address referring to Github as a URI
 + is associated with the `Catch2` master branch
+
+-----
 
 Our last submodule will be Niels Lohmann's
 [excellent JSON library](https://github.com/nlohmann/json.git).
