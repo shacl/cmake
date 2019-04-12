@@ -29,6 +29,7 @@ macro(git_submodule_list)
   push(repository.remote.url)
   push(output)
   push(line)
+  push(wordlist)
   push(submodule.key)
   push(truncate_point)
   push(submodule.path.relative)
@@ -165,7 +166,7 @@ macro(git_submodule_list)
       # the key is '<submodule name>.path' and the value is the path relative
       # to the repository root directory.
       #
-      string(REPLACE " " ";" line "${line}")
+      string(REPLACE " " ";" wordlist "${line}")
 
       #
       # Get the key and strip the '.path' component of the key to isolate the
@@ -174,7 +175,7 @@ macro(git_submodule_list)
       # *** NOTE ***
       # We assume the submodule name does not embed white space.
       #
-      list(GET line 0 submodule.key)
+      list(GET wordlist 0 submodule.key)
       string(FIND "${submodule.key}" ".path" truncate_point REVERSE)
       string(SUBSTRING "${submodule.key}" 0 ${truncate_point} submodule.key)
 
@@ -182,7 +183,7 @@ macro(git_submodule_list)
       # We isolate that submodule relative path and construct the submodule
       # absolute path
       #
-      list(GET line 1 submodule.path.relative)
+      list(GET wordlist 1 submodule.path.relative)
       set(submodule.path.absolute "${repository.root}/${submodule.path.relative}")
 
       #
@@ -396,6 +397,7 @@ macro(git_submodule_list)
   pop(repository.remote.url)
   pop(output)
   pop(line)
+  pop(wordlist)
   pop(submodule.key)
   pop(truncate_point)
   pop(submodule.path.relative)
