@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.12.1)
+
 function(git_submodule_package name)
   if(NOT git.submodule.package.${name})
     if(NOT DEFINED git.submodule.package.${name})
@@ -43,25 +45,25 @@ function(git_submodule_package name)
   set(${name}_FIND_QUIETLY ${${name}_FIND_QUIET})
   set(continue FALSE)
 
-  get_property(git.submodules.package.${name}.traversed GLOBAL PROPERTY
-    git.submodules.package.${name}.traversed)
+  get_property(git.submodule.package.${name}.traversed GLOBAL PROPERTY
+    git.submodule.package.${name}.traversed)
 
-  if(NOT git.submodules.package.${name}.traversed)
-    set_property(GLOBAL PROPERTY git.submodules.${name}.traversed TRUE)
+  if(NOT git.submodule.package.${name}.traversed)
+    set_property(GLOBAL PROPERTY git.submodule.package.${name}.traversed TRUE)
     git_submodule_init(${name})
     git_submodule_update(${name})
     set(continue TRUE)
   endif()
 
-  get_property(git.submodules.package.${name}.traversed.components
-    GLOBAL PROPERTY git.submodules.package.${name}.traversed.components)
+  get_property(git.submodule.package.${name}.traversed.components
+    GLOBAL PROPERTY git.submodule.package.${name}.traversed.components)
 
   foreach(component IN LISTS ${name}_FIND_COMPONENTS)
-    if(component IN_LIST git.submodules.${name}.traversed.components)
+    if(component IN_LIST git.submodule.package.${name}.traversed.components)
       list(REMOVE_ITEM ${name}_FIND_COMPONENTS component)
     else()
       set_property(GLOBAL APPEND PROPERTY
-        git.submodules.${name}.traversed.component ${component})
+        git.submodule.package.${name}.traversed.component ${component})
       set(${name}_FIND_REQUIRED_${component} TRUE)
     endif()
   endforeach()
@@ -71,11 +73,11 @@ function(git_submodule_package name)
   endif()
 
   foreach(component IN LISTS ${name}_FIND_OPTIONAL_COMPONENTS)
-    if(component IN_LIST git.submodules.${name}.traversed.components)
+    if(component IN_LIST git.submodule.${name}.traversed.components)
       list(REMOVE_ITEM ${name}_FIND_OPTIONAL_COMPONENTS component)
     else()
       set_property(GLOBAL APPEND PROPERTY
-        git.submodules.${name}.traversed.component ${component})
+        git.submodule.package.${name}.traversed.component ${component})
       set(${name}_FIND_REQUIRED_${component} FALSE)
     endif()
   endforeach()
