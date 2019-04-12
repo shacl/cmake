@@ -6,8 +6,8 @@ if(NOT ${git.submodule.packages.subject}_VERSION)
   get_property(CVF_VERSION_ GLOBAL PROPERTY
     git.submodule.package.${git.submodule.package.PROJECT_NAME}.CVF_VERSION SET)
   if(CVF_VERSION_)
-    get_property(CVF_VERSION_
-      GLOBAL PROPERTY git.submodule.package.${git.submodule.package.PROJECT_NAME}.CVF_VERSION)
+    get_property(CVF_VERSION_ GLOBAL PROPERTY
+      git.submodule.package.${git.submodule.package.PROJECT_NAME}.CVF_VERSION)
     set(git.submodule.package.PROJECT_VERSION "${CVF_VERSION_}")
     string(REPLACE "." ";" CVF_VERSION_ "${CVF_VERSION_}")
 
