@@ -92,6 +92,8 @@ function(git_submodule_package name)
     set(git.submodule.package.PROJECT_VERSION 0.0.0)
     set(git.submodule.package.PROJECT_VERSION_MAJOR 0)
     set(git.submodule.package.PROJECT_VERSION_MINOR 0)
+    set(git.submodule.package.PROJECT_VERSION_PATCH 0)
+    set(git.submodule.package.PROJECT_VERSION_TWEAK 0)
     add_subdirectory(
       "${git.submodule.packages.cache}/${name}"
       "${LIST_BINARY_DIR}/${name}")

@@ -130,9 +130,10 @@ macro(find_package name)
       push(git.submodule.package.${name}.traversed)
       get_property(git.submodule.package.${name}.traversed GLOBAL PROPERTY
         git.submodule.package.${name}.traversed)
-      if(NOT git.submodule.package.${name}.traversed)
+      if(git.submodule.package.${name}.traversed)
+        set(continue FALSE)
+      else()
         set_property(GLOBAL PROPERTY git.submodule.package.${name}.traversed TRUE)
-        set(continue TRUE)
       endif()
 
       push(git.submodule.package.${name}.traversed.components)

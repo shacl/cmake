@@ -21,6 +21,7 @@ if(NOT git.submodule.packages.cmake)
     endif()
   endmacro()
 
+  variable_watch(PROJECT_NAME git_submodule_packages_2ParentScope)
   variable_watch(PROJECT_VERSION git_submodule_packages_2ParentScope)
   variable_watch(PROJECT_VERSION_MAJOR git_submodule_packages_2ParentScope)
   variable_watch(PROJECT_VERSION_MINOR git_submodule_packages_2ParentScope)
@@ -29,11 +30,12 @@ if(NOT git.submodule.packages.cmake)
 
   function(git_submodule_packages_2GlobalProperty var access value)
     if("${access}" STREQUAL "MODIFIED_ACCESS")
-      set_property(GLOBAL PROPERTY git.submodule.package.${var} "${value}")
+      set_property(GLOBAL PROPERTY git.submodule.package.${PROJECT_NAME}.${var} "${value}")
     endif()
   endfunction()
 
   variable_watch(CVF_COMPATIBILITY git_submodule_packages_2GlobalProperty)
+  variable_watch(CVF_VERSION git_submodule_packages_2GlobalProperty)
 
   #
   # This package supports the use of a file to reproduce previous

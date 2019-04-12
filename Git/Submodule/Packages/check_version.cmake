@@ -1,7 +1,33 @@
 get_property(${git.submodule.packages.subject}_VERSION GLOBAL PROPERTY
-  ${git.submodule.packages.subject}_VERSION DEFINED)
+  ${git.submodule.packages.subject}_VERSION SET)
 
 if(NOT ${git.submodule.packages.subject}_VERSION)
+  push(CVF_VERSION_)
+  get_property(CVF_VERSION_ GLOBAL PROPERTY
+    git.submodule.package.${git.submodule.package.PROJECT_NAME}.CVF_VERSION SET)
+  if(CVF_VERSION_)
+    get_property(CVF_VERSION_
+      GLOBAL PROPERTY git.submodule.package.${git.submodule.package.PROJECT_NAME}.CVF_VERSION)
+    set(git.submodule.package.PROJECT_VERSION "${CVF_VERSION_}")
+    string(REPLACE "." ";" CVF_VERSION_ "${CVF_VERSION_}")
+
+    push(length)
+    list(LENGTH CVF_VERSION_ length)
+    list(GET CVF_VERSION_ 0 git.submodule.package.PROJECT_VERSION_MAJOR)
+
+    if(length GREATER "1")
+      list(GET CVF_VERSION_ 1 git.submodule.package.PROJECT_VERSION_MINOR)
+      if(length GREATER "2")
+        list(GET CVF_VERSION_ 2 git.submodule.package.PROJECT_VERSION_PATCH)
+        if(length GREATER "3")
+          list(GET CVF_VERSION_ 3 git.submodule.package.PROJECT_VERSION_TWEAK)
+        endif()
+      endif()
+    endif()
+    pop(length)
+  endif()
+  pop(CVF_VERSION_)
+
   set(${git.submodule.packages.subject}_VERSION
     "${git.submodule.package.PROJECT_VERSION}")
   set_property(GLOBAL PROPERTY ${git.submodule.packages.subject}_VERSION
@@ -52,11 +78,9 @@ if(PACKAGE_FIND_VERSION)
   push(PACKAGE_VERSION_COMPATIBLE)
   set(PACKAGE_VERSION_COMPATIBLE TRUE)
 
-  push(git.submodule.package.CVF_COMPATIBILITY)
-  get_property(
-    git.submodule.package.CVF_COMPATIBILITY
-    GLOBAL PROPERTY
-    git.submodule.package.CVF_COMPATIBILITY)
+  push(CVF_COMPATIBILITY)
+  get_property(CVF_COMPATIBILITY_ GLOBAL PROPERTY
+    git.submodule.package.${git.submodule.package.PROJECT_NAME}.CVF_COMPATIBILITY)
 
   if(NOT ${git.submodule.packages.subject}_VERSION VERSION_EQUAL PACKAGE_FIND_VERSION)
     set(PACKAGE_VERSION_EXACT FALSE)
@@ -74,7 +98,7 @@ if(PACKAGE_FIND_VERSION)
         "Please update the ${git.submodule.packages.subject} repository located at: "
         "${git.submodule.packages.cache}/${git.submodule.packages.subject}\n")
       message(FATAL_ERROR "${message}")
-    elseif(git.submodule.package.CVF_COMPATIBILITY STREQUAL "ExactVersion")
+    elseif(CVF_COMPATIBILITY_ STREQUAL "ExactVersion")
       string(CONCAT message
         "${git.submodule.packages.subject} version ${PACKAGE_FIND_VERSION} requested\n"
         "Found version ${${git.submodule.packages.subject}_VERSION} via submodule\n"
@@ -82,7 +106,7 @@ if(PACKAGE_FIND_VERSION)
         "Please update the ${git.submodule.packages.subject} repository located at: "
         "${git.submodule.packages.cache}/${git.submodule.packages.subject}\n")
       message(FATAL_ERROR "${message}")
-    elseif(git.submodule.package.CVF_COMPATIBILITY STREQUAL "SameMajorVersion")
+    elseif(CVF_COMPATIBILITY_ STREQUAL "SameMajorVersion")
       if(NOT ${git.submodule.packages.subject}_VERSION_MAJOR EQUAL PACKAGE_FIND_VERSION_MAJOR)
         string(CONCAT message
           "${git.submodule.packages.subject} version ${PACKAGE_FIND_VERSION} requested\n"
@@ -92,7 +116,7 @@ if(PACKAGE_FIND_VERSION)
           "${git.submodule.packages.cache}/${git.submodule.packages.subject}\n")
         message(FATAL_ERROR "${message}")
       endif()
-    elseif(git.submodule.package.CVF_COMPATIBILITY STREQUAL "SameMinorVersion")
+    elseif(CVF_COMPATIBILITY_ STREQUAL "SameMinorVersion")
       if(NOT ${git.submodule.packages.subject}_VERSION_MINOR EQUAL PACKAGE_FIND_VERSION_MINOR)
         string(CONCAT message
           "${git.submodule.packages.subject} version ${PACKAGE_FIND_VERSION} requested\n"
@@ -104,7 +128,7 @@ if(PACKAGE_FIND_VERSION)
       endif()
     endif()
   endif()
-  pop(git.submodule.package.CVF_COMPATIBILITY)
+  pop(CVF_COMPATIBILITY_)
   pop(PACKAGE_VERSION_COMPATIBLE)
   pop(PACKAGE_VERSION_EXACT)
 endif()
