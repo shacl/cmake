@@ -51,6 +51,9 @@ macro(find_package name)
   push(find_package_options)
   set(find_package_options EXACT QUIET REQUIRED)
 
+  push(find_package_singleValueArgs)
+  set(find_package_singleValueArgs)
+
   push(find_package_multiValueArgs)
   set(find_package_multiValueArgs COMPONENTS OPTIONAL_COMPONENTS)
 
@@ -61,7 +64,10 @@ macro(find_package name)
   push(${name}_FIND_OPTIONAL_COMPONENTS)
 
   cmake_parse_arguments(${name}_FIND
-    "${find_package_options}" "" "${find_package_multiValueArgs}" ${ARGN})
+    "${find_package_options}"
+    "${find_package_singleValueArgs}"
+    "${find_package_multiValueArgs}"
+    ${ARGN})
 
   pop(find_package_options)
   pop(find_package_multiValueArgs)
