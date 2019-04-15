@@ -76,6 +76,8 @@ those interested in packaging software with fixed version dependencies as part
 of a larger ecosystem (as is conventional with Debian's `apt`, Red Hat's `dnf`,
 or Microsoft's `vcpkg` package managers).
 
+-----
+
 + `git.submodule.packages.cache`
   + type: directory path
   + default: `${CMAKE_BINARY_DIR}/git-submodule-packages`
@@ -90,6 +92,8 @@ configurations leveraging different dependency versions.
 This option is labeled as advanced and when `git.submodule.packages` is `OFF`,
 this option does not appear in the cache.
 
+-----
+
 + `git.submodule.packages.specification`
   + type: file path
   + default: N/A
@@ -100,6 +104,8 @@ submodules (see the `git.submodule.packages.specification.output` variable).
 These file can later be consumed to reproduce that environment. This variable
 is used to specify the path to such a file, which will be used to reproduce
 the described environment.
+
+-----
 
 + `git.submodule.packages.specification.output`
   + type: file path
@@ -115,6 +121,8 @@ This variable is used to specify the path to write this specification file.
 This option is labeled as advanced and when `git.submodule.packages` is `OFF`,
 this option does not appear in the cache.
 
+-----
+
 + `git.submodule.packages.update`
   + type: boolean
   + default: `ON`
@@ -126,6 +134,8 @@ repositories to the HEAD of their respective associated branches.
 
 This option is labeled as advanced and when `git.submodule.packages` is `OFF`,
 this option does not appear in the cache.
+
+-----
 
 + `git.submodule.packages.eager`
   + type: boolean
@@ -156,6 +166,8 @@ This option allows a user to opt-out of the use of a Git submodule associated
 with a particular package. When `git.submodule.packages` is `OFF`, this option
 does not appear in the cache.
 
+-----
+
 + `git.submodule.package.<package name>.branch`
   + type: string
   + default: see description
@@ -165,6 +177,8 @@ This string appears in the cache for submodules with an associated branch. This
 variable is intended to be read-only and is meant for debugging. When
 `git.submodule.packages` or `git.submodule.package.<package name>` is `OFF`,
 this option does not appear in the cache.
+
+-----
 
 + `git.submodule.package.<package name>.eager`
   + type: enumeration
@@ -183,6 +197,8 @@ found.
 When `git.submodule.packages` or `git.submodule.package.<package name>` is
 `OFF`, this option does not appear in the cache.
 
+------
+
 + `git.submodule.package.<package name>.update`
   + type: enumeration
   + default: `default`
@@ -198,6 +214,8 @@ to the HEAD of its associated branch.
 
 When `git.submodule.packages` or `git.submodule.package.<package name>` is
 `OFF`, this option does not appear in the cache.
+
+---------
 
 + `git.submodule.package.<package name>.url`
   + type: string
