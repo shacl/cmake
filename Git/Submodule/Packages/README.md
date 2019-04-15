@@ -65,6 +65,8 @@ categories: fine-grain and course-grain.
 
 Coarse grain variables define the default and package-independent behavior.
 
+---
+
 + `git.submodule.packages`
   + type: boolean
   + default: `ON`
@@ -151,11 +153,16 @@ not be found.
 When `git.submodule.packages` is `OFF`, this option does not appear in the
 cache.
 
+----
+
 #### Fine Grain ####
 
-Fine grain variables allow users to specify behavior on a package-by-package
-basis. All fine-grain variables are marked as advanced to avoid overwhelming
-newcomers.
+
+Fine grain variables allow users to specify behavior and inspect state on a
+package-by-package basis. All fine-grain variables are marked as advanced to
+avoid overwhelming newcomers.
+
+----
 
 + `git.submodule.package.<package name>`
   + type: boolean
@@ -166,7 +173,7 @@ This option allows a user to opt-out of the use of a Git submodule associated
 with a particular package. When `git.submodule.packages` is `OFF`, this option
 does not appear in the cache.
 
------
+----
 
 + `git.submodule.package.<package name>.branch`
   + type: string
@@ -178,7 +185,7 @@ variable is intended to be read-only and is meant for debugging. When
 `git.submodule.packages` or `git.submodule.package.<package name>` is `OFF`,
 this option does not appear in the cache.
 
------
+----
 
 + `git.submodule.package.<package name>.eager`
   + type: enumeration
@@ -197,7 +204,7 @@ found.
 When `git.submodule.packages` or `git.submodule.package.<package name>` is
 `OFF`, this option does not appear in the cache.
 
-------
+----
 
 + `git.submodule.package.<package name>.update`
   + type: enumeration
@@ -215,7 +222,7 @@ to the HEAD of its associated branch.
 When `git.submodule.packages` or `git.submodule.package.<package name>` is
 `OFF`, this option does not appear in the cache.
 
----------
+----
 
 + `git.submodule.package.<package name>.url`
   + type: string
@@ -227,3 +234,24 @@ intended to be read-only and is meant for debugging. When
 `git.submodule.packages` or `git.submodule.package.<package name>` is `OFF`,
 this option does not appear in the cache.
 
+----
+
+Implementation
+----
+
+The implementation of the `find_package` command depends on a CMake developer
+feature that allows for the extension and/or overwriting of CMake command. The
+use of this functionality for purposes beyond debugging is controversial;
+[Daniel Pfeifer](https://gitlab.kitware.com/purpleKarrot) (of
+[Effective CMake](https://youtu.be/bsXLMQ6WgIk)) suggests this sort of extension
+as a reasonable use of the facility, while
+[Craig Scott](https://gitlab.kitware.com/craig.scott) (of
+[Professional CMake](https://crascit.com/professional-cmake/))
+[discourages](https://crascit.com/2018/09/14/do-not-redefine-cmake-commands/)
+this practice.
+
+For those siding with Scott, this module also provides an alternative command,
+`git_submodule_package` which does not leverage developer features. This
+command falls back to `find_package` when the git submodule package
+functionality is disabled (via fine-grain or coarse-grain cache variables), but
+otherwise does not interoperate with the intrinsic command.
