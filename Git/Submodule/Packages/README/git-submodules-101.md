@@ -99,7 +99,7 @@ repostiory's orgin remote URI, i.e.
 `ssh://git@xcp-stash.lanl.gov:7999/nlohmann/json.git`.
 
 > Note that the time of writing a mirror of Lohmann's library is maintained on
-> the ADLX bitbucket instance.
+> the ADLX bitbucket instance and updated nightly.
 
 This submodule is
 
@@ -109,6 +109,72 @@ branch (master).
 + using a relative URI
 + not associated with any branch
 
+#### Updating Submodules ####
+
+As we've discussed, submodules are effectively a reference to a particular state
+of another respository. Provided the upstream repository is still active, the
+upstream submodule respository will continue to evolve, introducing additional
+functionality, improoving performance, or resolving bugs. If our project is to
+take advantage of that work, we need to update the state to which our submodule
+refers.
+
+Let's begin by considering the `nlohmann_json` submodules described in the
+previous section. The respository need by initialized, if it isn't already.
+
+```
+git submodule update --init -- dependencies/nlohmann_json
+```
+
+Given an initialized submodule, we can update the state to which the submodule
+refers much as we would an ordinary Git repository. In this case, we'll update
+the `dependencies/nlohmann_json` submodule to refer to the current HEAD of the
+master branch of the remote.
+
+```
+# update the submodule
+cd dependencies/nlohmann_json
+git checkout master
+git pull
+
+# commit the updated submodule reference
+cd ../..
+git add dependencies/nlohmann_json
+git commit -m "updated nlohmann_json submodule"
+```
+
+In the case of submodules which provide an associated branch, this reference
+state can also be modified during the initialization. Let's consider the
+`dependencies/Catch2` submodule, which specifies `master` as it's associated
+branch.
+
+```
+git submodule update --init --remote -- dependencies/Catch2
+git add dependencies/Catch2
+git commit -m "updated Catch2 submodule"
+```
+
+For a project with many submodules, updating each individually (with either
+procedure) can quickly become quite tedious. Naturally, Git provides facilities
+for during these operations in bulk.
+
+In order to update each submodule with an associated branch, use the following
+command:
+
+```
+git submodule deinit --force --all
+git submodule update --init --remote
+git commit -am "updated all branch tracking submodules"
+```
+
+In order to update each submodule (regardless of whether it has an associated
+branch) to the head of master, use the following command.
+
+```
+git submodule deinit --force --all
+git submodule update --init
+git submodule foreach git checkout origin/master
+git commit -am "updated all submodules to HEAD of master"
+```
 
 #### Inspecting the Submodule State #####
 
@@ -167,6 +233,3 @@ command has the following output:
 
 The third field in the output (`60b05b204`...) is the commit hash tracked by
 the Catch2 module.
-
-
-#### Updating Submodules ####

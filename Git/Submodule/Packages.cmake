@@ -15,6 +15,14 @@ if(NOT git.submodule.packages.cmake)
   include(CMakeDependentCacheVar)
   include(CMakeDependentSelection)
 
+  #
+  # We eavesdrop on a few project-related variables.
+  #
+  # When any variables are written to, we cache that value in a corresonding
+  # (name-mangled) variable in the parent-scope. If that parent-scope is the
+  # calling context of `find_package` or `git_submodule_package`, these
+  # variables are leveraged for version checking.
+  #
   macro(git_submodule_packages_2ParentScope var access value)
     if("${access}" STREQUAL "MODIFIED_ACCESS")
       set(git.submodule.package.${var} "${value}" PARENT_SCOPE)
@@ -28,9 +36,17 @@ if(NOT git.submodule.packages.cmake)
   variable_watch(PROJECT_VERSION_PATCH git_submodule_packages_2ParentScope)
   variable_watch(PROJECT_VERSION_TWEAK git_submodule_packages_2ParentScope)
 
+  #
+  # We also eavesdrop on a few variables written to when invoking
+  # `write_basic_package_version_file`.
+  #
+  # These variables are written to a, respective, project-specific global
+  # property. These are leveraged for version checking.
+  #
   function(git_submodule_packages_2GlobalProperty var access value)
     if("${access}" STREQUAL "MODIFIED_ACCESS")
-      set_property(GLOBAL PROPERTY git.submodule.package.${PROJECT_NAME}.${var} "${value}")
+      set_property(GLOBAL PROPERTY git.submodule.package.${PROJECT_NAME}.${var}
+        "${value}")
     endif()
   endfunction()
 

@@ -1,17 +1,19 @@
 cmake_minimum_required(VERSION 3.12.1)
 
 function(git_submodule_package name)
-  if(NOT git.submodule.package.${name})
-    if(NOT DEFINED git.submodule.package.${name})
-      message(INFO "git_submodule_package called on package without a corresponding submodule in the repository")
-      message(INFO "requested package: ${name}")
-      message(FATAL_ERROR "No corresponding git submodule")
-    else()
-      message(INFO "git_submodule_package called on disabled package")
-      message(INFO "requested package: ${name}")
-      message(INFO "git.submodule.package.${name} cache entry: ${git.submodule.package.${name}}")
-      message(FATAL_ERROR "Disabled git submodule package")
-    endif()
+  #
+  # If the user calls to this function without a corresponding git submodule,
+  # fail quickly.
+  #
+  if(NOT DEFINED git.submodule.package.${name})
+    message(INFO "git_submodule_package called on package without a corresponding submodule in the repository")
+    message(INFO "requested package: ${name}")
+    message(FATAL_ERROR "No corresponding git submodule")
+  endif()
+
+  if(NOT (git.submodule.packages AND git.submodule.package.${name}))
+    find_package(${ARGV})
+    return()
   endif()
 
   set(git.submodule.packages.subject "${name}")
