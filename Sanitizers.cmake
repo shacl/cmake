@@ -14,21 +14,21 @@ define_property(TARGET PROPERTY ubsan
   BRIEF_DOCS "Enable undefined behavior sanitizer"
   FULL_DOCS "UndefinedBehaviorSanitizer (aka UBSan) is a tool that detects undefined behavior")
 
-option(asan.default
+option(shacl.sanitizer.asan.default
   "Default address sanitizer behavior (ON/OFF)" OFF)
-mark_as_advanced(asan.default)
+mark_as_advanced(shacl.sanitizer.asan.default)
 
-option(msan.default
+option(shacl.sanitizer.msan.default
   "Default memory sanitizer behavior (ON/OFF)" OFF)
-mark_as_advanced(msan.default)
+mark_as_advanced(shacl.sanitizer.msan.default)
 
-option(tsan.default
+option(shacl.sanitizer.tsan.default
   "Default thread sanitizer behavior (ON/OFF)" OFF)
-mark_as_advanced(tsan.default)
+mark_as_advanced(shacl.sanitizer.tsan.default)
 
-option(ubsan.default
+option(shacl.sanitizer.ubsan.default
   "Default undefined behavior sanitizer behavior (ON/OFF)" OFF)
-mark_as_advanced(ubsan.default)
+mark_as_advanced(shacl.sanitizer.ubsan.default)
 
 add_library(shacl::cmake::detail::sanitizers INTERFACE IMPORTED GLOBAL)
 
@@ -43,7 +43,7 @@ foreach(sanitizer IN ITEMS asan msan tsan ubsan)
   string(CONCAT compilation_generator
     "${compilation_generator}"
     "$<$<OR:$<BOOL:$<TARGET_PROPERTY:${sanitizer}>>,"
-           "$<BOOL:${${sanitizer}.default}>"
+           "$<BOOL:${shacl.sanitizer.${sanitizer}.default}>"
      ">:-fsanitize=${${sanitizer}};-fno-omit-frame-pointer;-fno-sanitize-recover=all>;")
 
   string(CONCAT linking_generator
@@ -56,9 +56,9 @@ endforeach()
 target_compile_options(shacl::cmake::detail::sanitizers INTERFACE ${compilation_generator})
 target_link_libraries(shacl::cmake::detail::sanitizers INTERFACE ${linking_generator})
 
-add_library(shacl::cmake::sanitizers_C INTERFACE IMPORTED GLOBAL)
-add_library(shacl::cmake::sanitizers_CXX INTERFACE IMPORTED GLOBAL)
-add_library(shacl::cmake::sanitizers_Fortran INTERFACE IMPORTED GLOBAL)
+add_library(shacl::cmake::Sanitizers_C INTERFACE IMPORTED GLOBAL)
+add_library(shacl::cmake::Sanitizers_CXX INTERFACE IMPORTED GLOBAL)
+add_library(shacl::cmake::Sanitizers_Fortran INTERFACE IMPORTED GLOBAL)
 
 get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 foreach(language IN ITEMS C CXX Fortran)
@@ -69,7 +69,7 @@ foreach(language IN ITEMS C CXX Fortran)
       "$<STREQUAL:Clang,${CMAKE_${language}_COMPILER_ID}>,"
       "$<STREQUAL:AppleClang,${CMAKE_${language}_COMPILER_ID}>>"
       ":shacl::cmake::detail::sanitizers>")
-    target_link_libraries(shacl::cmake::sanitizers_${language} INTERFACE ${vendor_discrimination})
+    target_link_libraries(shacl::cmake::Sanitizers_${language} INTERFACE ${vendor_discrimination})
   endif()
 endforeach()
 
