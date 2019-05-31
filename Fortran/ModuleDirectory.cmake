@@ -14,10 +14,13 @@ function(target_Fortran_module_directory target linkage)
 
   set(multiconfig_suffix "")
   if( CMAKE_CONFIGURATION_TYPES )
+    foreach(CONFIGURATION_TYPE IN LISTS CMAKE_CONFIGURATION_TYPES)
+      file(MAKE_DIRECTORY "${target_Fortran_module_directory_BUILD_INTERFACE}/${CONFIGURATION_TYPE}")
+    endforeach()
     set(multiconfig_suffix "/$<CONFIG>")
   endif()
 
-  target_include_directories("${target}" "${linkage}" 
+  target_include_directories("${target}" "${linkage}"
     $<BUILD_INTERFACE:${target_Fortran_module_directory_BUILD_INTERFACE}${multiconfig_suffix}>
   )
   set_target_properties("${target}" PROPERTIES
@@ -35,6 +38,6 @@ function(target_Fortran_module_directory target linkage)
   endif()
 endfunction()
 
-install(FILES 
+install(FILES
   ${CMAKE_CURRENT_LIST_DIR}/ModuleDirectory.cmake
   DESTINATION share/cmake/shacl/.cmake/Fortran)
