@@ -2,16 +2,16 @@ cmake_minimum_required(VERSION 3.12.1)
 backup(add_executable)
 
 macro(add_executable target_)
-  push(target)
-  set(target ${target_})
+  push(scl.DependencyInjection.target)
+  set(scl.DependencyInjection.target ${target_})
 
-  previous_add_executable(${target} "${ARGN}")
+  previous_add_executable(${target_} "${ARGN}")
 
-  foreach(inc IN LISTS ${target}.injections)
+  foreach(inc IN LISTS ${scl.DependencyInjection.target}.injections)
     include(${inc})
   endforeach()
 
-  pop(target)
+  pop(scl.DependencyInjection.target)
 endmacro()
 
 install(FILES
