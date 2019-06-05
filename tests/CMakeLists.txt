@@ -39,6 +39,7 @@ add_subdirectory(DependencyInjection)
 add_subdirectory(Warnings)
 add_subdirectory(Batch)
 add_subdirectory(DelegatingCacheVariable)
+add_subdirectory(DelegatingOption)
 
 # # KEEP THIS AT THE BOTTOM
 add_subdirectory(FunctionExtension)
