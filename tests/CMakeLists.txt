@@ -43,6 +43,7 @@ add_subdirectory(DelegatingOption)
 add_subdirectory(DelegatingSelection)
 add_subdirectory(DependentDelegatingCacheVariable)
 add_subdirectory(DependentDelegatingOption)
+add_subdirectory(DependentDelegatingSelection)
 
 # # KEEP THIS AT THE BOTTOM
 add_subdirectory(FunctionExtension)
