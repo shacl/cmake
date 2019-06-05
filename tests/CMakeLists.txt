@@ -40,6 +40,7 @@ add_subdirectory(Warnings)
 add_subdirectory(Batch)
 add_subdirectory(DelegatingCacheVariable)
 add_subdirectory(DelegatingOption)
+add_subdirectory(DelegatingSelection)
 
 # # KEEP THIS AT THE BOTTOM
 add_subdirectory(FunctionExtension)
