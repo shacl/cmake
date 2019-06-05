@@ -41,6 +41,7 @@ add_subdirectory(Batch)
 add_subdirectory(DelegatingCacheVariable)
 add_subdirectory(DelegatingOption)
 add_subdirectory(DelegatingSelection)
+add_subdirectory(DependentDelegatingCacheVar)
 
 # # KEEP THIS AT THE BOTTOM
 add_subdirectory(FunctionExtension)
