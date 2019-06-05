@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 function(CMAKE_DEPENDENT_CACHE_VAR variable type docstring default conditions force)
-  list(APPEND type_list FILEPATH PATH STRING BOOL)
+  set(type_list FILEPATH PATH STRING BOOL INTERNAL)
   list(FIND type_list ${type} type_found)
   if( type_found LESS 0 )
     message("CMAKE_DEPENDENT_CACHE_VAR error: variable type")
     message(FATAL_ERROR
-      "'${type}' must be one of FILEPATH, PATH, STRING, or BOOL")
+      "'${type}' must be one of FILEPATH, PATH, STRING, BOOL, or INTERNAL")
   endif()
 
   set(${variable}_AVAILABLE TRUE)
