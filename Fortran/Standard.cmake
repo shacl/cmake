@@ -10,7 +10,7 @@ FULL_DOCS
  -std=f2003 to the compile line. For compilers that have no notion of a
  standard level, such as PGI, this has no effect.
 
- Supported values are 95, 2003, and 2008")
+ Supported values are 95, 2003, 2008, and 2018")
 
 add_library(shacl::cmake::Fortran::Standard INTERFACE IMPORTED GLOBAL)
 
@@ -28,8 +28,8 @@ include(Fortran/Standard/PGI)
 # TODO: Flang -- it does not implement standards checking yet
 
 install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/Standard.cmake
+  "${CMAKE_CURRENT_LIST_DIR}/Standard.cmake"
   DESTINATION share/cmake/shacl/.cmake/Fortran)
 
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Standard
+install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Standard"
   DESTINATION share/cmake/shacl/.cmake/Fortran)
