@@ -38,7 +38,7 @@ foreach(standard 95 2003 2008 2018)
   file(GENERATE
     OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/f${standard}.f90"
     CONTENT "
-program f${stand}
+program f${standard}
   write(*,'(a)') \"$<TARGET_PROPERTY:Fortran.Standard.${standard},COMPILE_OPTIONS>\"
 end program
 ")
