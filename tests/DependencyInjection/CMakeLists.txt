@@ -12,6 +12,6 @@ add_test(
   NAME shacl.cmake.di_test
   COMMAND diexe
 )
-set_tests_properties(shacl.cmake.di_test PROPERTIES 
+set_tests_properties(shacl.cmake.di_test PROPERTIES
   PASS_REGULAR_EXPRESSION "Hello World!"
 )

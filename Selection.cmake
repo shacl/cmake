@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
-function(selection variable docstring)
-  cmake_parse_arguments(selection "" DEFAULT OPTIONS ${ARGN})
+function(selection variable)
+  set(OPTIONS)
+  set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
+  set(VARIADIC_ARGUMENTS OPTIONS)
+
+  cmake_parse_arguments(selection
+    "${OPTIONS}"
+    "${UNARY_ARGUMENTS}"
+    "${VARIADIC_ARGUMENTS}" ${ARGN})
+
   if(NOT DEFINED selection_OPTIONS)
     message(FATAL_ERROR "selection invoked without 'OPTIONS' keyword")
   endif()
@@ -17,11 +25,15 @@ function(selection variable docstring)
     list(APPEND selection_OPTIONS "")
   endif()
 
-  set(${variable} "${selection_DEFAULT}" CACHE STRING "${docstring}")
+  set(${variable} "${selection_DEFAULT}" CACHE STRING "${selection_DOCSTRING}")
   set_property(CACHE ${variable} PROPERTY STRINGS ${selection_OPTIONS})
   if(NOT ${variable} IN_LIST selection_OPTIONS)
     message("${variable} set to ${${variable}}")
-    message(FATAL_ERROR "${variable} must be one of ${selection_OPTIONS}")
+    set(error_message "${variable} must be one of:")
+    foreach(option_string IN LISTS selection_OPTIONS)
+      string(CONCAT error_message "${error_message}\n" "  ${option}")
+    endforeach()
+    message(FATAL_ERROR "${error_message}")
   endif()
 endfunction()
 
