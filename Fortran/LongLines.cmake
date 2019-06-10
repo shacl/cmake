@@ -19,8 +19,8 @@ add_library(Fortran_LongLines ALIAS shacl::cmake::Fortran::LongLines)
 add_library(Fortran::LongLines ALIAS shacl::cmake::Fortran::LongLines)
 
 install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/LongLines.cmake
+  "${CMAKE_CURRENT_LIST_DIR}/LongLines.cmake"
   DESTINATION share/cmake/shacl/.cmake/Fortran)
 
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/LongLines
+install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/LongLines"
   DESTINATION share/cmake/shacl/.cmake/Fortran)
