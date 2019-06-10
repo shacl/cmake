@@ -9,7 +9,7 @@ foreach(toggle ON OFF)
   add_executable(longlines.${toggle} "")
   set_target_properties(longlines.${toggle} 
     PROPERTIES Fortran_LONGLINES ${toggle})
-  target_link_libraries(longlines.${toggle} PRIVATE Fortran::LongLines)  
+  target_link_libraries(longlines.${toggle} PRIVATE shacl::cmake::Fortran::LongLines)  
   set(target longlines.${toggle})
 
   configure_file(
