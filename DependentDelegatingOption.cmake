@@ -37,6 +37,8 @@ function(dependent_delegating_option variable)
 
   set(available TRUE)
   foreach(condition IN LISTS ddo_CONDITION)
+    string(REGEX REPLACE " +" ";"
+    condition "${condition}")
     if(${condition})
     else()
       set(available FALSE)
@@ -44,7 +46,7 @@ function(dependent_delegating_option variable)
     endif()
   endforeach()
 
-  if(${available})
+  if(available)
     set(${variable} "default" CACHE STRING "${docstring}")
     set(${variable} "${${variable}}" CACHE STRING "${docstring}" FORCE)
     if(${variable} STREQUAL "default")
