@@ -4,8 +4,9 @@ backup(add_executable)
 function(add_executable target)
   previous_add_executable(${ARGV})
 
+  get_target_property(is_alias ${target} ALIASED_TARGET)
   get_target_property(is_imported ${target} IMPORTED)
-  if(is_imported)
+  if(is_alias OR is_imported)
     return()
   endif()
 
