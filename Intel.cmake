@@ -16,6 +16,5 @@ if(shacl.cmake.installation)
 endif()
 
 include(Intel/Fortran/Assumptions)
-include(Intel/Fortran/StandardSemantics)
 include(Intel/FloatingPoint/Model)
 include(Intel/FloatingPoint/Speculation)
