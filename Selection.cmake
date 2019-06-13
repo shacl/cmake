@@ -1,6 +1,22 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
+include("${CMAKE_CURRENT_LIST_DIR}/config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "Selection" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "Selection")
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake)
+  endif()
+endif()
+
+include_guard(GLOBAL)
 function(selection variable)
   set(OPTIONS)
   set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
@@ -36,7 +52,3 @@ function(selection variable)
     message(FATAL_ERROR "${error_message}")
   endif()
 endfunction()
-
-install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/Selection.cmake
-  DESTINATION share/cmake/shacl/.cmake)

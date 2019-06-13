@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.12.1)
-string(CONCAT generator
+string(CONCAT shacl.cmake.Warnings.generator
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:-Werror>;"
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:"
     "-Wall;"
@@ -9,11 +8,15 @@ string(CONCAT generator
     "-Wbad-function-cast;"
     "-Wkeyword-macro;"
     "-Wnonportable-system-include-path;"
-    "-Wsometimes-uninitialized>;"
+    "-Wsometimes-uninitialized;>"
   "$<$<BOOL:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>>:"
-    "-W$<JOIN:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>,;-W>>;"
+    "-W$<JOIN:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>,"
+            ",;-W>;>"
   "$<$<BOOL:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>>:"
-    "-Wno-$<JOIN:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>,;-Wno->>;")
+    "-Wno-$<JOIN:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>"
+               ",;-Wno->;>")
 
 target_compile_options(shacl::cmake::Warnings_C INTERFACE
-  $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>>:${generator}>)
+  $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>>:${shacl.cmake.Warnings.generator}>)
+
+unset(shacl.cmake.Warnings.generator)

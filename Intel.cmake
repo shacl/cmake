@@ -1,11 +1,21 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
-include(Intel/FortranAssumptions)
-include(Intel/FortranStandardAdherence)
-include(Intel/FPModel)
-include(Intel/FPSpeculation)
+include("${CMAKE_CURRENT_LIST_DIR}/config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
 
-install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/Intel.cmake
-  DESTINATION share/cmake/shacl/.cmake)
+  if(NOT "Intel" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY shacl.cmake.installed_modules "Intel")
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake)
+  endif()
+endif()
+
+include(Intel/Fortran/Assumptions)
+include(Intel/Fortran/StandardSemantics)
+include(Intel/FloatingPoint/Model)
+include(Intel/FloatingPoint/Speculation)

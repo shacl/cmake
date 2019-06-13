@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 macro(previous_target_sources)
   if(NOT previous_target_sources_fn)
     set(previous_target_sources_fn target_sources)

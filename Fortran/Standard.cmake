@@ -1,6 +1,30 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
+include("${CMAKE_CURRENT_LIST_DIR}/../config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "Fortran/Standard" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "Fortran/Standard")
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake/Fortran)
+
+    install(
+      DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Standard"
+      DESTINATION share/cmake/shacl/.cmake/Fortran)
+  endif()
+endif()
+
+if(NOT CMAKE_Fortran_COMPILER)
+  return()
+endif()
+
+include_guard(GLOBAL)
 define_property(TARGET PROPERTY Fortran_STANDARD
 BRIEF_DOCS
 "The Fortran standard whose features are requested to build this target."
@@ -13,23 +37,9 @@ FULL_DOCS
  Supported values are 95, 2003, and 2008")
 
 add_library(shacl::cmake::Fortran::Standard INTERFACE IMPORTED GLOBAL)
-
-# These aliases are provided for short term backwards compatability.
-#
-# Please don't not use in new work and update existing work to use the
-# the imported target defined above as soon as reasonably possible.
-
-add_library(Fortran_Standard ALIAS shacl::cmake::Fortran::Standard)
-add_library(Fortran::Standard ALIAS shacl::cmake::Fortran::Standard)
+set_property(TARGET shacl::cmake::Fortran::Standard
+  APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_STANDARD)
 
 include(Fortran/Standard/Intel)
 include(Fortran/Standard/GNU)
 include(Fortran/Standard/PGI)
-# TODO: Flang -- it does not implement standards checking yet
-
-install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/Standard.cmake
-  DESTINATION share/cmake/shacl/.cmake/Fortran)
-
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Standard
-  DESTINATION share/cmake/shacl/.cmake/Fortran)

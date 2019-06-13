@@ -1,6 +1,28 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
+include("${CMAKE_CURRENT_LIST_DIR}/../../config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "Intel/Fortran/Assumptions" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "Intel/Fortran/Assumptions")
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake/Intel/Fortran)
+  endif()
+
+  unset(shacl.cmake.installed_modules)
+endif()
+
+if(NOT DEFINED CMAKE_Fortran_COMPILER)
+  return()
+endif()
+
+include_guard(GLOBAL)
 define_property(TARGET PROPERTY Intel_Fortran_ENABLED_ASSUMPTIONS
 BRIEF_DOCS
 "Intel assumption keywords (for Fortran) to ensable"
@@ -27,37 +49,22 @@ FULL_DOCS
 
 add_library(shacl::cmake::Intel::Fortran::Assumptions INTERFACE IMPORTED GLOBAL)
 
-# These aliases are provided for short term backwards compatability.
-#
-# Please don't not use in new work and update existing work to use the
-# the imported target defined above as soon as reasonably possible.
-#
-add_library(Intel::FortranAssumptions ALIAS
-  shacl::cmake::Intel::Fortran::Assumptions)
-
-add_library(Intel_Assumptions ALIAS
-  shacl::cmake::Intel::Fortran::Assumptions)
-
-string(CONCAT generator
+string(CONCAT shacl.cmake.Intel.FortranAssumptions.generator
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
          ",$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>>:"
-    "$<$<PLATFORM_ID:Windows>:/assume:>"
-    "$<$<NOT:$<PLATFORM_ID:Windows>>:-assume;>"
-    "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>,$<COMMA>>"
-  ">"
+    "$<IF:$<PLATFORM_ID:Windows>,/assume:,-assume;>"
+    "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>,$<COMMA>>>"
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
          ",$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_DISABLED_ASSUMPTIONS>>>:"
-    "$<$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>:$<COMMA>no>"
-    "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>>:"
-      "$<$<PLATFORM_ID:Windows>:/assume:no>"
-      "$<$<NOT:$<PLATFORM_ID:Windows>>:-assume;no>"
-    ">"
-    "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_DISABLED_ASSUMPTIONS>,$<COMMA>no>"
-  ">;")
+    "$<IF:$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>"
+        ",$<COMMA>no>"
+        ",$<IF:$<PLATFORM_ID:Windows>"
+             ",/assume:no"
+             ",-assume;no>>"
+    "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_DISABLED_ASSUMPTIONS>"
+          ",$<COMMA>no>>")
 
 target_compile_options(shacl::cmake::Intel::Fortran::Assumptions INTERFACE
-  ${generator})
+  ${shacl.cmake.Intel.FortranAssumptions.generator})
 
-install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/FortranAssumptions.cmake
-  DESTINATION share/cmake/shacl/.cmake/Intel)
+unset(shacl.cmake.Intel.FortranAssumptions.generator)

@@ -1,6 +1,24 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
+include("${CMAKE_CURRENT_LIST_DIR}/config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "DelegatingCacheVariable" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "DelegatingCacheVariable")
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake)
+  endif()
+
+  unset(shacl.cmake.installed_modules)
+endif()
+
+include_guard(GLOBAL)
 function(delegating_cache_variable variable)
   set(OPTIONS)
   set(UNARY_ARGUMENTS DEFAULT TYPE DOCSTRING)
@@ -44,7 +62,3 @@ function(delegating_cache_variable variable)
     set(${variable} "${${dcv_DEFAULT}}" PARENT_SCOPE)
   endif()
 endfunction()
-
-install(FILES
-  "${CMAKE_CURRENT_LIST_DIR}/DelegatingCacheVariable.cmake"
-  DESTINATION share/cmake/shacl/.cmake)

@@ -1,52 +1,68 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
 
-define_property(TARGET PROPERTY Fortran_REAL_SIZE_BYTES
-  BRIEF_DOCS "the size of the default Fortran real in bytes"
-  FULL_DOCS "This property specifies the size in bytes of the default Fortran real, e.g., in the expression 'real :: r' where no kind is given"
-)
+if(NOT TARGET shacl::cmake::Fortran::Real::detail)
+  add_library(shacl::cmake::Fortran::Real::detail INTERFACE IMPORTED GLOBAL)
+  target_compile_definitions(shacl::cmake::Fortran::Real::detail INTERFACE
+    $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:F90_REAL_4BYTE>
+    $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:F90_REAL_8BYTE>)
+  set_property(TARGET shacl::cmake::Fortran::Real::detail
+    APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
+endif()
 
-add_library(shacl::cmake::Fortran::Real_C INTERFACE IMPORTED GLOBAL)
-target_compile_definitions(shacl::cmake::Fortran::Real_C INTERFACE
-  $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:F90_REAL_4BYTE>
-  $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:F90_REAL_8BYTE>)
-set_property(TARGET shacl::cmake::Fortran::Real_C
-  APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
+if(DEFINED CMAKE_C_COMPILER)
+  if(NOT TARGET shacl::cmake::Fortran::Real_C)
+    add_library(shacl::cmake::Fortran::Real_C INTERFACE IMPORTED GLOBAL)
+    target_link_libraries(shacl::cmake::Fortran::Real_C
+      INTERFACE shacl::cmake::Fortran::Real::detail)
+  endif()
+endif()
 
-add_library(shacl::cmake::Fortran::Real_CXX INTERFACE IMPORTED GLOBAL)
-target_link_libraries(shacl::cmake::Fortran::Real_CXX
-  INTERFACE shacl::cmake::Fortran::Real_C)
-set_property(TARGET shacl::cmake::Fortran::Real_CXX
-  APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
+if(DEFINED CMAKE_CXX_COMPILER)
+  if(NOT TARGET shacl::cmake::Fortran::Real_CXX)
+    add_library(shacl::cmake::Fortran::Real_CXX INTERFACE IMPORTED GLOBAL)
+    target_link_libraries(shacl::cmake::Fortran::Real_CXX
+      INTERFACE shacl::cmake::Fortran::Real::detail)
+  endif()
+endif()
 
-add_library(shacl::cmake::Fortran::Real_Fortran INTERFACE IMPORTED GLOBAL)
-target_link_libraries(shacl::cmake::Fortran::Real_Fortran
-  INTERFACE shacl::cmake::Fortran::Real_C)
-set_property(TARGET shacl::cmake::Fortran::Real_Fortran
-  APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
+if(DEFINED CMAKE_Fortran_COMPILER)
+  if(NOT TARGET shacl::cmake::Fortran::Real_Fortran)
+    add_library(shacl::cmake::Fortran::Real_Fortran INTERFACE IMPORTED GLOBAL)
+    target_link_libraries(shacl::cmake::Fortran::Real_Fortran
+      INTERFACE shacl::cmake::Fortran::Real::detail)
+  endif()
+endif()
 
 include(Fortran/Real/GNU)
-include(Fortran/Real/Flang)
-include(Fortran/Real/PGI)
 include(Fortran/Real/Intel)
+include(Fortran/Real/PGI)
 
-# These aliases are provided for short term backwards compatability.
-#
-# Please don't not use in new work and update existing work to use the
-# the imported target defined above as soon as reasonably possible.
+include_guard(DIRECTORY)
+include("${CMAKE_CURRENT_LIST_DIR}/../config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
 
-add_library(Fortran_Real_C ALIAS shacl::cmake::Fortran::Real_C)
-add_library(Fortran::Real_C ALIAS shacl::cmake::Fortran::Real_C)
+  if(NOT "Fortran/Real" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "Fortran/Real")
 
-add_library(Fortran_Real_CXX ALIAS shacl::cmake::Fortran::Real_CXX)
-add_library(Fortran::Real_CXX ALIAS shacl::cmake::Fortran::Real_CXX)
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake/Fortran)
 
-add_library(Fortran_Real_Fortran ALIAS shacl::cmake::Fortran::Real_Fortran)
-add_library(Fortran::Real_Fortran ALIAS shacl::cmake::Fortran::Real_Fortran)
+    install(
+      DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Real"
+      DESTINATION share/cmake/shacl/.cmake/Fortran)
+  endif()
 
-install(FILES
-  ${CMAKE_CURRENT_LIST_DIR}/Real.cmake
-  DESTINATION share/cmake/shacl/.cmake/Fortran)
+  unset(shacl.cmake.installed_modules)
+endif()
 
-install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Real
-  DESTINATION share/cmake/shacl/.cmake/Fortran)
+include_guard(GLOBAL)
+define_property(TARGET PROPERTY Fortran_REAL_SIZE_BYTES
+BRIEF_DOCS
+"The size of the default Fortran real in bytes"
+FULL_DOCS
+"This property specifies the size (in bytes) of the default Fortran real, e.g.,
+in the expression 'real :: r' where no kind is given")
