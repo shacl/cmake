@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 string(CONCAT shacl.cmake.LinkOptions.StackSize.generator
   "$<$<OR:$<AND:$<STREQUAL:Fortran,$<TARGET_PROPERTY:LINKER_LANGUAGE>>,"
                "$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>>,"

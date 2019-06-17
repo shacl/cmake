@@ -1,10 +1,10 @@
-include(Intel/FortranAssumptions)
+include(Intel/Fortran/Assumptions)
 
 add_executable(assumptions.test "")
 set_target_properties(assumptions.test PROPERTIES
   Intel_Fortran_ENABLED_ASSUMPTIONS "old_xor;std_intent_in"
   Intel_Fortran_DISABLED_ASSUMPTIONS "protect_parens;realloc_lhs")
-target_link_libraries(assumptions.test PUBLIC Intel::FortranAssumptions)
+target_link_libraries(assumptions.test PUBLIC shacl::cmake::Intel::Fortran::Assumptions)
 
 file(GENERATE
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/assumptions.f90

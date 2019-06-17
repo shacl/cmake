@@ -11,7 +11,7 @@ target_sources(GeneratedSources.library GENERATED INTERFACE
 string(SHA256 sha "GeneratedSources/target_sources")
 string(SUBSTRING "${sha}" 0 7 test_string)
 
-if(TARGET GeneratedSources.library.${test_string}.bar_c)
+if(TARGET GeneratedSources.library.${test_string}.bar.c)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1"
     "GeneratedSources.library.${test_string}.bar_c")
 else()
@@ -32,7 +32,7 @@ target_sources(GeneratedSources.library GENERATED INTERFACE
 string(SHA256 sha "GeneratedSources/target_sources/dir")
 string(SUBSTRING "${sha}" 0 7 test_string)
 
-if(TARGET GeneratedSources.library.${test_string}.baz_f90)
+if(TARGET GeneratedSources.library.${test_string}.baz.f90)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2"
     "GeneratedSources.library.${test_string}.baz_f90")
 else()

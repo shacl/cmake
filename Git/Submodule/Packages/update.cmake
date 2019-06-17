@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 function(git_submodule_update name)

@@ -11,7 +11,7 @@ if(shacl.cmake.installation)
       shacl.cmake.installed_modules "Fortran/ModuleDirectory")
 
     install(
-      FILES "${CMAKE_CURRENT_LIST_LIST}"
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
       DESTINATION share/cmake/shacl/.cmake/Fortran)
   endif()
 

@@ -10,7 +10,7 @@ string(CONCAT shacl.cmake.Warnings.generator
     "-Wnonportable-system-include-path;"
     "-Wsometimes-uninitialized;>"
   "$<$<BOOL:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>>:"
-    "-W$<JOIN:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>,"
+    "-W$<JOIN:$<TARGET_PROPERTY:LLVM_ENABLED_WARNINGS>"
             ",;-W>;>"
   "$<$<BOOL:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>>:"
     "-Wno-$<JOIN:$<TARGET_PROPERTY:LLVM_DISABLED_WARNINGS>"

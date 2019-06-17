@@ -16,7 +16,7 @@ if(shacl.cmake.installation)
       DESTINATION share/cmake/shacl/.cmake/Fortran)
 
     install(
-      FILES "${CMAKE_CURRENT_LIST_DIR}/BackslashEscape"
+      DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/BackslashEscape"
       DESTINATION share/cmake/shacl/.cmake/Fortran)
   endif()
 
@@ -31,7 +31,7 @@ BRIEF_DOCS
 "Allow for C-style backslash escape characters when reading and writing strings"
 FULL_DOCS
 "The behavior runs contrary to the Fortran Standard specification, but never the
-less is a common vendor extension. This behavior defaults to OFF."
+less is a common vendor extension. This behavior defaults to OFF.")
 
 add_library(shacl::cmake::Fortran::BackslashEscape INTERFACE IMPORTED GLOBAL)
 set_property(TARGET shacl::cmake::Fortran::BackslashEscape

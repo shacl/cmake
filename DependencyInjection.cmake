@@ -15,7 +15,7 @@ if(shacl.cmake.installation)
       DESTINATION share/cmake/shacl/.cmake)
 
     install(
-      DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/DependencyInjection"
+      DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/DependencyInjection"
       DESTINATION share/cmake/shacl/.cmake)
   endif()
 

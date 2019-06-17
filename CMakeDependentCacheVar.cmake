@@ -18,7 +18,7 @@ if(shacl.cmake.installation)
   unset(shacl.cmake.installed_modules)
 endif()
 
-include_gaurd(GLOBAL)
+include_guard(GLOBAL)
 function(CMAKE_DEPENDENT_CACHE_VAR variable type docstring default conditions force)
   set(type_list FILEPATH PATH STRING BOOL INTERNAL)
   list(FIND type_list ${type} type_found)

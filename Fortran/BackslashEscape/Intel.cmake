@@ -5,8 +5,8 @@ string(CONCAT shacl.cmake.Fortran.BackslashEscape.generator
              ",/assume:bscc"
              ",\"$SHELL:-assume bscc\">"
         ",$<IF:$<PLATFORM_ID:WINDOWS>"
-             ",/assume:no-bscc"
-             ",\"$SHELL:-assume no-bscc\">>>"
+             ",/assume:nobscc"
+             ",\"$SHELL:-assume nobscc\">>>")
 
 target_compile_options(shacl::cmake::Fortran::BackslashEscape INTERFACE
   ${shacl.cmake.Fortran.BackslashEscape.generator})

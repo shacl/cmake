@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 find_package(Perl REQUIRED)
 
 include_guard(GLOBAL)

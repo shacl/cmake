@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12.1)
 
-include("${CMAKE_CURRENT_LIST_DIR}/Santizers/configuration.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/Sanitizers/configuration.cmake")
 
 get_property(shacl.cmake.sanitizers.languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 foreach(language IN ITEMS C CXX Fortran)
@@ -38,7 +38,7 @@ if(shacl.cmake.installation)
       DESTINATION share/cmake/shacl/.cmake)
 
     install(
-      FILES "${CMAKE_CURRENT_LIST_DIR}/Sanitizers"
+      DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Sanitizers"
       DESTINATION share/cmake/shacl/.cmake)
   endif()
 endif()

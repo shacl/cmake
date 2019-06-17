@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
-
 function(FortranPreProcess_filename input output)
   get_filename_component(directory "${input}" DIRECTORY)
   get_filename_component(root "${input}" NAME_WE)

@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.12.1)
 if(NOT TARGET shacl::cmake::Fortran::Real::detail)
   add_library(shacl::cmake::Fortran::Real::detail INTERFACE IMPORTED GLOBAL)
   target_compile_definitions(shacl::cmake::Fortran::Real::detail INTERFACE
-    $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:F90_REAL_4BYTE>
-    $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:F90_REAL_8BYTE>)
+    $<$<EQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:F90_REAL_4BYTE>
+    $<$<EQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:F90_REAL_8BYTE>)
   set_property(TARGET shacl::cmake::Fortran::Real::detail
     APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_REAL_SIZE_BYTES)
 endif()

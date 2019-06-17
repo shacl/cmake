@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 include_guard(GLOBAL)
 
 macro(git_submodule_list)
@@ -209,6 +208,7 @@ macro(git_submodule_list)
           git.submodule.package.${submodule.name}
           DOCSTRING "Use dependency submodule for ${submodule.name}"
           DEFAULT git.submodule.packages
+          CONDITION git.submodule.packages
           FALLBACK OFF)
 
         #

@@ -6,11 +6,11 @@ include_guard(GLOBAL)
 string(CONCAT shacl.cmake.Fortran.Integer.generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:"
     "$<$<NOT:$<PLATFORM_ID:Windows>>:"
-      "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-i8>>"
+      "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-i8>>"
     "$<$<PLATFORM_ID:Windows>:"
-      "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:"
+      "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:"
         "/integer-size:32>"
-      "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:"
+      "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:"
         "/integer-size:64>>>")
 
 target_compile_options(shacl::cmake::Fortran::Integer_Fortran INTERFACE

@@ -5,7 +5,7 @@ string(CONCAT shacl.cmake.Warnings.generator
     "-Wextra;"
     "-Wpedantic;"
     "$<$<VERSION_GREATER:$<C_COMPILER_VERSION>,7.0>:-Wduplicated-branches;>"
-    "$<$<VERSION_GREATER:$<C_COMPILER_VERSION>,6.0>:-Wduplicated-cond>;>"
+    "$<$<VERSION_GREATER:$<C_COMPILER_VERSION>,6.0>:-Wduplicated-cond;>>"
   "$<$<BOOL:$<TARGET_PROPERTY:GNU_ENABLED_WARNINGS>>:"
     "-W$<JOIN:$<TARGET_PROPERTY:GNU_ENABLED_WARNINGS>"
             ",;-W>;>"

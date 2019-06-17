@@ -37,7 +37,6 @@ add_subdirectory(Sanitizers)
 add_subdirectory(Git/Submodule/Packages)
 add_subdirectory(DependencyInjection)
 add_subdirectory(Warnings)
-add_subdirectory(Batch)
 add_subdirectory(DelegatingCacheVariable)
 add_subdirectory(DelegatingOption)
 add_subdirectory(DelegatingSelection)
@@ -45,5 +44,5 @@ add_subdirectory(DependentDelegatingCacheVariable)
 add_subdirectory(DependentDelegatingOption)
 add_subdirectory(DependentDelegatingSelection)
 
-# # KEEP THIS AT THE BOTTOM
+# KEEP THIS AT THE BOTTOM
 add_subdirectory(FunctionExtension)

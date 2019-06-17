@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 backup(add_library)
 
 function(add_library)
@@ -14,7 +13,7 @@ function(add_library)
     return()
   endif()
 
-  set(libraries INTERFACE_LIBRARY STATIC_LIBRARY SHARED_LIBRARY)
+  set(libraries INTERFACE_LIBRARY MODULE_LIBRARY STATIC_LIBRARY SHARED_LIBRARY)
   if(NOT library_type IN_LIST libraries)
     return()
   endif()

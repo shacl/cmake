@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 string(CONCAT shacl.cmake.Fortran.Backtrace.generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
     "$<IF:$<BOOL:$<TARGET_PROPERTY:Fortran_BACKTRACE>>"

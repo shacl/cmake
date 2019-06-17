@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 backup(target_sources)
 
 function(target_sources target tag linkage)

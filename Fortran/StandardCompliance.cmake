@@ -15,7 +15,7 @@ if(shacl.cmake.installation)
       DESTINATION share/cmake/shacl/.cmake/Fortran)
 
     install(
-      FILES "${CMAKE_CURRENT_LIST_DIR}/StandardCompliance"
+      DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/StandardCompliance"
       DESTINATION share/cmake/shacl/.cmake/Fortran)
   endif()
 endif()
@@ -30,7 +30,7 @@ add_library(shacl::cmake::Fortran::StandardCompliance INTERFACE IMPORTED GLOBAL)
 target_link_libraries(shacl::cmake::Fortran::StandardCompliance INTERFACE
   shacl::cmake::Fortran::BackslashEscape)
 
-set_target_property(shacl::cmake::Fortran::StandardCompliance PROPERTIES
+set_target_properties(shacl::cmake::Fortran::StandardCompliance PROPERTIES
   INTERFACE_Fortran_BACKSLASH_ESCAPE OFF)
 
 include(Fortran/StandardCompliance/GNU)

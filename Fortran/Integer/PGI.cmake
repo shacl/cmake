@@ -5,8 +5,8 @@ endif()
 include_guard(GLOBAL)
 string(CONCAT shacl.cmake.Fortran.Integer.generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},PGI>:"
-    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:-i4>"
-    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-i8>>")
+    "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:-i4>"
+    "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-i8>>")
 
 target_compile_options(shacl::cmake::Fortran::Integer_Fortran INTERFACE
   ${shacl.cmake.Fortran.Integer.generator})

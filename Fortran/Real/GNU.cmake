@@ -5,7 +5,7 @@ endif()
 include_guard(GLOBAL)
 string(CONCAT shacl.cmake.Fortran.Real.generator
   "$<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},GNU>:"
-    "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:"
+    "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:"
       "-fdefault-real-8;-fdefault-double-8>>")
 
 target_compile_options(shacl::cmake::Fortran::Real_Fortran INTERFACE

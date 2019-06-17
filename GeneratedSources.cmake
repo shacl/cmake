@@ -21,6 +21,6 @@ include(ListBinaryDir)
 include(FunctionExtension)
 
 include_guard(GLOBAL)
-include(GeneratedSources/add_library)
-include(GeneratedSources/add_executable)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(GeneratedSources/target_sources)

@@ -46,7 +46,7 @@ end program
   add_executable(Fortran.Standard.${standard}
     "${CMAKE_CURRENT_BINARY_DIR}/f${standard}.f90")
   set_target_properties(Fortran.Standard.${standard} PROPERTIES Fortran_STANDARD ${standard})
-  target_link_libraries(Fortran.Standard.${standard} PRIVATE Fortran::Standard)
+  target_link_libraries(Fortran.Standard.${standard} PRIVATE shacl::cmake::Fortran::Standard)
 
   add_test(
     NAME shacl.cmake.Fortran.Standard.${standard}

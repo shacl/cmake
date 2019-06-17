@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.12.1)
 if(NOT TARGET shacl::cmake::Fortran::Integer::detail)
   add_library(shacl::cmake::Fortran::Integer::detail INTERFACE IMPORTED GLOBAL)
   target_compile_definitions(shacl::cmake::Fortran::Integer::detail INTERFACE
-    $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:F90_INT_4BYTE>
-    $<$<STREQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:F90_INT_8BYTE>)
+    $<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:F90_INT_4BYTE>
+    $<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:F90_INT_8BYTE>)
   set_property(TARGET shacl::cmake::Fortran::Integer::detail
     APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Fortran_INTEGER_SIZE_BYTES)
 endif()

@@ -37,25 +37,15 @@ set(shacl.cmake.sanitizers.asan address)
 set(shacl.cmake.sanitizers.msan memory)
 set(shacl.cmake.sanitizers.tsan thread)
 set(shacl.cmake.sanitizers.ubsan undefined)
-set(shacl.cmake.sanitizers.compilation_generator)
-set(shacl.cmake.sanitizers.linking_generator)
 
 foreach(sanitizer IN ITEMS asan msan tsan ubsan)
-  string(CONCAT shacl.cmake.sanitizers.compilation_generator
-    "${shacl.cmake.sanitizers.compilation_generator}"
+  string(CONCAT shacl.cmake.sanitizers.generator
+    "${shacl.cmake.sanitizers.generator}"
     "$<$<OR:$<BOOL:$<TARGET_PROPERTY:${sanitizer}>>"
           ",$<BOOL:${shacl.sanitizer.${sanitizer}.default}>>:"
       "-fsanitize=${shacl.cmake.sanitizers.${sanitizer}};"
       "-fno-omit-frame-pointer;"
-      "-fno-sanitize-recover=all>")
-
-  string(CONCAT shacl.cmake.sanitizers.linking_generator
-    "${shacl.cmake.sanitizer.linking_generator}"
-    "$<$<OR:$<BOOL:$<TARGET_PROPERTY:${sanitizer}>>"
-          ",$<BOOL:${shacl.sanitizer.${sanitizer}.default}>>:"
-      "-fsanitize=${shacl.cmake.sanitizers.${sanitizer}};"
-      "-fno-omit-frame-pointer;"
-      "-fno-sanitize-recover=all>")
+      "-fno-sanitize-recover=all;>")
 endforeach()
 
 unset(shacl.cmake.sanitizers.asan)
@@ -64,13 +54,12 @@ unset(shacl.cmake.sanitizers.tsan)
 unset(shacl.cmake.sanitizers.ubsan)
 
 target_compile_options(shacl::cmake::detail::sanitizers INTERFACE
-  ${compilation_generator})
+  ${shacl.cmake.sanitizers.generator})
 
 target_link_libraries(shacl::cmake::detail::sanitizers INTERFACE
-  ${linking_generator})
+  ${shacl.cmake.sanitizers.generator})
 
-unset(shacl.cmake.sanitizer.compilation_generator)
-unset(shacl.cmake.sanitizer.linking_generator)
+unset(shacl.cmake.sanitizer.generator)
 
 set_property(TARGET shacl::cmake::detail::sanitizers
   APPEND PROPERTY COMPATIBLE_INTERFACE_BOOL asan)
