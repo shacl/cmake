@@ -9,9 +9,9 @@ string(CONCAT shacl.cmake.Fortran.Real.generator
       "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:-r8>>"
     "$<$<PLATFORM_ID:Windows>:"
       "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,4>:"
-        "/real-size:32>"
+        "/real-size$<1::>32>"
     "$<$<STREQUAL:$<TARGET_PROPERTY:Fortran_REAL_SIZE_BYTES>,8>:"
-        "/real-size:64>>>")
+        "/real-size$<1::>64>>>")
 
 target_compile_options(shacl::cmake::Fortran::Real_Fortran INTERFACE
   ${shacl.cmake.Fortran.Real.generator})

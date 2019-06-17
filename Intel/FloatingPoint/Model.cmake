@@ -11,7 +11,9 @@ if(DEFINED CMAKE_C_COMPILER)
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Model.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
         "$<$<C_COMPILER_ID:Intel>:"
-          "$<IF:$<PLATFORM_ID:Windows>,/fp:,-fp-model=>"
+          "$<IF:$<PLATFORM_ID:Windows>"
+              ",/fp$<1::>"
+              ",-fp-model=>"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Model_C
@@ -30,7 +32,9 @@ if(DEFINED CMAKE_CXX_COMPILER)
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Model.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
         "$<$<CXX_COMPILER_ID:Intel>:"
-          "$<IF:$<PLATFORM_ID:Windows>,/fp:,-fp-model=>"
+          "$<IF:$<PLATFORM_ID:Windows>"
+              ",/fp$<1::>"
+              ",-fp-model=>"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Model_CXX
@@ -49,7 +53,9 @@ if(DEFINED CMAKE_Fortran_COMPILER)
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Model.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
         "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-          "$<IF:$<PLATFORM_ID:Windows>,/fp:,-fp-model=>"
+          "$<IF:$<PLATFORM_ID:Windows>"
+              ",/fp$<1::>"
+              ",-fp-model=>"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Model_Fortran

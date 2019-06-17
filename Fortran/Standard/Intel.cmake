@@ -7,7 +7,9 @@ string(CONCAT shacl.cmake.Fortran.Standard.generator
 
 string(CONCAT shacl.cmake.Fortran.Standard.generator
   "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-    "$<IF:$<PLATFORM_ID:Windows>,/stand:,-stand=>"
+    "$<IF:$<PLATFORM_ID:Windows>"
+        ",/stand$<1::>"
+        ",-stand=>"
     "${shacl.cmake.Fortran.Standard.generator}>")
 
 target_compile_options(shacl::cmake::Fortran::Standard INTERFACE

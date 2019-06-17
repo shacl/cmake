@@ -3,7 +3,7 @@ add_library(warnings_Fortran_Intel INTERFACE)
 
 string(CONCAT generator
   "$<IF:$<PLATFORM_ID:Windows>"
-      ",/warn:"
+      ",/warn$<1::>"
       ",-warn;>")
 
 string(CONCAT generator
@@ -16,12 +16,12 @@ string(CONCAT generator
     "all>;"
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_WARNINGS>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
-        ",/Qdiag-enable:"
+        ",/Qdiag-enable$<1::>"
         ",-diag-enable=>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_ENABLED_WARNINGS>,$<COMMA>>;>"
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
-        ",/Qdiag-disable:"
+        ",/Qdiag-disable$<1::>"
         ",-diag-disable=>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>,$<COMMA>>;>")
 

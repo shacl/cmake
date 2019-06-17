@@ -53,7 +53,7 @@ string(CONCAT shacl.cmake.Intel.FortranAssumptions.generator
   "$<$<AND:$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>"
          ",$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
-        ",/assume:"
+        ",/assume$<1::>"
         ",-assume;>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>"
           ",$<COMMA>>>"
@@ -62,7 +62,7 @@ string(CONCAT shacl.cmake.Intel.FortranAssumptions.generator
     "$<IF:$<BOOL:$<TARGET_PROPERTY:Intel_Fortran_ENABLED_ASSUMPTIONS>>"
         ",$<COMMA>no"
         ",$<IF:$<PLATFORM_ID:Windows>"
-             ",/assume:no"
+             ",/assume$<1::>no"
              ",-assume;no>>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_Fortran_DISABLED_ASSUMPTIONS>"
           ",$<COMMA>no>>")

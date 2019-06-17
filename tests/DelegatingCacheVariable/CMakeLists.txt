@@ -36,7 +36,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test.cpp
    assert(std::string(\"${dcv_fib}\") == \"OFF\");
    assert(${dcv_baz});
    assert(${dcv_gob} == 0);
- }")
+ }
+")
 
 add_executable(DelegatingCacheVariable.test
   "${CMAKE_CURRENT_BINARY_DIR}/test.cpp")

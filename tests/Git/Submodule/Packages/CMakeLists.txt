@@ -14,7 +14,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
    assert(\"${git.submodule.package.json.hash}\" == \"7bfc406ded0434c438dd22139a8baa97f2ffa90e\" );
    assert(\"${json_FOUND}\" == \"TRUE\" );
    assert(\"${git.submodule.package.Catch2.branch}\" == \"master\" );
- }")
+ }
+")
 
 add_executable(Git.Submodule.Packages.test ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp)
 

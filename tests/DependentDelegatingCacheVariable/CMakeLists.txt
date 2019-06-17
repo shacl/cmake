@@ -43,7 +43,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test.cpp
    assert(${ddcv_baz} == 2);
    assert(${ddcv_fob} == 5);
    assert(${ddcv_fib} == 8);
- }")
+ }
+")
 
 add_executable(DependentDelegatingCacheVariable.test
   "${CMAKE_CURRENT_BINARY_DIR}/test.cpp")

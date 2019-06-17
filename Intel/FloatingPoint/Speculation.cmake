@@ -11,7 +11,9 @@ if(DEFINED CMAKE_C_COMPILER)
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Speculation.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
         "$<$<C_COMPILER_ID:Intel>:"
-          "$<IF:$<PLATFORM_ID:Windows>,/Qfp-speculation:,-fp-speculation=>"
+          "$<IF:$<PLATFORM_ID:Windows>"
+              ",/Qfp-speculation$<1::>"
+              ",-fp-speculation=>"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_C
@@ -30,7 +32,9 @@ if(DEFINED CMAKE_CXX_COMPILER)
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Speculation.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
         "$<$<CXX_COMPILER_ID:Intel>:"
-          "$<IF:$<PLATFORM_ID:Windows>,/Qfp-speculation:,-fp-speculation=>"
+          "$<IF:$<PLATFORM_ID:Windows>"
+              ",/Qfp-speculation$<1::>"
+              ",-fp-speculation=>"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_CXX
@@ -49,7 +53,9 @@ if(DEFINED CMAKE_Fortran_COMPILER)
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Speculation.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
         "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
-          "$<IF:$<PLATFORM_ID:Windows>,/Qfp-speculation:,-fp-speculation=>"
+          "$<IF:$<PLATFORM_ID:Windows>"
+              ",/Qfp-speculation$<1::>"
+              ",-fp-speculation=>"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_Fortran

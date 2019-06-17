@@ -9,12 +9,12 @@ string(CONCAT shacl.cmake.Warnings.generator
         ",-w2>;>"
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_WARNINGS>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
-        ",/Qdiag-enable:"
+        ",/Qdiag-enable$<1::>"
         ",-diag-enable=>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_ENABLED_WARNINGS>,$<COMMA>>;>"
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
-        ",/Qdiag-disable:"
+        ",/Qdiag-disable$<1::>"
         ",-diag-disable=>"
     "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>,$<COMMA>>;>")
 

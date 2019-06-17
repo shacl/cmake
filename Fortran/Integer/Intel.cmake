@@ -9,9 +9,9 @@ string(CONCAT shacl.cmake.Fortran.Integer.generator
       "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:-i8>>"
     "$<$<PLATFORM_ID:Windows>:"
       "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,4>:"
-        "/integer-size:32>"
+        "/integer-size$<1::>32>"
       "$<$<EQUAL:$<TARGET_PROPERTY:Fortran_INTEGER_SIZE_BYTES>,8>:"
-        "/integer-size:64>>>")
+        "/integer-size$<1::>64>>>")
 
 target_compile_options(shacl::cmake::Fortran::Integer_Fortran INTERFACE
   ${shacl.cmake.Fortran.Integer.generator})
