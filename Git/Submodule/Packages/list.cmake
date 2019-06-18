@@ -238,29 +238,30 @@ macro(git_submodule_list)
           OUTPUT_VARIABLE repository.index.entry
           OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-        string(REPLACE " " ";" repository.index.entry "${repository.index.entry}")
-        string(REPLACE "\t" ";" repository.index.entry "${repository.index.entry}")
-        list(GET repository.index.entry 2 submodule.commit_hash)
+        if(repository.index.entry)
+          string(REPLACE " " ";" repository.index.entry "${repository.index.entry}")
+          string(REPLACE "\t" ";" repository.index.entry "${repository.index.entry}")
+          list(GET repository.index.entry 2 submodule.commit_hash)
 
-        CMAKE_DEPENDENT_CACHE_VAR(
-          git.submodule.package.${submodule.name}.hash.initial
-          STRING
-          "Initial commit hash tracked by ${submodule.name} git submodule"
-          "${submodule.commit_hash}"
-          "git.submodule.package.${submodule.name}"
-          "")
+          CMAKE_DEPENDENT_CACHE_VAR(
+            git.submodule.package.${submodule.name}.hash.initial
+            STRING
+            "Initial commit hash tracked by ${submodule.name} git submodule"
+            "${submodule.commit_hash}"
+            "git.submodule.package.${submodule.name}"
+            "")
 
-        CMAKE_DEPENDENT_CACHE_VAR(
-          git.submodule.package.${submodule.name}.hash
-          STRING
-          "Current commit hash tracked by ${submodule.name} git submodule"
-          "${submodule.commit_hash}"
-          "git.submodule.package.${submodule.name}"
-          "")
+          CMAKE_DEPENDENT_CACHE_VAR(
+            git.submodule.package.${submodule.name}.hash
+            STRING
+            "Current commit hash tracked by ${submodule.name} git submodule"
+            "${submodule.commit_hash}"
+            "git.submodule.package.${submodule.name}"
+            "")
 
-        mark_as_advanced(git.submodule.package.${submodule.name}.hash.initial)
-        mark_as_advanced(git.submodule.package.${submodule.name}.hash)
-
+          mark_as_advanced(git.submodule.package.${submodule.name}.hash.initial)
+          mark_as_advanced(git.submodule.package.${submodule.name}.hash)
+        endif()
         #
         # Collect the url associated with the submodule.
         #
