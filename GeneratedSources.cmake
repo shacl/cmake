@@ -24,3 +24,4 @@ include_guard(GLOBAL)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(GeneratedSources/target_sources)
+include(GeneratedSources/trap)

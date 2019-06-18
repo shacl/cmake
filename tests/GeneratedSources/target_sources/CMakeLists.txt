@@ -1,48 +1,27 @@
 include(GeneratedSources)
 
-add_library(GeneratedSources.library STATIC baz.c)
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/bar.c" "")
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90" "")
-file(WRITE baz.c "")
+add_library(GeneratedSources.library STATIC)
 
-target_sources(GeneratedSources.library GENERATED INTERFACE
-  "${CMAKE_CURRENT_BINARY_DIR}/bar.c")
+add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/baz.c"
+  COMMAND "${CMAKE_COMMAND}" copy
+          "${CMAKE_CURRENT_SOURCE_DIR}/bar.c.in"
+          "${CMAKE_CURRENT_BINARY_DIR}/bar.c")
 
-string(SHA256 sha "GeneratedSources/target_sources")
-string(SUBSTRING "${sha}" 0 7 test_string)
+add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/foo.c"
+  COMMAND "${CMAKE_COMMAND}" copy
+          "${CMAKE_CURRENT_SOURCE_DIR}/foo.c.in"
+          "${CMAKE_CURRENT_BINARY_DIR}/foo.c")
 
-if(TARGET GeneratedSources.library.${test_string}.bar.c)
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1"
-    "GeneratedSources.library.${test_string}.bar_c")
-else()
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name1" "")
-endif()
+target_sources(GeneratedSources.library GENERATED
+  PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/foo.c"
+  PUBLIC  "${CMAKE_CURRENT_BINARY_DIR}/bar.c")
+
+add_subdirectory(subdirectory)
 
 add_test(
   NAME
     shacl.cmake.target_sources1
   COMMAND
     "${CMAKE_COMMAND}" -E compare_files
-    "${CMAKE_CURRENT_SOURCE_DIR}/test1"
-    "${CMAKE_CURRENT_BINARY_DIR}/target_name1")
-
-target_sources(GeneratedSources.library GENERATED INTERFACE
-  "${CMAKE_CURRENT_BINARY_DIR}/dir/baz.f90")
-
-string(SHA256 sha "GeneratedSources/target_sources/dir")
-string(SUBSTRING "${sha}" 0 7 test_string)
-
-if(TARGET GeneratedSources.library.${test_string}.baz.f90)
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2"
-    "GeneratedSources.library.${test_string}.baz_f90")
-else()
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/target_name2" "")
-endif()
-
-add_test(
-  NAME
-    shacl.cmake.target_sources2
-  COMMAND
-    "${CMAKE_COMMAND}" -E compare_files
-    "${CMAKE_CURRENT_SOURCE_DIR}/test2"
-    "${CMAKE_CURRENT_BINARY_DIR}/target_name2")
+    "${CMAKE_CURRENT_SOURCE_DIR}/bar.c"
+    "${CMAKE_CURRENT_BINARY_DIR}/bar.c.in")
