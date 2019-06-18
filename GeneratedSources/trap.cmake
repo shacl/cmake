@@ -1,6 +1,5 @@
 function(shacl_cmake_GeneratedSources_trap _ access _ file)
   if(access STREQUAL "MODIFIED_ACCESS" AND file MATCHES ".*CMakeLists[.]txt")
-    message("file: ${file}")
     get_property(shacl.cmake.GeneratedSources.list
       GLOBAL PROPERTY shacl.cmake.GeneratedSources.list)
 
