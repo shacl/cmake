@@ -2,6 +2,7 @@ include(FortranPreProcess)
 
 add_executable(fprepro_defines "")
 target_compile_definitions(fprepro_defines PRIVATE DO_F_PRE_PRO)
+
 target_sources(fprepro_defines PREPROCESS
   PRIVATE "${CMAKE_CURRENT_LIST_DIR}/fprepro_defines.F90")
 
