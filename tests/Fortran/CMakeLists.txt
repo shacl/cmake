@@ -1,5 +1,6 @@
 add_subdirectory(BackslashEscape)
 add_subdirectory(Backtrace)
+add_subdirectory(Exceptions)
 add_subdirectory(Integer)
 add_subdirectory(ModuleDirectory)
 add_subdirectory(Real)
