@@ -17,6 +17,7 @@ endif()
 
 include(Fortran/BackslashEscape)
 include(Fortran/Backtrace)
+include(Fortran/Exceptions)
 include(Fortran/Integer)
 include(Fortran/ModuleDirectory)
 include(Fortran/Real)
