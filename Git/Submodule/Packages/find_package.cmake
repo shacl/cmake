@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.12.1)
+include_guard(GLOBAL)
+
 backup(find_package)
 
 macro(find_package name)
@@ -23,7 +24,7 @@ macro(find_package name)
     # variable_watch. See the Git/Submodule/Packages.cmake for more context.
     #
     push(git.submodule.packages.subject)
-    set( git.submodule.packages.subject "${name}")
+    set(git.submodule.packages.subject "${name}")
     push(PACKAGE_FIND_VERSION)
     push(PACKAGE_FIND_VERSION_MAJOR)
     push(PACKAGE_FIND_VERSION_MINOR)
@@ -68,6 +69,7 @@ macro(find_package name)
       ${ARGN})
 
     pop(find_package_options)
+    pop(find_package_singleValueArgs)
     pop(find_package_multiValueArgs)
 
     push(${name}_FIND_QUIETLY)
@@ -84,9 +86,6 @@ macro(find_package name)
 
     push(eager)
     set(eager "${git.submodule.package.${name}.eager}")
-    if(eager STREQUAL "default")
-      set(eager "${git.submodule.packages.eager}")
-    endif()
 
     if(NOT eager)
       push(EXACT_ARG)

@@ -39,7 +39,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test.cpp
    assert(std::string(\"${ddo_baz}\") == \"OFF\");
    assert(std::string(\"${ddo_fob}\") == \"ON\");
    assert(std::string(\"${ddo_fib}\") == \"OFF\");
- }")
+ }
+")
 
 add_executable(DependentDelegatingOption.test
   "${CMAKE_CURRENT_BINARY_DIR}/test.cpp")

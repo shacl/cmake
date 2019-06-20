@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 3.12.1)
-string(CONCAT generator
+string(CONCAT shacl.cmake.Fortran.Backtrace.generator
   "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:"
-     "$<$<BOOL:$<TARGET_PROPERTY:Fortran_BACKTRACE>>:-fbacktrace>;"
-     "$<$<NOT:$<BOOL:$<TARGET_PROPERTY:Fortran_BACKTRACE>>>:-fno-backtrace>;"
-   ">")
+    "$<IF:$<BOOL:$<TARGET_PROPERTY:Fortran_BACKTRACE>>"
+        ",-fbacktrace"
+        ",-fno-backtrace>>")
 
-target_compile_options(shacl::cmake::Fortran::Backtrace INTERFACE ${generator})
+target_compile_options(shacl::cmake::Fortran::Backtrace INTERFACE
+  ${shacl.cmake.Fortran.Backtrace.generator})
+
+unset(shacl.cmake.Fortran.Backtrace.generator)

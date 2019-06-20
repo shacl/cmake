@@ -1,14 +1,13 @@
-cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
-
 find_package(Perl REQUIRED)
+
+include_guard(GLOBAL)
 
 set(
   FPP_PATH "${CMAKE_CURRENT_LIST_DIR}/fpp.pl"
   CACHE STRING "path to Fortran preprocessor script")
 
 function(FortranPreProcess infile outfile)
-  set(working_directory ${CMAKE_CURRENT_SOURCE_DIR})
+  set(working_directory "${CMAKE_CURRENT_SOURCE_DIR}")
   foreach(arg ${ARGN})
     if(arg STREQUAL "DEFINE")
       set(keyword "DEFINE")

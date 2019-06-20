@@ -9,16 +9,6 @@ else()
   set(expected_GNU_2018 "-std=f2018")
 endif()
 
-set(expected_Flang_95 "")
-set(expected_Flang_2003 "")
-set(expected_Flang_2008 "")
-set(expected_Flang_2018 "")
-
-set(expected_PGI_95 "-Mstandard")
-set(expected_PGI_2003 "-Mstandard")
-set(expected_PGI_2008 "-Mstandard")
-set(expected_PGI_2018 "-Mstandard")
-
 if(WIN32)
   set(prefix "/stand:")
 else()
@@ -46,7 +36,7 @@ end program
   add_executable(Fortran.Standard.${standard}
     "${CMAKE_CURRENT_BINARY_DIR}/f${standard}.f90")
   set_target_properties(Fortran.Standard.${standard} PROPERTIES Fortran_STANDARD ${standard})
-  target_link_libraries(Fortran.Standard.${standard} PRIVATE Fortran::Standard)
+  target_link_libraries(Fortran.Standard.${standard} PRIVATE shacl::cmake::Fortran::Standard)
 
   add_test(
     NAME shacl.cmake.Fortran.Standard.${standard}

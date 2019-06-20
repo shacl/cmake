@@ -1,28 +1,25 @@
 include(Intel)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_speculation.c
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_fp_speculation.c.in
-)
+              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_fp_speculation.c.in)
 
 add_executable(use_intel_fp_speculation_C ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_speculation.c)
 set_target_properties(use_intel_fp_speculation_C PROPERTIES Intel_FLOATING_POINT_SPECULATION "safe")
-target_link_libraries(use_intel_fp_speculation_C PRIVATE Intel::FPSpeculation_C)
+target_link_libraries(use_intel_fp_speculation_C PRIVATE shacl::cmake::Intel::FloatingPoint::Speculation_C)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_speculation.cpp
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_fp_speculation.cpp.in
-)
+              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_fp_speculation.cpp.in)
 
 add_executable(use_intel_fp_speculation_CXX ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_speculation.cpp)
 set_target_properties(use_intel_fp_speculation_CXX PROPERTIES Intel_FLOATING_POINT_SPECULATION "safe")
-target_link_libraries(use_intel_fp_speculation_CXX PRIVATE Intel::FPSpeculation_CXX)
+target_link_libraries(use_intel_fp_speculation_CXX PRIVATE shacl::cmake::Intel::FloatingPoint::Speculation_CXX)
 
 file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_speculation.F90
-              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_fp_speculation.F90.in
-)
+              INPUT ${CMAKE_CURRENT_LIST_DIR}/use_intel_fp_speculation.F90.in)
 
 add_executable(use_intel_fp_speculation_Fortran ${CMAKE_CURRENT_BINARY_DIR}/use_intel_fp_speculation.F90)
 set_target_properties(use_intel_fp_speculation_Fortran PROPERTIES Intel_FLOATING_POINT_SPECULATION "safe")
-target_link_libraries(use_intel_fp_speculation_Fortran PRIVATE Intel::FPSpeculation_Fortran)
+target_link_libraries(use_intel_fp_speculation_Fortran PRIVATE shacl::cmake::Intel::FloatingPoint::Speculation_Fortran)
 
 set(expected_C "")
 set(expected_CXX "")

@@ -43,7 +43,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/test.cpp
    assert(std::string(\"${dds_baz}\") == \"poy\");
    assert(std::string(\"${dds_fob}\") == \"mop\");
    assert(std::string(\"${dds_fib}\") == \"nom\");
- }")
+ }
+")
 
 add_executable(DependentDelegatingSelection.test
   "${CMAKE_CURRENT_BINARY_DIR}/test.cpp")

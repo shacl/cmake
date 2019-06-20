@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 macro(previous_set_property)
   if(NOT previous_set_property_fn)
     set(previous_set_property_fn set_property)

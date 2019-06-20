@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 backup(target_sources)
 
 function(target_sources target tag linkage)
@@ -7,29 +6,19 @@ function(target_sources target tag linkage)
     return()
   endif()
 
-  get_target_property(library_type ${target} TYPE)
-
-  foreach(entry ${ARGN})
+  foreach(entry IN LISTS ARGN)
     if(entry STREQUAL "PUBLIC"
         OR entry STREQUAL "PRIVATE"
         OR entry STREQUAL "INTERFACE")
-
-      if(library_type STREQUAL "INTERFACE_LIBRARY"
-          AND NOT entry STREQUAL "INTERFACE")
-        message(FATAL_ERROR
-          "Only interface sources may be added to interface targets")
-      endif()
-
       set(linkage ${entry})
     else()
-      string(REGEX MATCH "[$]<.*>$" generator_expression ${entry})
+      string(REGEX MATCH ".*[$]<.*>.*" generator_expression ${entry})
       if("${generator_expression}")
         message(FATAL_ERROR
           "Generator expressions are unavailable in GENERATED target_sources invocations")
       endif()
 
-      unset(generator_expression)
-      previous_target_sources(${target}.generated_sources.${linkage} INTERFACE "${entry}")
+      previous_target_sources(${target} ${linkage} "${entry}")
 
       get_filename_component(directory ${entry} DIRECTORY)
       get_filename_component(file ${entry} NAME)
@@ -47,12 +36,10 @@ function(target_sources target tag linkage)
       endforeach()
 
       add_custom_target(${custom_target} DEPENDS ${entry})
-      set_target_properties(
-        ${custom_target} PROPERTIES FOLDER generated)
-
-      add_dependencies(
-        ${target}.generated_sources.${linkage}
-        ${custom_target})
+      set_target_properties(${custom_target} PROPERTIES FOLDER generated)
+      add_dependencies(${target} ${custom_target})
+      set_property(GLOBAL APPEND PROPERTY
+        shacl.cmake.GeneratedSources.list "${entry}")
     endif()
   endforeach()
 endfunction()

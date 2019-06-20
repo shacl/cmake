@@ -1,11 +1,11 @@
-# the SHACL CMake module repository
+# the shacl::cmake module repository
 
 ## Introduction
 This repository is intended to act as a shared collection of cmake modules for
-use in SHACL projects. The intent is that this repository will exist as a git
+use in shacl projects. The intent is that this repository will exist as a git
 subtree in host projects.
 
-## Adding SHACL CMake to an existing git repository
+## Adding shacl::cmake to an existing git repository
 
 Given Git v1.7.11 or later, adding another repository as a subtree is a
 straight-forward process. To start, ensure the host repository is in a clean
@@ -39,27 +39,28 @@ create a `cmake` directory and populate it with the contents of the master
 branch of this repository.
 
 ```
-git subtree add --prefix cmake <git remote address>/shacl/cmake.git master --squash
+git subtree add --prefix cmake <git remote address>/shacl/cmake.git master [--squash]
 ```
 
-The `--squash` flag here is important for those who maintain a curated commit log.
-Without this flag, the entire commit history of the SHACL cmake repository would
-be appended to the host project directory. With this flag specified, the SHACL
-cmake repository commit history is compressed to a single commit in the host
-project. In either case, there will also be a merge commit added to the log.
+The `--squash` flag here is important for those who maintain a curated commit
+log. Without this flag, the entire commit history of the `shacl::cmake`
+repository would be appended to the host project directory. With this flag
+specified, the `shacl::cmake` repository commit history is compressed to a
+single commit in the host project. In either case, there will also be a merge
+commit added to the log.
 
-## Using SHACL CMake
+## Using shacl::cmake
 
-Once the SHACL CMake subtree has been added to your repository, there's the
+Once the `shacl::cmake` subtree has been added to your repository, there's the
 matter of exposing it's modules to the host CMake build system generator.
 Navigate to the highest level source directory of the host repository and add
 the following line to the the `CMakeLists.txt`.
 
 ```
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 ```
 
-There after SHACL CMake modules are available by way of the CMake `include`
+There after `shacl::cmake` modules are available by way of the CMake `include`
 function, e.g.,
 
 ```

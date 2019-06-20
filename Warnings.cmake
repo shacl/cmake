@@ -1,6 +1,32 @@
 cmake_minimum_required(VERSION 3.12.1)
+
+include(Warnings/C)
+include(Warnings/CXX)
+include(Warnings/Fortran)
+include(Warnings/CUDA)
+
+include_guard(DIRECTORY)
+
+include("${CMAKE_CURRENT_LIST_DIR}/config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "Warnings" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "Warnings")
+
+    install(FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake)
+
+    install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Warnings"
+      DESTINATION share/cmake/shacl/.cmake)
+  endif()
+
+  unset(shacl.cmake.installed_modules)
+endif()
+
 include_guard(GLOBAL)
-include(CheckLanguage)
 
 define_property(TARGET PROPERTY WARN_ALL
 BRIEF_DOCS
@@ -101,17 +127,3 @@ FULL_DOCS
  flag or `-warn no-uncalled` flag as appropriate for the host platform.
 
  Multiple entries must be semicolon separated e.g. unused;unused")
-
-include(Warnings/C)
-
-include(Warnings/CXX)
-
-include(Warnings/Fortran)
-
-include(Warnings/CUDA)
-
-install(FILES "${CMAKE_CURRENT_LIST_DIR}/Warnings.cmake"
-  DESTINATION share/cmake/shacl/.cmake)
-
-install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Warnings"
-  DESTINATION share/cmake/shacl/.cmake)

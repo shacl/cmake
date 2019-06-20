@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 macro(previous_find_package)
   push(arguments_modified)
   set(arguments_modified FALSE)

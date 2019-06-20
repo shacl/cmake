@@ -1,3 +1,3 @@
 program main
-  write(*,'(a)') "$<TARGET_PROPERTY:@target@,COMPILE_OPTIONS>"
+  write(*,'(a)') "$<TARGET_PROPERTY:longlines,COMPILE_OPTIONS>"
 end program

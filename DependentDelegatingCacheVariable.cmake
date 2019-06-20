@@ -1,6 +1,24 @@
 cmake_minimum_required(VERSION 3.12.1)
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
+include("${CMAKE_CURRENT_LIST_DIR}/config.cmake")
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "DependentDelegatingCacheVariable" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "DependentDelegatingCacheVariable")
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake)
+  endif()
+
+  unset(shacl.cmake.installed_modules)
+endif()
+
+include_guard(GLOBAL)
 function(dependent_delegating_cache_variable variable)
   set(OPTIONS)
   set(UNARY_ARGUMENTS DEFAULT TYPE DOCSTRING CONDITION FALLBACK)
@@ -50,6 +68,7 @@ function(dependent_delegating_cache_variable variable)
 
   set(available TRUE)
   foreach(condition IN LISTS ddcv_CONDITION)
+    string(REGEX REPLACE " +" ";" condition "${condition}")
     if(${condition})
     else()
       set(available FALSE)
@@ -70,7 +89,3 @@ function(dependent_delegating_cache_variable variable)
     set(${variable} "${ddcv_FALLBACK}" PARENT_SCOPE)
   endif()
 endfunction()
-
-install(FILES
-  "${CMAKE_CURRENT_LIST_DIR}/DependentDelegatingCacheVariable.cmake"
-  DESTINATION share/cmake/shacl/.cmake)

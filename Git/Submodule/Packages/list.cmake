@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12.1)
+include_guard(GLOBAL)
 
 macro(git_submodule_list)
   # ** NOTE **
@@ -204,10 +204,12 @@ macro(git_submodule_list)
         # Provided the user has enabled git submodule packages, a fine-grained
         # option allowing the user to opt out on a submodule-by-submodule basis.
         #
-        CMAKE_DEPENDENT_OPTION(
+        dependent_delegating_option(
           git.submodule.package.${submodule.name}
-          "Use dependency submodule for ${submodule.name}"
-          ON "git.submodule.packages" OFF)
+          DOCSTRING "Use dependency submodule for ${submodule.name}"
+          DEFAULT git.submodule.packages
+          CONDITION git.submodule.packages
+          FALLBACK OFF)
 
         #
         # There are potentially many submodule packages, each of which
@@ -236,29 +238,30 @@ macro(git_submodule_list)
           OUTPUT_VARIABLE repository.index.entry
           OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-        string(REPLACE " " ";" repository.index.entry "${repository.index.entry}")
-        string(REPLACE "\t" ";" repository.index.entry "${repository.index.entry}")
-        list(GET repository.index.entry 2 submodule.commit_hash)
+        if(repository.index.entry)
+          string(REPLACE " " ";" repository.index.entry "${repository.index.entry}")
+          string(REPLACE "\t" ";" repository.index.entry "${repository.index.entry}")
+          list(GET repository.index.entry 2 submodule.commit_hash)
 
-        CMAKE_DEPENDENT_CACHE_VAR(
-          git.submodule.package.${submodule.name}.hash.initial
-          STRING
-          "Initial commit hash tracked by ${submodule.name} git submodule"
-          "${submodule.commit_hash}"
-          "git.submodule.package.${submodule.name}"
-          "")
+          CMAKE_DEPENDENT_CACHE_VAR(
+            git.submodule.package.${submodule.name}.hash.initial
+            STRING
+            "Initial commit hash tracked by ${submodule.name} git submodule"
+            "${submodule.commit_hash}"
+            "git.submodule.package.${submodule.name}"
+            "")
 
-        CMAKE_DEPENDENT_CACHE_VAR(
-          git.submodule.package.${submodule.name}.hash
-          STRING
-          "Current commit hash tracked by ${submodule.name} git submodule"
-          "${submodule.commit_hash}"
-          "git.submodule.package.${submodule.name}"
-          "")
+          CMAKE_DEPENDENT_CACHE_VAR(
+            git.submodule.package.${submodule.name}.hash
+            STRING
+            "Current commit hash tracked by ${submodule.name} git submodule"
+            "${submodule.commit_hash}"
+            "git.submodule.package.${submodule.name}"
+            "")
 
-        mark_as_advanced(git.submodule.package.${submodule.name}.hash.initial)
-        mark_as_advanced(git.submodule.package.${submodule.name}.hash)
-
+          mark_as_advanced(git.submodule.package.${submodule.name}.hash.initial)
+          mark_as_advanced(git.submodule.package.${submodule.name}.hash)
+        endif()
         #
         # Collect the url associated with the submodule.
         #
@@ -351,12 +354,12 @@ macro(git_submodule_list)
           # + OFF
           #   Never update a submodule state
           #
-          CMAKE_DEPENDENT_SELECTION(
+          dependent_delegating_option(
             git.submodule.package.${submodule.name}.update
-            "${submodule.name} git submodule package configuration-time branch update behavior"
-            DEFAULT default OPTIONS default ON OFF
+            DOCSTRING "${submodule.name} git submodule package configuration-time branch update behavior"
+            DEFAULT git.submodule.packages.update
             CONDITION "git.submodule.package.${submodule.name}.branch"
-            OFF)
+            FALLBACK "OFF")
 
           mark_as_advanced(git.submodule.package.${submodule.name}.update)
         endif()
@@ -376,12 +379,12 @@ macro(git_submodule_list)
         #   Use the git submodule package iff the the package cannot be found
         #   through the underlying `find_package` utility
         #
-        CMAKE_DEPENDENT_SELECTION(
+        dependent_delegating_option(
           git.submodule.package.${submodule.name}.eager
-          "find_package will prefer to consume ${submodule.name} via submodule"
-          DEFAULT default OPTIONS default ON OFF
+          DOCSTRING "find_package will prefer to consume ${submodule.name} via submodule"
+          DEFAULT git.submodule.packages.eager
           CONDITION "git.submodule.package.${submodule.name}"
-          OFF)
+          FALLBACK "OFF")
 
         mark_as_advanced(git.submodule.package.${submodule.name}.eager)
       endif()

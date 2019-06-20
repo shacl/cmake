@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 backup(target_sources)
 
 function(target_sources target tag linkage)
@@ -23,7 +22,7 @@ function(target_sources target tag linkage)
       file(MAKE_DIRECTORY "${LIST_BINARY_DIR}/${directory}")
 
       FortranPreProcess_filename("${path}" preprocessed_path)
-      
+
       FortranPreProcess(
         "${CMAKE_CURRENT_LIST_DIR}/${path}"
         "${LIST_BINARY_DIR}/${preprocessed_path}"

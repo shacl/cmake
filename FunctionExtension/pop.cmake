@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.12.1)
 macro(pop variable_name)
   if(DEFINED _${variable_name})
     set(${variable_name} "${_${variable_name}}")
