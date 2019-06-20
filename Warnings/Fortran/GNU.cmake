@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.12.1)
-string(CONCAT generator
+string(CONCAT shacl.cmake.Warnings.generator
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:-Werror;>"
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:"
     "-Wall;"
@@ -15,4 +14,6 @@ string(CONCAT generator
    "-Wno-$<JOIN:$<TARGET_PROPERTY:GNU_DISABLED_WARNINGS>,;-Wno->;>")
 
 target_compile_options(shacl::cmake::Warnings_Fortran INTERFACE
-  $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},GNU>:${generator}>)
+  $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},GNU>:${shacl.cmake.Warnings.generator}>)
+
+unset(shacl.cmake.Warnings.generator)

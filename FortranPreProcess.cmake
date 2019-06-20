@@ -18,6 +18,8 @@ if(shacl.cmake.installation)
       DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/FortranPreProcess"
       DESTINATION share/cmake/shacl/.cmake)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 
 include(GeneratedSources)

@@ -12,7 +12,13 @@ if(shacl.cmake.installation)
     install(
       FILES "${CMAKE_CURRENT_LIST_FILE}"
       DESTINATION share/cmake/shacl/.cmake)
+
+    install(
+      FILES "${CMAKE_CURRENT_LIST_DIR}/README.md"
+      DESTINATION share/cmake/shacl/.cmake)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 
 include(Fortran/BackslashEscape)

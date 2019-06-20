@@ -1,18 +1,15 @@
-cmake_minimum_required(VERSION 3.12.1)
-add_library(warnings_Fortran_Intel INTERFACE)
-
-string(CONCAT generator
+string(CONCAT shacl.cmake.Warnings.generator
   "$<IF:$<PLATFORM_ID:Windows>"
       ",/warn$<1::>"
       ",-warn;>")
 
-string(CONCAT generator
+string(CONCAT shacl.cmake.Warnings.generator
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>:"
-    "${generator}error$<COMMA>stderror>"
+    "${shacl.cmake.Warnings.generator}error$<COMMA>stderror>"
   "$<$<BOOL:$<TARGET_PROPERTY:WARN_ALL>>:"
     "$<IF:$<BOOL:$<TARGET_PROPERTY:WARN_ERROR>>"
         ",$<COMMA>"
-        ",${generator}>"
+        ",${shacl.cmake.Warnings.generator}>"
     "all>;"
   "$<$<BOOL:$<TARGET_PROPERTY:Intel_ENABLED_WARNINGS>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
@@ -26,4 +23,6 @@ string(CONCAT generator
     "$<JOIN:$<TARGET_PROPERTY:Intel_DISABLED_WARNINGS>,$<COMMA>>;>")
 
 target_compile_options(shacl::cmake::Warnings_Fortran INTERFACE
-  $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:${generator}>)
+  $<$<STREQUAL:${CMAKE_Fortran_COMPILER_ID},Intel>:${shacl.cmake.Warnings.generator}>)
+
+unset(shacl.cmake.Warnings.generator)

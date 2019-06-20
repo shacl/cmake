@@ -26,5 +26,7 @@ if(shacl.cmake.installation)
     install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Packages"
       DESTINATION share/cmake/shacl/.cmake/Git/Submodule)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 

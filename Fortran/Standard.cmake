@@ -18,6 +18,8 @@ if(shacl.cmake.installation)
       DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Standard"
       DESTINATION share/cmake/shacl/.cmake/Fortran)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 
 if(NOT CMAKE_Fortran_COMPILER)

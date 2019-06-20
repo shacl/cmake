@@ -13,6 +13,8 @@ if(shacl.cmake.installation)
       FILES "${CMAKE_CURRENT_LIST_FILE}"
       DESTINATION share/cmake/shacl/.cmake)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 
 include(Intel/Fortran/Assumptions)

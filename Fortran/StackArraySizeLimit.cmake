@@ -18,6 +18,8 @@ if(shacl.cmake.installation)
       DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/StackArraySizeLimit"
       DESTINATION share/cmake/shacl/.cmake/Fortran)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 
 if(NOT DEFINED CMAKE_Fortran_COMPILER)

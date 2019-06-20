@@ -16,12 +16,14 @@ if(shacl.cmake.installation)
     set_property(GLOBAL APPEND PROPERTY
       shacl.cmake.installed_modules "Warnings")
 
-    install(FILES "${CMAKE_CURRENT_LIST_DIR}/Warnings.cmake"
+    install(FILES "${CMAKE_CURRENT_LIST_FILE}"
       DESTINATION share/cmake/shacl/.cmake)
 
     install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/Warnings"
       DESTINATION share/cmake/shacl/.cmake)
   endif()
+
+  unset(shacl.cmake.installed_modules)
 endif()
 
 include_guard(GLOBAL)
