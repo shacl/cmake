@@ -288,13 +288,10 @@ macro(git_submodule_list)
             endwhile()
             set(submodule.url "${repository.remote.url.prefix}/${submodule.url}")
           else()
-            string(CONCAT warning
-              "${submodule.name} git submodule has a relative url: ${submodule.url}\n"
-              "${PROJECT_NAME} git repository branch, \"${repository.branch}\", does not establish a remote\n"
-              "${PROJECT_NAME} git repository does not provide a remote named \"origin\"")
-
             set(git.submodule.package.${submodule.name}.deferred_error
-              "${warning}" CACHE INTERNAL "")
+              "${submodule.name} git submodule has a relative url: ${submodule.url}NEWLINE"
+              "${PROJECT_NAME} git repository branch, \"${repository.branch}\", does not establish a remoteNEWLINE"
+              "${PROJECT_NAME} git repository does not provide a remote named \"origin\"")
             set(submodule.url "NOT_FOUND")
           endif()
         endif()
