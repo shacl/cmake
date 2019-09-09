@@ -27,7 +27,7 @@ CMAKE_DEPENDENT_CACHE_VAR(git.submodule.packages.specification
   "git.submodule.packages" "")
 
 if(git.submodule.packages.specification)
-  if(NOT EXISTS git.submodule.packages.specification)
+  if(NOT EXISTS "${git.submodule.packages.specification}")
     message("git.submodule.packages.specification variable defined")
     message("specification file path: ${git.submodule.packages.specification}")
     message(FATAL_ERROR "No file exists at this path")
