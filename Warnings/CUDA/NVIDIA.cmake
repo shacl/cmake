@@ -1,6 +1,6 @@
 string(CONCAT shacl.cmake.Warnings.generator
   "-Xcompiler;"
-  "$<JOIN:$<GENEX_EVAL:$<TARGET_PROPERTY:Warnings_CXX"
+  "$<JOIN:$<GENEX_EVAL:$<TARGET_PROPERTY:shacl::cmake::Warnings_CXX"
                                        ",INTERFACE_COMPILE_OPTIONS>>"
         ",$<COMMA>>"
   # We're assuming at least one flag is passed by the GENEX_EVAL
