@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12.1)
+cmake_minimum_required(VERSION 3.13.0)
 include_guard(DIRECTORY)
 
 include("${CMAKE_CURRENT_LIST_DIR}/../config.cmake")

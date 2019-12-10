@@ -5,7 +5,7 @@ string(CONCAT shacl.cmake.LinkOptions.StackSize.generator
               ",$<CXX_COMPILER_ID:MSVC>>>:"
     "$<$<PLATFORM_ID:Windows>:-STACK:$<TARGET_PROPERTY:LINK_STACK_SIZE>>>")
 
-target_link_libraries(shacl::cmake::LinkOptions::StackSize INTERFACE
+target_link_options(shacl::cmake::LinkOptions::StackSize INTERFACE
   ${shacl.cmake.LinkOptions.StackSize.generator})
 
 unset(shacl.cmake.LinkOptions.StackSize.generator)
