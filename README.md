@@ -66,3 +66,7 @@ function, e.g.,
 ```
 include(path/to/module)
 ```
+
+## License
+
+See [license file.](./LICENSE)
