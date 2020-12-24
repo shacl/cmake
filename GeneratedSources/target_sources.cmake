@@ -20,8 +20,8 @@ function(target_sources target tag linkage)
 
       previous_target_sources(${target} ${linkage} "${entry}")
 
-      get_filename_component(directory ${entry} DIRECTORY)
-      get_filename_component(file ${entry} NAME)
+      get_filename_component(directory "${entry}" DIRECTORY)
+      get_filename_component(file "${entry}" NAME)
       string(REPLACE "." "_" file "${file}")
 
       file(RELATIVE_PATH relative_path "${PROJECT_BINARY_DIR}" "${directory}")
@@ -35,7 +35,7 @@ function(target_sources target tag linkage)
         endif()
       endforeach()
 
-      add_custom_target(${custom_target} DEPENDS ${entry})
+      add_custom_target(${custom_target} DEPENDS "${entry}")
       set_target_properties(${custom_target} PROPERTIES FOLDER generated)
       add_dependencies(${target} ${custom_target})
       set_property(GLOBAL APPEND PROPERTY
