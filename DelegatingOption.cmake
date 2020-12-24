@@ -38,10 +38,10 @@ function(delegating_option variable)
   if(do_DOCSTRING)
     string(CONCAT docstring
       "${do_DOCSTRING}\n"
-      "When set to 'default', ${variable} assumes the value of ${do_DEFAULT}")
+      "When set to 'default', this variable assumes the value of ${do_DEFAULT} (${${do_DEFAULT}})")
   else()
     string(CONCAT docstring
-      "When set to 'default', ${variable} assumes the value of ${do_DEFAULT}")
+      "When set to 'default', this variable assumes the value of ${do_DEFAULT} (${${do_DEFAULT}})")
   endif()
 
   set(${variable} "default" CACHE STRING "${docstring}")

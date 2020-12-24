@@ -50,10 +50,10 @@ function(delegating_cache_variable variable)
   if(dcv_DOCSTRING)
     string(CONCAT docstring
       "${dcv_DOCSTRING}\n"
-      "When set to 'default', ${variable} assumes the value of ${dcv_DEFAULT}")
+      "When set to 'default', this variable assumes the value of ${dcv_DEFAULT} ('${${dcv_DEFAULT}}')")
   else()
     string(CONCAT docstring
-      "When set to 'default', ${variable} assumes the value of ${dcv_DEFAULT}")
+      "When set to 'default', this variable assumes the value of ${dcv_DEFAULT} ('${${dcv_DEFAULT}}')")
   endif()
 
   set(${variable} "default" CACHE ${dcv_TYPE} "${docstring}")
