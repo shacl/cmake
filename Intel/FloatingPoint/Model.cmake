@@ -5,15 +5,17 @@ if(DEFINED CMAKE_C_COMPILER)
     add_library(shacl::cmake::Intel::FloatingPoint::Model_C
       INTERFACE IMPORTED GLOBAL)
 
-    set_property(TARGET shacl::cmake::Intel::FloatingPoint::Model_C
-      APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_MODEL)
+    if(CMAKE_C_COMPILER_ID STREQUAL "Intel")
+      set_property(TARGET shacl::cmake::Intel::FloatingPoint::Model_C
+        APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_MODEL)
+    endif()
 
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Model.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
         "$<$<C_COMPILER_ID:Intel>:"
           "$<IF:$<PLATFORM_ID:Windows>"
               ",/fp$<1::>"
-              ",-fp-model=>"
+              ",SHELL:-fp-model >"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Model_C
@@ -26,15 +28,17 @@ if(DEFINED CMAKE_CXX_COMPILER)
     add_library(shacl::cmake::Intel::FloatingPoint::Model_CXX
       INTERFACE IMPORTED GLOBAL)
 
-    set_property(TARGET shacl::cmake::Intel::FloatingPoint::Model_CXX
-      APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_MODEL)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+      set_property(TARGET shacl::cmake::Intel::FloatingPoint::Model_CXX
+        APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_MODEL)
+    endif()
 
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Model.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
         "$<$<CXX_COMPILER_ID:Intel>:"
           "$<IF:$<PLATFORM_ID:Windows>"
               ",/fp$<1::>"
-              ",-fp-model=>"
+              ",SHELL:-fp-model >"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Model_CXX
@@ -47,15 +51,17 @@ if(DEFINED CMAKE_Fortran_COMPILER)
     add_library(shacl::cmake::Intel::FloatingPoint::Model_Fortran
       INTERFACE IMPORTED GLOBAL)
 
-    set_property(TARGET shacl::cmake::Intel::FloatingPoint::Model_Fortran
-      APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_MODEL)
+    if(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+      set_property(TARGET shacl::cmake::Intel::FloatingPoint::Model_Fortran
+        APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_MODEL)
+    endif()
 
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Model.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>:"
         "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
           "$<IF:$<PLATFORM_ID:Windows>"
               ",/fp$<1::>"
-              ",-fp-model=>"
+              ",SHELL:-fp-model >"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_MODEL>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Model_Fortran

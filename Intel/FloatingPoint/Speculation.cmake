@@ -5,15 +5,17 @@ if(DEFINED CMAKE_C_COMPILER)
     add_library(shacl::cmake::Intel::FloatingPoint::Speculation_C
       INTERFACE IMPORTED GLOBAL)
 
-    set_property(TARGET shacl::cmake::Intel::FloatingPoint::Speculation_C
-      APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_SPECULATION)
+    if(CMAKE_C_COMPILER_ID STREQUAL "Intel")
+      set_property(TARGET shacl::cmake::Intel::FloatingPoint::Speculation_C
+        APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_SPECULATION)
+    endif()
 
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Speculation.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
         "$<$<C_COMPILER_ID:Intel>:"
           "$<IF:$<PLATFORM_ID:Windows>"
               ",/Qfp-speculation$<1::>"
-              ",-fp-speculation=>"
+              ",SHELL:-fp-speculation >"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_C
@@ -26,15 +28,17 @@ if(DEFINED CMAKE_CXX_COMPILER)
     add_library(shacl::cmake::Intel::FloatingPoint::Speculation_CXX
       INTERFACE IMPORTED GLOBAL)
 
-    set_property(TARGET shacl::cmake::Intel::FloatingPoint::Speculation_CXX
-      APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_SPECULATION)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+      set_property(TARGET shacl::cmake::Intel::FloatingPoint::Speculation_CXX
+        APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_SPECULATION)
+    endif()
 
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Speculation.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
         "$<$<CXX_COMPILER_ID:Intel>:"
           "$<IF:$<PLATFORM_ID:Windows>"
               ",/Qfp-speculation$<1::>"
-              ",-fp-speculation=>"
+              ",SHELL:-fp-speculation >"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_CXX
@@ -47,15 +51,17 @@ if(DEFINED CMAKE_Fortran_COMPILER)
     add_library(shacl::cmake::Intel::FloatingPoint::Speculation_Fortran
       INTERFACE IMPORTED GLOBAL)
 
-    set_property(TARGET shacl::cmake::Intel::FloatingPoint::Speculation_Fortran
-      APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_SPECULATION)
+    if(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+      set_property(TARGET shacl::cmake::Intel::FloatingPoint::Speculation_Fortran
+        APPEND PROPERTY COMPATIBLE_INTERFACE_STRING Intel_FLOATING_POINT_SPECULATION)
+    endif()
 
     string(CONCAT shacl.cmake.Intel.FloatingPoint.Speculation.generator
       "$<$<BOOL:$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>:"
         "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
           "$<IF:$<PLATFORM_ID:Windows>"
               ",/Qfp-speculation$<1::>"
-              ",-fp-speculation=>"
+              ",SHELL:-fp-speculation >"
           "$<TARGET_PROPERTY:Intel_FLOATING_POINT_SPECULATION>>>")
 
     target_compile_options(shacl::cmake::Intel::FloatingPoint::Speculation_Fortran
