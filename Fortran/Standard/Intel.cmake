@@ -6,7 +6,8 @@ string(CONCAT shacl.cmake.Fortran.Standard.generator
     "$<IF:$<VERSION_LESS:${CMAKE_Fortran_COMPILER_VERSION},19>,f15,f18>>")
 
 string(CONCAT shacl.cmake.Fortran.Standard.generator
-  "$<$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>:"
+  "$<$<AND:$<BOOL:$<TARGET_PROPERTY:Fortran_STANDARD>>"
+         ",$<STREQUAL:Intel,${CMAKE_Fortran_COMPILER_ID}>>:"
     "$<IF:$<PLATFORM_ID:Windows>"
         ",/stand$<1::>"
         ",-stand=>"
