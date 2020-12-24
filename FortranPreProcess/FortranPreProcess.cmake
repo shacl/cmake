@@ -63,9 +63,9 @@ function(FortranPreProcess infile outfile)
   endforeach()
 
   add_custom_command(
-    OUTPUT ${outfile}
-    COMMAND ${PERL_EXECUTABLE} ${FPP_PATH} ${FPP_ARGS} -o ${outfile} -- ${infile}
-    DEPENDS ${infile}
-    WORKING_DIRECTORY ${working_directory})
+    OUTPUT "${outfile}"
+    COMMAND "${PERL_EXECUTABLE}" "${FPP_PATH}" ${FPP_ARGS} -o "${outfile}" -- "${infile}"
+    DEPENDS "${infile}"
+    WORKING_DIRECTORY "${working_directory}")
 
 endfunction(FortranPreProcess)
