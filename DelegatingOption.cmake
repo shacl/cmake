@@ -25,10 +25,22 @@ function(delegating_option variable)
   set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
   set(VARIADIC_ARGUMENTS)
 
+  set(arguments)
+  foreach(argument IN LISTS ARGN)
+    if(argument STREQUAL ""            # argument empty string
+        OR argument MATCHES ".*[ ].*"  # argument with embedded whitespace
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES ".*\".*")  # argument with embedded quotation
+      list(APPEND arguments "\"${argument}\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
+
   cmake_parse_arguments(do
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED do_DEFAULT)
     message(FATAL_ERROR
@@ -36,6 +48,9 @@ function(delegating_option variable)
   endif()
 
   if(do_DOCSTRING)
+    if(do_DOCSTRING MATCHES "\"(.*)\"")
+      set(do_DOCSTRING "${CMAKE_MATCH_1}")
+    endif()
     string(CONCAT docstring
       "${do_DOCSTRING}\n"
       "When set to 'default', this variable assumes the value of ${do_DEFAULT} (${${do_DEFAULT}})")
@@ -45,6 +60,7 @@ function(delegating_option variable)
   endif()
 
   set(${variable} "default" CACHE STRING "${docstring}")
+  set_property(CACHE ${variable} PROPERTY HELPSTRING "${docstring}")
   set_property(CACHE ${variable} PROPERTY STRINGS default ON OFF)
   if(${variable} STREQUAL "default")
     if(${do_DEFAULT})

@@ -59,11 +59,13 @@ function(CMAKE_DEPENDENT_SELECTION variable docstring)
 
   if(${variable}_selection_AVAILABLE)
     if(DEFINED ${variable}_selection_DEFAULT)
-      selection(${variable} "${docstring}"
+      selection(${variable} 
+        DOCSTRING "${docstring}"
         DEFAULT "${${variable}_selection_DEFAULT}"
         OPTIONS "${${variable}_selection_OPTIONS}")
     else()
-      selection(${variable} "${docstring}"
+      selection(${variable} 
+        DOCSTRING "${docstring}"
         OPTIONS "${${variable}_selection_OPTIONS}")
     endif()
     set(${variable} "${${variable}}" CACHE STRING "${docstring}" FORCE)

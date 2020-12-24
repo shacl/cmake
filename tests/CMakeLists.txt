@@ -19,8 +19,8 @@ CMAKE_DEPENDENT_CACHE_VAR(test_dependent_var STRING
   "a variable used to test CMAKE_DEPEPENDENT_CACHE_VAR"
   "hello" "NOT use_fallback" "world")
 
-selection(trafficLight "color of light" DEFAULT red OPTIONS red yellow green)
-selection(activity "programmer activity" OPTIONS hotrocks sleep reddit)
+selection(trafficLight DOCSTRING "color of light" DEFAULT red OPTIONS red yellow green)
+selection(activity DOCSTRING "programmer activity" OPTIONS hotrocks sleep reddit)
 
 CMAKE_DEPENDENT_SELECTION(test_selection
   "a variable used to test CMAKE_DEPENDENT_SELECTION"
