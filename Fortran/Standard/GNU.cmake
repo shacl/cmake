@@ -6,7 +6,8 @@ string(CONCAT shacl.cmake.Fortran.Standard.generator
     "$<IF:$<VERSION_LESS:${CMAKE_Fortran_COMPILER_VERSION},8>,f2008ts,f2018>>")
 
 string(CONCAT shacl.cmake.Fortran.Standard.generator
-  "$<$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>:"
+  "$<$<AND:$<BOOL:$<TARGET_PROPERTY:Fortran_STANDARD>>"
+         ",$<STREQUAL:GNU,${CMAKE_Fortran_COMPILER_ID}>>:"
     "-std=${shacl.cmake.Fortran.Standard.generator}>")
 
 target_compile_options(shacl::cmake::Fortran::Standard INTERFACE
