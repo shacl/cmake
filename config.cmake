@@ -1,4 +1,4 @@
-include_guard(DIRECTORY)
+cmake_minimum_required(VERSION 3.13.0)
 
 if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   set(subproject TRUE)
@@ -7,17 +7,24 @@ else()
 endif()
 
 if(subproject)
-  set(INSTALL_SUBPROJECTS ON CACHE BOOL "Install subproject dependencies")
+  if(NOT DEFINED INSTALL_SUBPROJECTS)
+    option(INSTALL_SUBPROJECTS
+      "Perform full installation of subproject dependencies" ON)
+  endif()
 endif()
 
-set(shacl.cmake.installation "default" CACHE STRING
-"Install to included shacl::cmake modules used by this project.
-When set to 'default', shacl::cmake projects will be installed for
-the highest level project and refer to the INSTALL_SUBPROJECTS cache
-variable in subprojects")
+include_guard(DIRECTORY)
 
-set_property(CACHE shacl.cmake.installation PROPERTY STRINGS default ON OFF)
-mark_as_advanced(shacl.cmake.installation)
+if(NOT DEFINED shacl.cmake.installation)
+  set(shacl.cmake.installation "default" CACHE STRING
+  "Install to included shacl::cmake modules used by this project.
+  When set to 'default', shacl::cmake projects will be installed for
+  the highest level project and refer to the INSTALL_SUBPROJECTS cache
+  variable in subprojects")
+
+  set_property(CACHE shacl.cmake.installation PROPERTY STRINGS default ON OFF)
+  mark_as_advanced(shacl.cmake.installation)
+endif()
 
 if(shacl.cmake.installation STREQUAL "default")
   if(subproject)
