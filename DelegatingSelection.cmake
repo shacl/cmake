@@ -24,23 +24,52 @@ function(delegating_selection variable)
   set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
   set(VARIADIC_ARGUMENTS OPTIONS)
 
+  set(arguments)
+  foreach(argument IN LISTS ARGN)
+    if(argument MATCHES ".*[ ].*"
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES "\".*\"")  # quoted argument
+      list(APPEND arguments "\"${argument}\"")
+    elseif(argument STREQUAL "")
+      list(APPEND arguments "\"\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
+
   cmake_parse_arguments(ds
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED ds_DEFAULT)
     message(FATAL_ERROR
       "delegating_selection invoked without 'DEFAULT' argument")
   endif()
 
+  if(NOT DEFINED ds_OPTIONS)
+    message(FATAL_ERROR "selection invoked without 'OPTIONS' keyword")
+  endif()
+
+  set(options "default")
+  foreach(option IN LISTS ds_OPTIONS)
+    if(option MATCHES "\"(.*)\"")
+      set(option "${CMAKE_MATCH_1}")
+    endif()
+
+    list(APPEND options "${option}")
+  endforeach()
+
   if(ds_DOCSTRING)
+    if(ds_DOCSTRING MATCHES "\"(.*)\"")
+      set(ds_DOCSTRING "${CMAKE_MATCH_1}")
+    endif()
     string(CONCAT docstring
       "${ds_DOCSTRING}\n"
-      "When set to 'default', ${variable} assumes the value of ${ds_DEFAULT}")
+      "When set to 'default', this variable assumes the value of ${ds_DEFAULT} ('${${ds_DEFAULT}}')")
   else()
     string(CONCAT docstring
-      "When set to 'default', ${variable} assumes the value of ${ds_DEFAULT}")
+      "When set to 'default', this variable assumes the value of ${ds_DEFAULT} ('${${ds_DEFAULT}}')")
   endif()
 
   if(NOT DEFINED ds_OPTIONS)
@@ -48,8 +77,8 @@ function(delegating_selection variable)
   endif()
 
   set(${variable} "default" CACHE STRING "${docstring}")
-  set(options default;${ds_OPTIONS})
-  set_property(CACHE ${variable} PROPERTY STRINGS ${options})
+  set_property(CACHE ${variable} PROPERTY STRINGS "${options}")
+  set_property(CACHE ${variable} PROPERTY HELPSTRING "${docstring}")
 
   if(${variable} STREQUAL "default")
     set(${variable} "${${ds_DEFAULT}}")

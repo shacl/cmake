@@ -21,13 +21,25 @@ endif()
 include_guard(GLOBAL)
 function(dependent_delegating_selection variable)
   set(OPTIONS)
-  set(UNARY_ARGUMENTS DEFAULT DOCSTRING CONDITION FALLBACK)
-  set(VARIADIC_ARGUMENTS OPTIONS)
+  set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
+  set(VARIADIC_ARGUMENTS OPTIONS CONDITION FALLBACK)
+
+  set(arguments)
+  foreach(argument IN LISTS ARGN)
+    if(argument STREQUAL ""            # argument empty string
+        OR argument MATCHES ".*[ ].*"  # argument with embedded whitespace
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES ".*\".*")  # argument with embedded quotation
+      list(APPEND arguments "\"${argument}\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
 
   cmake_parse_arguments(dds
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED dds_DEFAULT)
     message(FATAL_ERROR
@@ -59,6 +71,9 @@ function(dependent_delegating_selection variable)
 
   set(available TRUE)
   foreach(condition IN LISTS dds_CONDITION)
+    if(condition MATCHES "\"(.*)\"")
+      set(condition "${CMAKE_MATCH_1}")
+    endif()
     string(REGEX REPLACE " +" ";" condition "${condition}")
     if(${condition})
     else()
@@ -69,19 +84,27 @@ function(dependent_delegating_selection variable)
 
   set(options "default;${dds_OPTIONS}")
 
+  get_property(variable.set GLOBAL PROPERTY "${variable}.set" SET)
+
   if(${available})
-    set(${variable} "default" CACHE STRING "${docstring}")
-    set(${variable} "${${variable}}" CACHE STRING "${docstring}" FORCE)
-    set_property(CACHE ${variable} PROPERTY STRINGS ${options})
+    if(NOT variable.set)
+      set(${variable} "default" CACHE STRING "${docstring}")
+      set(${variable} "${${variable}}" CACHE STRING "${docstring}" FORCE)
+      set_property(CACHE ${variable} PROPERTY STRINGS ${options})
+    endif()
     if(${variable} STREQUAL "default")
       set(${variable} "${${dds_DEFAULT}}")
     endif()
   else()
     if(DEFINED ${variable})
       set(${variable} "${${variable}}" CACHE INTERNAL "${docstring}")
+    else(NOT variable.set)
+      set(${variable} "default" CACHE INTERNAL "${docstring}")
     endif()
     set(${variable} "${dds_FALLBACK}")
   endif()
+
+  set_property(GLOBAL PROPERTY "${variable}.set" "")
 
   if(NOT ${variable} IN_LIST options)
     message("${variable} set to ${${variable}}")
