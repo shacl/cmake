@@ -21,13 +21,25 @@ endif()
 include_guard(GLOBAL)
 function(dependent_delegating_selection variable)
   set(OPTIONS)
-  set(UNARY_ARGUMENTS DEFAULT DOCSTRING CONDITION FALLBACK)
-  set(VARIADIC_ARGUMENTS OPTIONS)
+  set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
+  set(VARIADIC_ARGUMENTS OPTIONS CONDITION FALLBACK)
+
+  set(arguments)
+  foreach(argument IN LISTS ARGN)
+    if(argument STREQUAL ""            # argument empty string
+        OR argument MATCHES ".*[ ].*"  # argument with embedded whitespace
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES ".*\".*")  # argument with embedded quotation
+      list(APPEND arguments "\"${argument}\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
 
   cmake_parse_arguments(dds
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED dds_DEFAULT)
     message(FATAL_ERROR
@@ -59,6 +71,9 @@ function(dependent_delegating_selection variable)
 
   set(available TRUE)
   foreach(condition IN LISTS dds_CONDITION)
+    if(condition MATCHES "\"(.*)\"")
+      set(condition "${CMAKE_MATCH_1}")
+    endif()
     string(REGEX REPLACE " +" ";" condition "${condition}")
     if(${condition})
     else()

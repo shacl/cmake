@@ -24,10 +24,23 @@ function(selection variable)
   set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
   set(VARIADIC_ARGUMENTS OPTIONS)
 
+  set(arguments)
+  set(options)
+  foreach(argument IN LISTS ARGN)
+    if(argument STREQUAL ""            # argument empty string
+        OR argument MATCHES ".*[ ].*"  # argument with embedded whitespace
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES ".*\".*")  # argument with embedded quotation
+      list(APPEND arguments "\"${argument}\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
+
   cmake_parse_arguments(selection
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED selection_OPTIONS)
     message(FATAL_ERROR "selection invoked without 'OPTIONS' keyword")

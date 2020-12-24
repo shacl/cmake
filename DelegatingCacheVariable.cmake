@@ -21,13 +21,25 @@ endif()
 include_guard(GLOBAL)
 function(delegating_cache_variable variable)
   set(OPTIONS)
-  set(UNARY_ARGUMENTS DEFAULT TYPE DOCSTRING)
+  set(UNARY_ARGUMENTS TYPE DEFAULT DOCSTRING)
   set(VARIADIC_ARGUMENTS)
+
+  set(arguments)
+  foreach(argument IN LISTS ARGN)
+    if(argument STREQUAL ""            # argument empty string
+        OR argument MATCHES ".*[ ].*"  # argument with embedded whitespace
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES ".*\".*")  # argument with embedded quotation
+      list(APPEND arguments "\"${argument}\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
 
   cmake_parse_arguments(dcv
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED dcv_DEFAULT)
     message(FATAL_ERROR

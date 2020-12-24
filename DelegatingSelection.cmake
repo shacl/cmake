@@ -24,10 +24,23 @@ function(delegating_selection variable)
   set(UNARY_ARGUMENTS DEFAULT DOCSTRING)
   set(VARIADIC_ARGUMENTS OPTIONS)
 
+  set(arguments)
+  foreach(argument IN LISTS ARGN)
+    if(argument MATCHES ".*[ ].*"
+        OR argument MATCHES ".*[;].*"  # argument list
+        OR argument MATCHES "\".*\"")  # quoted argument
+      list(APPEND arguments "\"${argument}\"")
+    elseif(argument STREQUAL "")
+      list(APPEND arguments "\"\"")
+    else()
+      list(APPEND arguments "${argument}")
+    endif()
+  endforeach()
+
   cmake_parse_arguments(ds
     "${OPTIONS}"
     "${UNARY_ARGUMENTS}"
-    "${VARIADIC_ARGUMENTS}" ${ARGN})
+    "${VARIADIC_ARGUMENTS}" ${arguments})
 
   if(NOT DEFINED ds_DEFAULT)
     message(FATAL_ERROR
