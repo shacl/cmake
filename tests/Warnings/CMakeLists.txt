@@ -54,7 +54,7 @@ target_sources(warnings.c.test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/warnings.c)
 add_test(NAME shacl.cmake.warnings.c.test COMMAND warnings.c.test)
 
 set_tests_properties(shacl.cmake.warnings.c.test PROPERTIES
-  PASS_REGULAR_EXPRESSION "^${C_${CMAKE_C_COMPILER_ID}}\n$")
+  PASS_REGULAR_EXPRESSION "^${C_${CMAKE_C_COMPILER_ID}};*\n$")
 
 set(CXX_GNU
   -Werror -Wall -Wextra -Wpedantic -Wsuggest-override)
@@ -119,7 +119,7 @@ target_sources(warnings.cxx.test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/warnings.cpp
 add_test(NAME shacl.cmake.warnings.cxx.test COMMAND warnings.cxx.test)
 
 set_tests_properties(shacl.cmake.warnings.cxx.test PROPERTIES
-  PASS_REGULAR_EXPRESSION "^${CXX_${CMAKE_CXX_COMPILER_ID}}\n$")
+  PASS_REGULAR_EXPRESSION "^${CXX_${CMAKE_CXX_COMPILER_ID}};*\n$")
 
 if (CMAKE_CUDA_COMPILER)
 
@@ -219,4 +219,4 @@ target_sources(warnings.fortran.test PUBLIC
 
 add_test(NAME shacl.cmake.warnings.fortran.test COMMAND warnings.fortran.test)
 set_tests_properties(shacl.cmake.warnings.fortran.test PROPERTIES
-  PASS_REGULAR_EXPRESSION "^${Fortran_${CMAKE_Fortran_COMPILER_ID}}\n$")
+  PASS_REGULAR_EXPRESSION "^${Fortran_${CMAKE_Fortran_COMPILER_ID}};*\n*$")
