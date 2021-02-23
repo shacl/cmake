@@ -45,8 +45,8 @@ function(dependent_delegating_option variable)
     message(FATAL_ERROR
       "dependent_delegating_option invoked without 'DEFAULT' argument")
   endif()
-  if(dcv_DEFAULT MATCHES "\"(.*)\"")
-    set(dcv_DEFAULT "${CMAKE_MATCH_1}")
+  if(ddo_DEFAULT MATCHES "\"(.*)\"")
+    set(ddo_DEFAULT "${CMAKE_MATCH_1}")
   endif()
 
   if(ddo_DOCSTRING)
