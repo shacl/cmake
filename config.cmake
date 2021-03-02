@@ -34,6 +34,7 @@ if(shacl.cmake.installation STREQUAL "default")
   endif()
 endif()
 
+unset(subproject)
 include_guard(GLOBAL)
 if(shacl.cmake.installation)
   install(FILES "${CMAKE_CURRENT_LIST_FILE}"
