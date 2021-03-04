@@ -7,6 +7,11 @@ function(git_submodule_init name)
   if(NOT EXISTS "${source_dir}/${name}/.git")
     set(url "${git.submodule.package.${name}.url}")
 
+    if(NOT url)
+      message(FATAL_ERROR
+        "${git.submodule.package.${name}.deferred_error}")
+    endif()
+
     if(NOT QUIET)
       message(STATUS "Cloning ${name} git submodule package...")
     endif()
