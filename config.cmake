@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.13.0)
 
-push(shacl.cmake.is_subproject)
-
 if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   set(shacl.cmake.is_subproject TRUE)
 else()
@@ -35,8 +33,6 @@ if(shacl.cmake.installation STREQUAL "default")
     set(shacl.cmake.install ON)
   endif()
 endif()
-
-pop(shacl.cmake.is_subproject)
 
 include_guard(GLOBAL)
 if(shacl.cmake.installation)
