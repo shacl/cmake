@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.13.0)
 
+push(shacl.cmake.is_subproject)
+
 if(NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  set(subproject TRUE)
+  set(shacl.cmake.is_subproject TRUE)
 else()
-  set(subproject FALSE)
+  set(shacl.cmake.is_subproject FALSE)
 endif()
 
-if(subproject)
+if(shacl.cmake.is_subproject)
   if(NOT DEFINED INSTALL_SUBPROJECTS)
     option(INSTALL_SUBPROJECTS
       "Perform full installation of subproject dependencies" ON)
@@ -27,14 +29,15 @@ if(NOT DEFINED shacl.cmake.installation)
 endif()
 
 if(shacl.cmake.installation STREQUAL "default")
-  if(subproject)
+  if(shacl.cmake.is_subproject)
     set(shacl.cmake.install "${INSTALL_SUBPROJECTS}")
   else()
     set(shacl.cmake.install ON)
   endif()
 endif()
 
-unset(subproject)
+pop(shacl.cmake.is_subproject)
+
 include_guard(GLOBAL)
 if(shacl.cmake.installation)
   install(FILES "${CMAKE_CURRENT_LIST_FILE}"
