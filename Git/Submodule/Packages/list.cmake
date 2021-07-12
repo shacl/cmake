@@ -107,7 +107,7 @@ macro(git_submodule_list)
     #
     # If origin is amongst the reported remote aliases, we declare success
     #
-    if("origin" IN_LIST repository.remotes)
+    if("origin" IN_LIST path_output)
       set(repository.remote.name origin)
       set(failure OFF)
     endif()
