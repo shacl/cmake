@@ -1,3 +1,5 @@
+macro(Git_Submodule_Packages_check_version)
+
 get_property(${git.submodule.packages.subject}_VERSION GLOBAL PROPERTY
   ${git.submodule.packages.subject}_VERSION SET)
 
@@ -132,3 +134,5 @@ if(PACKAGE_FIND_VERSION)
   pop(PACKAGE_VERSION_COMPATIBLE)
   pop(PACKAGE_VERSION_EXACT)
 endif()
+
+endmacro()
