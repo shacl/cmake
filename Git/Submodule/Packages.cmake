@@ -7,6 +7,7 @@ include("Git/Submodule/Packages/init")
 include("Git/Submodule/Packages/update")
 include("Git/Submodule/Packages/package")
 include("Git/Submodule/Packages/find_package")
+include("Git/Submodule/Packages/check_version")
 git_submodule_list()
 
 include_guard(DIRECTORY)

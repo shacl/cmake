@@ -211,7 +211,7 @@ macro(find_package name)
         set(${name}_FOUND TRUE)
       endif()
 
-      include(Git/Submodule/Packages/check_version)
+      Git_Submodule_Packages_check_version()
       pop(git.submodule.package.${name}.traversed)
     endif()
 
