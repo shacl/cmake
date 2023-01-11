@@ -58,6 +58,23 @@ macro(git_submodule_list)
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
+  if(NOT EXISTS "${repository.root}" AND WIN32)
+    find_program(CYGPATH_EXECUTABLE NAMES cygpath cygpath.exe)
+
+    if(CYGPATH_EXECUTABLE)
+      execute_process(
+        COMMAND "${CYGPATH_EXECUTABLE}" -w "${repository.root}"
+        OUTPUT_VARIABLE repository.root
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    endif()
+  endif()
+
+  if(NOT EXISTS "${repository.root}")
+    message(FATAL_ERROR
+      "Could resolve git repository root directory: ${repository.root}")
+  endif()
+
   #
   # Determine the current branch of the git repository hosting the current
   # source directory.
@@ -288,13 +305,10 @@ macro(git_submodule_list)
             endwhile()
             set(submodule.url "${repository.remote.url.prefix}/${submodule.url}")
           else()
-            string(CONCAT warning
-              "${submodule.name} git submodule has a relative url: ${submodule.url}\n"
-              "${PROJECT_NAME} git repository branch, \"${repository.branch}\", does not establish a remote\n"
-              "${PROJECT_NAME} git repository does not provide a remote named \"origin\"")
-
             set(git.submodule.package.${submodule.name}.deferred_error
-              "${warning}" CACHE INTERNAL "")
+              "${submodule.name} git submodule has a relative url: ${submodule.url}NEWLINE"
+              "${PROJECT_NAME} git repository branch, \"${repository.branch}\", does not establish a remoteNEWLINE"
+              "${PROJECT_NAME} git repository does not provide a remote named \"origin\"")
             set(submodule.url "NOT_FOUND")
           endif()
         endif()

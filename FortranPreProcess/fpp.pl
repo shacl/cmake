@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 ########################################################################
+# Copyright Triad National Security, LLC/LANL/DOE - see LICENSE file 
 #
 # fpp -- preprocessor for fortran files
 #
@@ -112,7 +113,6 @@
 #                   For MCNP6, blank lines SHOULD be output,
 #                              set $blanks=1
 #
-#                     Copyright LANL/LANS/DOE - see file COPYRIGHT_INFO
 ########################################################################
 $verbose = 0;
 #

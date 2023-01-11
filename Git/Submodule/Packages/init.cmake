@@ -8,8 +8,8 @@ function(git_submodule_init name)
     set(url "${git.submodule.package.${name}.url}")
 
     if(NOT url)
-      message(FATAL_ERROR
-        "${git.submodule.package.${name}.deferred_error}")
+      string(REPLACE "NEWLINE" "\n" message "${git.submodule.package.${name}.deferred_error}")
+      message(FATAL_ERROR "${message}")
     endif()
 
     if(NOT QUIET)
