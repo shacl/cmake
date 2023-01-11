@@ -5,6 +5,7 @@ if(DEFINED CMAKE_C_COMPILER)
     include(Warnings/C/LLVM)
     include(Warnings/C/MSVC)
     include(Warnings/C/Intel)
+    include(Warnings/C/IntelLLVM)
 
     set_property(TARGET shacl::cmake::Warnings_C
       APPEND PROPERTY COMPATIBLE_INTERFACE_BOOL WARN_ALL)

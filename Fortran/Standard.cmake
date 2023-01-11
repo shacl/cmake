@@ -44,3 +44,4 @@ set_property(TARGET shacl::cmake::Fortran::Standard
 
 include(Fortran/Standard/GNU)
 include(Fortran/Standard/Intel)
+include(Fortran/Standard/IntelLLVM)

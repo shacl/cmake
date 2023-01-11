@@ -37,4 +37,5 @@ set_target_properties(shacl::cmake::Fortran::StandardCompliance PROPERTIES
 
 include(Fortran/StandardCompliance/GNU)
 include(Fortran/StandardCompliance/Intel)
+include(Fortran/StandardCompliance/IntelLLVM)
 include(Fortran/StandardCompliance/PGI)

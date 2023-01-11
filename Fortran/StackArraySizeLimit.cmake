@@ -33,7 +33,7 @@ BRIEF_DOCS
 FULL_DOCS
 "This behavior varies widely between Fortran compilers.
 
-In the case of Intel ifort, automatic and temporary arrays which exceed this
+In the case of Intel ifort/ifx, automatic and temporary arrays which exceed this
 limit are allocated on the heap. This is the ideal behavior.
 
 On GNU gfortran (at least in version 9.0 and earlier) any stack allocated
@@ -54,4 +54,5 @@ add_library(shacl::cmake::Fortran::StackArraySizeLimit INTERFACE IMPORTED GLOBAL
 
 include(Fortran/StackArraySizeLimit/GNU)
 include(Fortran/StackArraySizeLimit/Intel)
+include(Fortran/StackArraySizeLimit/IntelLLVM)
 include(Fortran/StackArraySizeLimit/PGI)

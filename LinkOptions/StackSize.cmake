@@ -34,6 +34,7 @@ check_language(Fortran)
 
 include(LinkOptions/StackSize/GNU)
 include(LinkOptions/StackSize/Intel)
+include(LinkOptions/StackSize/IntelLLVM)
 include(LinkOptions/StackSize/PGI)
 include(LinkOptions/StackSize/LLVM)
 include(LinkOptions/StackSize/MSVC)

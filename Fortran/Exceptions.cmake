@@ -29,3 +29,4 @@ add_library(shacl::cmake::Fortran::Exceptions INTERFACE IMPORTED GLOBAL)
 
 include(Fortran/Exceptions/GNU)
 include(Fortran/Exceptions/Intel)
+include(Fortran/Exceptions/IntelLLVM)

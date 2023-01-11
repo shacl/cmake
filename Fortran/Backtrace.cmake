@@ -38,5 +38,6 @@ set_property(TARGET shacl::cmake::Fortran::Backtrace
   APPEND PROPERTY COMPATIBLE_INTERFACE_BOOL Fortran_BACKTRACE)
 
 include(Fortran/Backtrace/Intel)
+include(Fortran/Backtrace/IntelLLVM)
 include(Fortran/Backtrace/PGI)
 include(Fortran/Backtrace/GNU)
