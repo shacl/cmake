@@ -35,6 +35,7 @@ endif()
 
 include(Fortran/Real/GNU)
 include(Fortran/Real/Intel)
+include(Fortran/Real/IntelLLVM)
 include(Fortran/Real/PGI)
 
 include_guard(DIRECTORY)

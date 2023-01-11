@@ -3,6 +3,7 @@ if(DEFINED CMAKE_Fortran_COMPILER)
     add_library(shacl::cmake::Warnings_Fortran INTERFACE IMPORTED GLOBAL)
     include(Warnings/Fortran/GNU)
     include(Warnings/Fortran/Intel)
+    include(Warnings/Fortran/IntelLLVM)
 
     set_property(TARGET shacl::cmake::Warnings_Fortran
       APPEND PROPERTY COMPATIBLE_INTERFACE_BOOL WARN_ALL)

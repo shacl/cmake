@@ -39,4 +39,5 @@ set_property(TARGET shacl::cmake::Fortran::BackslashEscape
 
 include(Fortran/BackslashEscape/GNU)
 include(Fortran/BackslashEscape/Intel)
+include(Fortran/BackslashEscape/IntelLLVM)
 include(Fortran/BackslashEscape/PGI)
