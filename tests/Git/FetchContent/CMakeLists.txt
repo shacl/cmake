@@ -9,7 +9,6 @@ include(dependencies.cmake)
 find_package(Catch2 12345.0 REQUIRED)
 find_package(pybind11 REQUIRED)
 find_package(shacl-trait REQUIRED)
-find_package(shacl-ebo REQUIRED)
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
 "#include <cassert>
@@ -17,7 +16,6 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
  int main(){
    assert(\"${Catch2_FOUND}\" == \"1\" );
    assert(\"${shacl-trait_FOUND}\" == \"1\" );
-   assert(\"${shacl-ebo_FOUND}\" == \"1\" );
    assert(\"${pybind11_FOUND}\" == \"1\" );
  }
 ")

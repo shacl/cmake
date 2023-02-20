@@ -22,18 +22,6 @@ FetchContent_Declare( shacl-trait
     GIT_SHALLOW     TRUE
 )
 
-# Test with relative path
-# shacl-ebo also depends on shacl-trait and Catch2
-FetchContent_Declare( shacl-ebo
-    GIT_REPOSITORY  
-    ../../scl/ebo
-    GIT_TAG         
-    master
-    GIT_SUBMODULES  
-    ".gitmodules"
-    GIT_SHALLOW     TRUE
-)
-
 # Test with another relative path
 FetchContent_Declare( pybind11
     GIT_REPOSITORY  ../../pybind/pybind11
@@ -41,4 +29,4 @@ FetchContent_Declare( pybind11
     GIT_SHALLOW     TRUE
 )
 
-FetchContent_MakeAvailable(shacl-trait shacl-ebo pybind11 Catch2)
+FetchContent_MakeAvailable(shacl-trait pybind11 Catch2)
