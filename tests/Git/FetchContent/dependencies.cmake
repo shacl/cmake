@@ -1,6 +1,6 @@
 
 # Test with URL provided
-FetchContent_Declare( Catch2
+shacl_FetchContent_Declare( Catch2
     GIT_REPOSITORY  ssh://git@asc-git.lanl.gov:10022/catchorg/catch2
     GIT_TAG         master 
     GIT_SHALLOW     TRUE
@@ -8,14 +8,14 @@ FetchContent_Declare( Catch2
 )
 
 # First-in wins - these values are effectively ignored
-FetchContent_Declare( Catch2
+shacl_FetchContent_Declare( Catch2
     GIT_REPOSITORY  nonsense 
     GIT_TAG         morenonsense
 )
 
 # Test with relative path
 # shacl-trait also depends on Catch2
-FetchContent_Declare( shacl-trait
+shacl_FetchContent_Declare( shacl-trait
     GIT_REPOSITORY  ../trait
     GIT_TAG         master
     GIT_SUBMODULES  ".gitmodules"
@@ -23,10 +23,10 @@ FetchContent_Declare( shacl-trait
 )
 
 # Test with another relative path
-FetchContent_Declare( pybind11
+shacl_FetchContent_Declare( pybind11
     GIT_REPOSITORY  ../../pybind/pybind11
     GIT_TAG         master
     GIT_SHALLOW     TRUE
 )
 
-FetchContent_MakeAvailable(shacl-trait pybind11 Catch2)
+shacl_FetchContent_MakeAvailable(shacl-trait pybind11 Catch2)

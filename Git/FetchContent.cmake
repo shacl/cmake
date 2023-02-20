@@ -7,15 +7,17 @@ cmake_policy(SET CMP0097 NEW) # Policy for GIT_SUBMODULES with empty arguments -
 # Default shacl-cmake Git FETCHCONTENT values that may be overriden at configuration time
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "Enables UPDATE_DISCONNECTED behavior for all content population")
 
+# Turn off searching of CMAKE_INSTALL_PREFIX during calls to find_package
+set(CMAKE_FIND_USE_INSTALL_PREFIX OFF CACHE BOOL "Disables find_package searching in CMAKE_INSTALL_PREFIX for dependencies")
+
 include("Git/FetchContent/relative_git_url")
 
 include(FetchContent)
 
-# The overwriten FetchContent_MakeAvailable function only adds print statements
+# The wrapped FetchContent_MakeAvailable function only adds print statements
 # for CMake clone progress and to aid in debugging dependency origins and keep user
 # informed when lots of clones are happening
-backup(FetchContent_MakeAvailable)
-function(FetchContent_MakeAvailable name)
+function(shacl_FetchContent_MakeAvailable name)
 
   FetchContent_GetProperties(${name} POPULATED ${name}_pre_makeavailable_found)
 
@@ -32,7 +34,7 @@ function(FetchContent_MakeAvailable name)
     message(STATUS "Finding or fetching and configuring ${name}")
   endif()
 
-  previous_FetchContent_MakeAvailable(${name})
+  FetchContent_MakeAvailable(${name})
 
   FetchContent_GetProperties(${name} POPULATED ${name}_post_makeavailable_found)
 
@@ -47,16 +49,15 @@ function(FetchContent_MakeAvailable name)
   # a package-by-package status will not be available
   list(LENGTH ARGN argn_len)
   if (${argn_len} GREATER 0)
-    FetchContent_MakeAvailable(${ARGN})
+    shacl_FetchContent_MakeAvailable(${ARGN})
   endif()
 
 endfunction()
 
-# The purpose of the overwriten FetchContent_Declare function is twofold:
+# The purpose of the wrapped FetchContent_Declare function is twofold:
 # * Enabling relative GIT_REPOSITORY URLs to aid in automated testing or different host servers
 # * Adding the appropriate arguments to FetchContent_Declare to avoid finding the dependency from different sources
-backup(FetchContent_Declare)
-function(FetchContent_Declare name)
+function(shacl_FetchContent_Declare name)
 
   # FETCHCONTENT uses upper-case names for some variables
   string(TOUPPER ${name} uname)
@@ -112,6 +113,6 @@ function(FetchContent_Declare name)
   list(REMOVE_AT arg_subset ${git_repository_index})
   list(INSERT arg_subset ${git_repository_index} ${updated_url})
 
-  previous_FetchContent_Declare(${arg_subset})
+  FetchContent_Declare(${arg_subset})
 
 endfunction()
