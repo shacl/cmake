@@ -158,18 +158,6 @@ function(shacl_FetchContent_Declare name)
   list(REMOVE_AT arg_subset ${git_repository_index})
   list(INSERT arg_subset ${git_repository_index} ${updated_url})
 
-  set(shacl_FetchContent.${name}.tag.override "" CACHE STRING 
-    "The branch/tag for package ${name} that should be fetched instead of what is specified on the GIT_TAG line.  This still abides by the FETCHCONTENT_UPDATES_DISCONNECTED_${name} and FETCHCONTENT_UPDATES_DISCONNECTED variables.")
-
-  # If the shacl_FetchContent.${name}.tag.override variable is not an empty string then
-  # replace the GIT_TAG argument with the content of the variable
-  list(FIND arg_subset GIT_TAG git_tag_index)
-  math(EXPR git_tag_index "${git_tag_index}+1")
-  if (NOT ${shacl_FetchContent.${name}.tag.override})
-    list(REMOVE_AT arg_subset ${git_tag_index})
-    list(INSERT arg_subset ${git_tag_index} ${shacl_FetchContent.${name}.tag.override})
-  endif()
-
   FetchContent_Declare(${arg_subset})
 
 endfunction()
