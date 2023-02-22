@@ -110,7 +110,7 @@ function(shacl_FetchContent_Declare name)
   set(FETCHCONTENT_UPDATES_DISCONNECTED_${uname} ON CACHE BOOL "Enables UPDATE_DISCONNECTED just for population of ${name}")
 
   # Option to enable force fetching via configuration
-  option(shacl_FetchContent.${name}.eager "Force fetch of ${name} instead of first calling find_package" OFF)
+  option(shacl_FetchContent.${name}.override_find_package "Force fetch of ${name} instead of first calling find_package" OFF)
 
   # copy argument list as methods like list(FIND...) don't work on ${ARGV}
   set (args ${ARGV})
@@ -119,14 +119,14 @@ function(shacl_FetchContent_Declare name)
   list(FIND args FIND_PACKAGE_ARGS find_pkg_index)
   list(FIND args OVERRIDE_FIND_PACKAGE override_pkg_index)
 
-  # If eager fetching is turned on then always fetch, never find.
-  # If eagerly fetching then first remove FIND_PACKAGE_ARGS and all of the arguments.
+  # If override_find_package (force fetching) is turned on then always fetch, never find.
+  # If force fetching then first remove FIND_PACKAGE_ARGS and all of the arguments.
   # Then specify OVERRIDE_FIND_PACKAGE to force future calls to find_package to find the fetched version.
-  # If not eagerly fetching then specify FIND_PACKAGE_ARGS if it wasn't present in the argument list to 
+  # If not force fetching then specify FIND_PACKAGE_ARGS if it wasn't present in the argument list to 
   # first attempt finding the dependency via a call to find_paackage before trying to fetch it.
   # FIND_PACKAGE_ARGS also ensures that if the dependency was fetched then future calls to find_package will find the fetched dependency.
   # If OVERRIDE_FIND_PACKAGE was specified in FetchContent_Declare then FIND_PACKAGE_ARGS is not added 
-  if (${shacl_FetchContent.${name}.eager})
+  if (${shacl_FetchContent.${name}.override_find_package})
     # Ignore everything after FIND_PACKAGE_ARGS
     # FIND_PACKAGE_ARGS and its associated args must come at the end of 
     # the FetchContent_Declare function call so we can safely ignore everything after it
@@ -136,7 +136,7 @@ function(shacl_FetchContent_Declare name)
     if (${override_pkg_index} EQUAL -1)
       list(APPEND arg_subset OVERRIDE_FIND_PACKAGE)
     endif()
-  else() # if not eagerly fetching then call find_package first
+  else() # if not force fetching then call find_package first
     set(arg_subset ${args})
     # if FIND_PACKAGE_ARGS is not present and OVERRIDE_FIND_PACKAGE was not specified then add FIND_PACKAGE_ARGS
     if (${find_pkg_index} EQUAL -1 AND ${override_pkg_index} EQUAL -1)
