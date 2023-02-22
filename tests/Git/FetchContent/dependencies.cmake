@@ -1,13 +1,12 @@
 
-# Test with URL provided
+# Test with relative path provided with FIND_PACKAGE_ARGS
 shacl_FetchContent_Declare( Catch2
-    GIT_REPOSITORY  ssh://git@asc-git.lanl.gov:10022/catchorg/catch2
+    GIT_REPOSITORY  ../../catchorg/catch2
     GIT_TAG         master 
-    GIT_SHALLOW     TRUE
     FIND_PACKAGE_ARGS 2.0
 )
 
-# First-in wins - these values are effectively ignored
+# First-in wins - these values are ignored
 shacl_FetchContent_Declare( Catch2
     GIT_REPOSITORY  nonsense 
     GIT_TAG         morenonsense
@@ -22,11 +21,4 @@ shacl_FetchContent_Declare( shacl-trait
     GIT_SHALLOW     TRUE
 )
 
-# Test with another relative path
-shacl_FetchContent_Declare( pybind11
-    GIT_REPOSITORY  ../../pybind/pybind11
-    GIT_TAG         master
-    GIT_SHALLOW     TRUE
-)
-
-shacl_FetchContent_MakeAvailable(shacl-trait pybind11 Catch2)
+shacl_FetchContent_MakeAvailable(shacl-trait Catch2)
