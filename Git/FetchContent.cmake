@@ -9,6 +9,7 @@ set(CMAKE_FIND_USE_INSTALL_PREFIX OFF CACHE BOOL "Disables find_package searchin
 
 find_package(Git REQUIRED)
 include("Git/FetchContent/relative_git_url")
+include("Git/FetchContent/directory_git_info")
 
 include(FetchContent)
 
@@ -17,29 +18,75 @@ include(FetchContent)
 # informed when lots of clones are happening
 function(shacl_FetchContent_MakeAvailable name)
 
-  FetchContent_GetProperties(${name} POPULATED ${name}_pre_makeavailable_found)
+  # Check if package was already found or if its source directory was specified.
+  # If so, don't print diagnostic info.
+  # Note - if a package specifies by hand any of these variables in its cmake
+  # then the diagnostics may not get printed properly (i.e. pybind11)
+  FetchContent_GetProperties(${name} POPULATED ${name}_pre_makeavailable_fetched)
+  if (${name}_FOUND)
+    set(${name}_pre_makeavailable_found TRUE)
+  else()
+    set(${name}_pre_makeavailable_found FALSE)
+  endif()
 
+  # Check if source directory was specified
   # FETCHCONTENT uses upper-case names for some variables
   string(TOUPPER ${name} uname)
-
   if("${FETCHCONTENT_SOURCE_DIR_${uname}}" STREQUAL "")
     set(sourceDirNotSpecified TRUE)
   else()
     set(sourceDirNotSpecified FALSE)
   endif()
 
-  if (${sourceDirNotSpecified} AND NOT ${${name}_pre_makeavailable_found} AND NOT ${name}_FOUND)
+  set(${name}_already_found ${${name}_pre_makeavailable_fetched} OR ${${name}_pre_makeavailable_found})
+
+  if (${sourceDirNotSpecified} AND NOT (${${name}_already_found}}))
     message(STATUS "Finding or fetching and configuring ${name}")
   endif()
 
   FetchContent_MakeAvailable(${name})
 
-  FetchContent_GetProperties(${name} POPULATED ${name}_post_makeavailable_found)
+  FetchContent_GetProperties(${name} 
+    SOURCE_DIR ${name}_source_dir
+    POPULATED ${name}_post_makeavailable_found
+  )
 
-  if (${name}_FOUND)
-    message(STATUS "${name} found via installation and configured")
-  elseif( ${${name}_post_makeavailable_found} AND ${sourceDirNotSpecified} )
-    message(STATUS "${name} fetched and configured")
+  # It's possible that ${name}_post_makeavailable_found is TRUE because the package was found via find_package.
+  # In that case ${name}_source_dir was not defined.  
+  # If both ${name}_post_makeavailable_found is TRUE and ${name}_source_dir was defined then the package was fetched.
+  set(${name}_post_makeavailable_found ${${name}_post_makeavailable_found} AND DEFINED ${name}_source_dir)
+  
+  if (${name_FOUND})
+    if (${${name}_FOUND})
+      set(${name}_found_via_find_package TRUE)
+    else()
+      set(${name}_found_via_find_package FALSE)
+    endif()
+  else()
+    set(${name}_found_via_find_package FALSE)
+  endif()
+
+  if (${sourceDirNotSpecified} AND NOT (${${name}_already_found}}))
+    if( ${${name}_post_makeavailable_found} AND NOT ${${name}_found_via_find_package} )
+      message(STATUS "${name} fetched and configured")
+      message(STATUS "  ${name} source dir: ${${name}_source_dir}")
+      get_git_info_for_directory(${${name}_source_dir} return_url return_hash return_branch)
+      message(STATUS "  ${name} repository: ${return_url}")
+      message(STATUS "  ${name} branch/tag: ${return_branch}")
+      message(STATUS "  ${name} hash:       ${return_hash}")
+
+      # Set cache variables and mark them as "ro" to indicate they're read-only
+      set(git.fetchcontent.${name}.repository.ro ${return_url} CACHE STRING "The repository of ${name} that was fetched. Read only." FORCE)
+      set(git.fetchcontent.${name}.tag.ro ${return_branch} CACHE STRING "The branch/tag of ${name} that was fetched, HEAD if hash was fetched. Read only." FORCE)
+      set(git.fetchcontent.${name}.hash.ro ${return_hash} CACHE STRING "The hash of ${name} that was fetched. Read only." FORCE)
+      mark_as_advanced(git.fetchcontent.${name}.repository.ro)
+      mark_as_advanced(git.fetchcontent.${name}.tag.ro)
+      mark_as_advanced(git.fetchcontent.${name}.hash.ro)
+
+    elseif (${name}_FOUND)
+      message(STATUS "${name} found via installation and configured")
+      message(STATUS "  ${name} dir: ${${name}_DIR}")
+    endif()
   endif()
 
   # recursively call FetchContent_MakeAvailable on all arguments
@@ -110,6 +157,18 @@ function(shacl_FetchContent_Declare name)
   get_dependency_url(${git_repository_url} updated_url)
   list(REMOVE_AT arg_subset ${git_repository_index})
   list(INSERT arg_subset ${git_repository_index} ${updated_url})
+
+  set(git.fetchcontent.${name}.tag.override "" CACHE STRING 
+    "The branch/tag for package ${name} that should be fetched instead of what is specified on the GIT_TAG line.  This still abides by the FETCHCONTENT_UPDATES_DISCONNECTED_${name} and FETCHCONTENT_UPDATES_DISCONNECTED variables.")
+
+  # If the git.fetchcontent.${name}.tag.override variable is not an empty string then
+  # replace the GIT_TAG argument with the content of the variable
+  list(FIND arg_subset GIT_TAG git_tag_index)
+  math(EXPR git_tag_index "${git_tag_index}+1")
+  if (NOT ${git.fetchcontent.${name}.tag.override})
+    list(REMOVE_AT arg_subset ${git_tag_index})
+    list(INSERT arg_subset ${git_tag_index} ${git.fetchcontent.${name}.tag.override})
+  endif()
 
   FetchContent_Declare(${arg_subset})
 
