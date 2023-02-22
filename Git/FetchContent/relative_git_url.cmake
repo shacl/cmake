@@ -2,7 +2,7 @@ include_guard(GLOBAL)
 
 # Gets the URL of the git remote with name origin
 function(get_git_remote_url return_url)   
-  execute_process( COMMAND git config --get remote.origin.url 
+  execute_process( COMMAND "${GIT_EXECUTABLE}" config --get remote.origin.url 
                            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                            OUTPUT_STRIP_TRAILING_WHITESPACE
                            RESULT_VARIABLE rc

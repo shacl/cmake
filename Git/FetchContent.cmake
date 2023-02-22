@@ -4,12 +4,10 @@ cmake_minimum_required(VERSION 3.24.0)
 
 cmake_policy(SET CMP0097 NEW) # Policy for GIT_SUBMODULES with empty arguments - won't download submodules when cloning
 
-# Default shacl-cmake Git FETCHCONTENT values that may be overriden at configuration time
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "Enables UPDATE_DISCONNECTED behavior for all content population")
-
 # Turn off searching of CMAKE_INSTALL_PREFIX during calls to find_package
 set(CMAKE_FIND_USE_INSTALL_PREFIX OFF CACHE BOOL "Disables find_package searching in CMAKE_INSTALL_PREFIX for dependencies")
 
+find_package(Git REQUIRED)
 include("Git/FetchContent/relative_git_url")
 
 include(FetchContent)
