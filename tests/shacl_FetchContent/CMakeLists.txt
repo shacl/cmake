@@ -1,10 +1,10 @@
 include(CTest)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
-include(Git/FetchContent)
+include(shacl_FetchContent)
 
 # test override of GIT_TAG via optional cache variable
-set(git.fetchcontent.Catch2.tag.override 87074da73ecb1c2e7c35fd14f50ca21c4c002adc CACHE STRING
+set(shacl_FetchContent.Catch2.tag.override 87074da73ecb1c2e7c35fd14f50ca21c4c002adc CACHE STRING
   "The branch/tag for package Catch2 that should be fetched instead of what is specified on the GIT_TAG line.  This still abides by the FETCHCONTENT_UPDATES_DISCONNECTED_Catch2 and FETCHCONTENT_UPDATES_DISCONNECTED variables.")
 include(dependencies.cmake)
 

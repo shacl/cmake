@@ -8,8 +8,8 @@ cmake_policy(SET CMP0097 NEW) # Policy for GIT_SUBMODULES with empty arguments -
 set(CMAKE_FIND_USE_INSTALL_PREFIX OFF CACHE BOOL "Disables find_package searching in CMAKE_INSTALL_PREFIX for dependencies")
 
 find_package(Git REQUIRED)
-include("Git/FetchContent/relative_git_url")
-include("Git/FetchContent/directory_git_info")
+include("shacl_FetchContent/relative_git_url")
+include("shacl_FetchContent/directory_git_info")
 
 include(FetchContent)
 
@@ -76,12 +76,12 @@ function(shacl_FetchContent_MakeAvailable name)
       message(STATUS "  ${name} hash:       ${return_hash}")
 
       # Set cache variables and mark them as "ro" to indicate they're read-only
-      set(git.fetchcontent.${name}.repository.ro ${return_url} CACHE STRING "The repository of ${name} that was fetched. Read only." FORCE)
-      set(git.fetchcontent.${name}.tag.ro ${return_branch} CACHE STRING "The branch/tag of ${name} that was fetched, HEAD if hash was fetched. Read only." FORCE)
-      set(git.fetchcontent.${name}.hash.ro ${return_hash} CACHE STRING "The hash of ${name} that was fetched. Read only." FORCE)
-      mark_as_advanced(git.fetchcontent.${name}.repository.ro)
-      mark_as_advanced(git.fetchcontent.${name}.tag.ro)
-      mark_as_advanced(git.fetchcontent.${name}.hash.ro)
+      set(shacl_FetchContent.${name}.repository.ro ${return_url} CACHE STRING "The repository of ${name} that was fetched. Read only." FORCE)
+      set(shacl_FetchContent.${name}.tag.ro ${return_branch} CACHE STRING "The branch/tag of ${name} that was fetched, HEAD if hash was fetched. Read only." FORCE)
+      set(shacl_FetchContent.${name}.hash.ro ${return_hash} CACHE STRING "The hash of ${name} that was fetched. Read only." FORCE)
+      mark_as_advanced(shacl_FetchContent.${name}.repository.ro)
+      mark_as_advanced(shacl_FetchContent.${name}.tag.ro)
+      mark_as_advanced(shacl_FetchContent.${name}.hash.ro)
 
     elseif (${name}_FOUND)
       message(STATUS "${name} found via installation and configured")
@@ -110,7 +110,7 @@ function(shacl_FetchContent_Declare name)
   set(FETCHCONTENT_UPDATES_DISCONNECTED_${uname} ON CACHE BOOL "Enables UPDATE_DISCONNECTED just for population of ${name}")
 
   # Option to enable force fetching via configuration
-  option(git.fetchcontent.${name}.eager "Force fetch of ${name} instead of first calling find_package" OFF)
+  option(shacl_FetchContent.${name}.eager "Force fetch of ${name} instead of first calling find_package" OFF)
 
   # copy argument list as methods like list(FIND...) don't work on ${ARGV}
   set (args ${ARGV})
@@ -126,7 +126,7 @@ function(shacl_FetchContent_Declare name)
   # first attempt finding the dependency via a call to find_paackage before trying to fetch it.
   # FIND_PACKAGE_ARGS also ensures that if the dependency was fetched then future calls to find_package will find the fetched dependency.
   # If OVERRIDE_FIND_PACKAGE was specified in FetchContent_Declare then FIND_PACKAGE_ARGS is not added 
-  if (${git.fetchcontent.${name}.eager})
+  if (${shacl_FetchContent.${name}.eager})
     # Ignore everything after FIND_PACKAGE_ARGS
     # FIND_PACKAGE_ARGS and its associated args must come at the end of 
     # the FetchContent_Declare function call so we can safely ignore everything after it
@@ -158,16 +158,16 @@ function(shacl_FetchContent_Declare name)
   list(REMOVE_AT arg_subset ${git_repository_index})
   list(INSERT arg_subset ${git_repository_index} ${updated_url})
 
-  set(git.fetchcontent.${name}.tag.override "" CACHE STRING 
+  set(shacl_FetchContent.${name}.tag.override "" CACHE STRING 
     "The branch/tag for package ${name} that should be fetched instead of what is specified on the GIT_TAG line.  This still abides by the FETCHCONTENT_UPDATES_DISCONNECTED_${name} and FETCHCONTENT_UPDATES_DISCONNECTED variables.")
 
-  # If the git.fetchcontent.${name}.tag.override variable is not an empty string then
+  # If the shacl_FetchContent.${name}.tag.override variable is not an empty string then
   # replace the GIT_TAG argument with the content of the variable
   list(FIND arg_subset GIT_TAG git_tag_index)
   math(EXPR git_tag_index "${git_tag_index}+1")
-  if (NOT ${git.fetchcontent.${name}.tag.override})
+  if (NOT ${shacl_FetchContent.${name}.tag.override})
     list(REMOVE_AT arg_subset ${git_tag_index})
-    list(INSERT arg_subset ${git_tag_index} ${git.fetchcontent.${name}.tag.override})
+    list(INSERT arg_subset ${git_tag_index} ${shacl_FetchContent.${name}.tag.override})
   endif()
 
   FetchContent_Declare(${arg_subset})
