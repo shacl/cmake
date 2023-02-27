@@ -42,7 +42,7 @@ As an example, if the parent repository's "origin" remote URL is https://github.
 `GIT_REPOSITORY https://github.com/shacl/trait.git`.
 
 ## Integration with find_package
-Since CMake 3.24 FetchContent can first try finding <PackageName> via a call to `find_package` with arguments
+Since CMake 3.24, FetchContent can first try finding <PackageName> via a call to `find_package` with arguments
 specified after `FIND_PACKAGE_ARGS` in the call to `shacl_FetchContent_Declare`. This is provided directly via
 CMake's FetchContent commands.  This module simply opts in to by default always call `find_package` first
 unless `OVERRIDE_FIND_PACKAGE` is specified in the call to `shacl_FetchContent_Declare`.  If `OVERRIDE_FIND_PACKAGE`
@@ -51,7 +51,7 @@ is specified then the package is fetched and future calls to `find_package` will
 If `shacl.fetchcontent.<PackageName>.override_find_package` is set to `ON` then it will act as though
 `OVERRIDE_FIND_PACKAGE` was specified in `shacl_FetchContent_Declare` and will ignore `FIND_PACKAGE_ARGS`
 if it was specified.  By default `FetchContent_Declare` does not allow `FIND_PACKAGE_ARGS` to be specified
-alongside `OVERRIDE_FIND_PACKAGE` so this capability is unique to `shacl_FetchContent_Declare`.
+alongside `OVERRIDE_FIND_PACKAGE`, so this capability is unique to `shacl_FetchContent_Declare`.
 
 
 ## Updating or changing checked-out code
@@ -69,16 +69,20 @@ will check out the branch listed in the `GIT_TAG` argument.
 To update the code to what is specified in the build system one can either navigate to <PackageName>'s source
 directory and update the code there or set `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` to `OFF` to
 have FetchContent update the branch from the git remote.
-If `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` is set to `OFF` then one must have a connection available to the git repository
+If `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` is set to `OFF` then one must have a connection available to the git repository remote
 even if <PackageName> has been downloaded and is present in the `_deps` directory, otherwise the CMake configure will fail and the code in
 the `_deps` directory will be deleted.
 
 ## Viewing what was set during configure
 The repository URL, git tag/branch, and git hash are all saved in
 read-only CMake cache variables viewable in the CMakeCache.txt file.
-The variables are `shacl.fetchcontent.repository.ro`, `shacl.fetchcontent.tag.ro`, and `shacl.fetchcontent.hash.ro`, respectively.
+The variables are `shacl.fetchcontent.<PackageName>.repository.ro`,
+`shacl.fetchcontent.<PackageName>.tag.ro`, and `shacl.fetchcontent.<PackageName>.hash.ro`, respectively.
 Changing these variables will not affect the build system and any changes will be overwritten on the following configure.
-They are only present to save what was checked out during the configure stage.
+They are only present to save what was checked out or present during the configure stage.
+These variables will be updated after a reconfigure if the branch or commit is changed in the `_deps` directory.
+This information will also be printed and cached if `FETCHCONTENT_SOURCE_DIR_<PACKAGENAME>`
+is specified and the path pointed to by the variable has a git repository (.git directory).
 
 ## Moving downloaded dependencies to a different machine
 There are a few steps for moving downloaded dependencies (in the `_deps` directory by default) to a different machine.
