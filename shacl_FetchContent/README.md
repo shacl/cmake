@@ -1,14 +1,14 @@
-shacl FetchContent 
+shacl FetchContent
 =====
 
-shacl::cmake's FetchContent functions 
-`shacl_FetchContent_MakeAvailable` and `shacl_FetchContent_Declare` are 
-are thin wrappers on top of the standard CMake 3.24+ implementation of 
+shacl::cmake's FetchContent functions
+`shacl_FetchContent_MakeAvailable` and `shacl_FetchContent_Declare` are
+thin wrappers on top of the standard CMake 3.24+ implementation of
 `FetchContent_Declare` and `FetchContent_MakeAvailable`.
 The intent of this CMake module to provide a means of managing, recording,
 and sharing software dependency usage during software development. This module
 leverages features provided via CMake's [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html#fetchcontent)
-while adjusting defaults to avoid surprises during code development. 
+while adjusting defaults to avoid surprises during code development.
 
 It provides the FetchContent capabilities for Git repositories with the following adjustments for a dependency with name <PackageName>:
   * First tries to find the dependency via `find_package(<PackageName>)` by default even if `FIND_PACKAGE_ARGS` was not specified in the call to `shacl_FetchContent_Declare`.
@@ -36,21 +36,21 @@ which can be found in [CMake's FetchContent documentation](https://cmake.org/cma
 ## Relative URLs
 The `shacl_FetchContent_Declare` method enables use of relative URLs in the `GIT_REPOSITORY` argument.
 Use of relative URLs relies on the project containing a .git repository with a remote with name "origin".
-As an example, if the parent repository's remote URL is https://github.com/shacl/cmake.git and 
-`shacl_FetchContent_Declare` function contains `GIT_REPOSITORY ../../shacl/trait.git` then the 
-`GIT_REPOSITORY` key-value pair will be modified and passed to `FetchContent_Declare` as 
+As an example, if the parent repository's "origin" remote URL is https://github.com/shacl/cmake.git and
+`shacl_FetchContent_Declare` function contains `GIT_REPOSITORY ../../shacl/trait.git` then the
+`GIT_REPOSITORY` key-value pair will be modified and passed to `FetchContent_Declare` as
 `GIT_REPOSITORY https://github.com/shacl/trait.git`.
 
-## Integration with find_package 
+## Integration with find_package
 Since CMake 3.24 FetchContent can first try finding <PackageName> via a call to `find_package` with arguments
 specified after `FIND_PACKAGE_ARGS` in the call to `shacl_FetchContent_Declare`. This is provided directly via
 CMake's FetchContent commands.  This module simply opts in to by default always call `find_package` first
 unless `OVERRIDE_FIND_PACKAGE` is specified in the call to `shacl_FetchContent_Declare`.  If `OVERRIDE_FIND_PACKAGE`
 is specified then the package is fetched and future calls to `find_package` will find the fetched package.
 `shacl_FetchContent` also provides a variable to opt-in to `OVERRIDE_FIND_PACKAGE` at configure time.
-If `shacl.fetchcontent.<PackageName>.override_find_package` is set to `ON` then it will act as though 
+If `shacl.fetchcontent.<PackageName>.override_find_package` is set to `ON` then it will act as though
 `OVERRIDE_FIND_PACKAGE` was specified in `shacl_FetchContent_Declare` and will ignore `FIND_PACKAGE_ARGS`
-if it was specified.  By default `FetchContent_Declare` does not allow `FIND_PACKAGE_ARGS` to be specified 
+if it was specified.  By default `FetchContent_Declare` does not allow `FIND_PACKAGE_ARGS` to be specified
 alongside `OVERRIDE_FIND_PACKAGE` so this capability is unique to `shacl_FetchContent_Declare`.
 
 
@@ -67,7 +67,7 @@ the changes being overwritten or a different branch getting checked out.
 The default behavior of `FetchContent_Declare` is to set this value to OFF, which on a CMake reconfigure
 will check out the branch listed in the `GIT_TAG` argument.
 To update the code to what is specified in the build system one can either navigate to <PackageName>'s source
-directory and update the code there or set `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` to `OFF` to 
+directory and update the code there or set `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` to `OFF` to
 have FetchContent update the branch from the git remote.
 If `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` is set to `OFF` then one must have a connection available to the git repository
 even if <PackageName> has been downloaded and is present in the `_deps` directory, otherwise the CMake configure will fail and the code in
@@ -88,4 +88,4 @@ This is useful for compilation on off-network machines.
 3. Either copy `_deps` into the project's build directory or specify `FETCHCONTENT_SOURCE_DIR_<PACKAGENAME>` for each repository, pointing to <PackageName>'s respective path in the copied `_deps` directory.
 4. If `_deps` was copied into the build directory either configure the project with `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` set to `ON` (default) or `FETCHCONTENT_FULLY_DISCONNECTED` set to `ON`.
 
-After following these steps the project should successfully configure. 
+After following these steps the project should successfully configure.
