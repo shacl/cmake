@@ -7,14 +7,19 @@ are thin wrappers on top of the standard CMake 3.24+ implementation of
 `FetchContent_Declare` and `FetchContent_MakeAvailable`.
 The intent of this CMake module to provide a means of managing, recording,
 and sharing software dependency usage during software development. This module
-leverages features provided via CMake while adjusting defaults to avoid 
-surprises during code development.
+leverages features provided via CMake's [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html#fetchcontent)
+while adjusting defaults to avoid surprises during code development. 
 
-It provides the following for each dependency with name <PackageName>:
+It provides the FetchContent capabilities for Git repositories with the following adjustments for a dependency with name <PackageName>:
+  * First tries to find the dependency via `find_package(<PackageName>)` by default even if `FIND_PACKAGE_ARGS` was not specified in the call to `shacl_FetchContent_Declare`.
+    If <PackageName> wasn't found then it will be downloaded via a network connection from the specified `GIT_REPOSITORY`.
+  * Provides a configure-time variable `shacl.fetchcontent.<PackageName>.override_find_package` to toggle force fetching of <PackageName> as though `OVERRIDE_FIND_PACKAGE` was specified.
   * Enables relative URLs in the `GIT_REPOSITORY` argument
-  * First calls `find_package(<PackageName>)` by default if `FIND_PACKAGE_ARGS` was not specified in the call to `shacl_FetchContent_Declare`
   * Sets the default value of `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` to `ON`
   * Prints information about where dependencies were found whether they were found via system install or fetched
+
+While CMake's FetchContent can be used to fetch things other than git repositories, shacl::cmake's FetchContent method should only be
+used when fetching git repositories.
 
 In order to incorporate this functionality into your CMake
 project, add the following lines to your project's highest level `CMakeLists.txt`.
@@ -64,6 +69,9 @@ will check out the branch listed in the `GIT_TAG` argument.
 To update the code to what is specified in the build system one can either navigate to <PackageName>'s source
 directory and update the code there or set `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` to `OFF` to 
 have FetchContent update the branch from the git remote.
+If `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` is set to `OFF` then one must have a connection available to the git repository
+even if <PackageName> has been downloaded and is present in the `_deps` directory, otherwise the CMake configure will fail and the code in
+the `_deps` directory will be deleted.
 
 ## Viewing what was set during configure
 The repository URL, git tag/branch, and git hash are all saved in
@@ -72,4 +80,12 @@ The variables are `shacl.fetchcontent.repository.ro`, `shacl.fetchcontent.tag.ro
 Changing these variables will not affect the build system and any changes will be overwritten on the following configure.
 They are only present to save what was checked out during the configure stage.
 
+## Moving downloaded dependencies to a different machine
+There are a few steps for moving downloaded dependencies (in the `_deps` directory by default) to a different machine.
+This is useful for compilation on off-network machines.
+1. Delete the build directories within `_deps` e.g. `rm -rf /path/to/_deps/*build`.
+2. Move `_deps` directory to different machine.
+3. Either copy `_deps` into the project's build directory or specify `FETCHCONTENT_SOURCE_DIR_<PACKAGENAME>` for each repository, pointing to <PackageName>'s respective path in the copied `_deps` directory.
+4. If `_deps` was copied into the build directory either configure the project with `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` set to `ON` (default) or `FETCHCONTENT_FULLY_DISCONNECTED` set to `ON`.
 
+After following these steps the project should successfully configure. 
