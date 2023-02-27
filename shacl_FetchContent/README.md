@@ -1,7 +1,7 @@
 shacl FetchContent
 =====
 
-shacl::cmake's FetchContent functions
+`shacl::cmake`'s FetchContent functions
 `shacl_FetchContent_MakeAvailable` and `shacl_FetchContent_Declare` are
 thin wrappers on top of the standard CMake 3.24+ implementation of
 `FetchContent_Declare` and `FetchContent_MakeAvailable`.
@@ -18,20 +18,23 @@ It provides the FetchContent capabilities for Git repositories with the followin
   * Sets the default value of `FETCHCONTENT_UPDATES_DISCONNECTED_<PackageName>` to `ON`
   * Prints information about where dependencies were found whether they were found via system install or fetched
 
-While CMake's FetchContent can be used to fetch things other than git repositories, shacl::cmake's FetchContent method should only be
-used when fetching git repositories.
+While CMake's FetchContent can be used to fetch things other than git repositories,
+`shacl::cmake`'s FetchContent method should only be used when fetching git repositories.
 
-In order to incorporate this functionality into your CMake
-project, add the following lines to your project's highest level `CMakeLists.txt`.
+In order to incorporate this functionality into your CMake project,
+add the following lines to your project's highest level `CMakeLists.txt`.
 
 ```cmake
 list(APPEND CMAKE_MODULE_PATH path/to/shacl-cmake)
 include(shacl_FetchContent)
 ```
 
+As noted in the [main documentation](../README.md), `shacl::cmake` is typically incorporated into projects via a git subtree.
+
 The following is a list of features and common use cases.
-The wrapper functions default back to the standard CMake conventions, documentation for
-which can be found in [CMake's FetchContent documentation](https://cmake.org/cmake/help/latest/module/FetchContent.html#fetchcontent)
+The other arguments to this function have the
+[expected behavior of the standard CMake FetchContent functions]
+(https://cmake.org/cmake/help/latest/module/FetchContent.html#fetchcontent), which can override the behaviors noted above.
 
 ## Relative URLs
 The `shacl_FetchContent_Declare` method enables use of relative URLs in the `GIT_REPOSITORY` argument.
