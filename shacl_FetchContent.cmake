@@ -168,3 +168,23 @@ function(shacl_FetchContent_Declare name)
   FetchContent_Declare(${arg_subset})
 
 endfunction()
+
+# Installation of shacl_FetchContent module
+if(shacl.cmake.installation)
+  get_property(
+    shacl.cmake.installed_modules GLOBAL PROPERTY shacl.cmake.installed_modules)
+
+  if(NOT "Git/Submodule/Packages" IN_LIST shacl.cmake.installed_modules)
+    set_property(GLOBAL APPEND PROPERTY
+      shacl.cmake.installed_modules "shacl_FetchContent")
+
+    install(FILES "${CMAKE_CURRENT_LIST_FILE}"
+      DESTINATION share/cmake/shacl/.cmake)
+
+    install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/shacl_FetchContent"
+      DESTINATION share/cmake/shacl/.cmake)
+  endif()
+
+  unset(shacl.cmake.installed_modules)
+endif()
+
