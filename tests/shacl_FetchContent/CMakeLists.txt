@@ -15,7 +15,7 @@ include(dependencies.cmake)
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/bar.cpp
 "#include <cassert>
 
-# Test that find_package set the ${name}_FOUND variables to TRUE
+// Test that find_package set the ${name}_FOUND variables to TRUE
  int main(){
    assert(\"${Catch2_FOUND}\" == \"1\" );
    assert(\"${shacl-trait_FOUND}\" == \"1\" );
