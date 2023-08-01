@@ -16,7 +16,7 @@ include(FetchContent)
 # The wrapped FetchContent_MakeAvailable function only adds print statements
 # for CMake clone progress and to aid in debugging dependency origins and keep user
 # informed when lots of clones are happening
-function(shacl_FetchContent_MakeAvailable name)
+macro(shacl_FetchContent_MakeAvailable_impl name)
 
   # Check if package was already found or if its source directory was specified.
   # If so, don't print diagnostic info.
@@ -96,15 +96,14 @@ function(shacl_FetchContent_MakeAvailable name)
     endif()
   endif()
 
-  # recursively call FetchContent_MakeAvailable on all arguments
-  # otherwise all fetching or finding is done with one call and
-  # a package-by-package status will not be available
-  list(LENGTH ARGN argn_len)
-  if (${argn_len} GREATER 0)
-    shacl_FetchContent_MakeAvailable(${ARGN})
-  endif()
+endmacro()
 
-endfunction()
+macro(shacl_FetchContent_MakeAvailable)
+  foreach(name ${ARGN})
+    shacl_FetchContent_MakeAvailable_impl(${name})
+  endforeach()
+endmacro()
+
 
 # The purpose of the wrapped FetchContent_Declare function is twofold:
 # * Enabling relative GIT_REPOSITORY URLs to aid in automated testing or different host servers
