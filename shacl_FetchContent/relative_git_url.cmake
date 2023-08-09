@@ -29,7 +29,7 @@ function(get_dependency_url input_url return_url)
 
   if(${input_url} MATCHES "^[.][.][/]")
 
-    cmake_path(APPEND ${PROJECT_SOURCE_DIR} .git OUTPUT_VARIABLE git_path)
+    cmake_path(APPEND PROJECT_SOURCE_DIR .git OUTPUT_VARIABLE git_path)
     if(EXISTS ${git_path})
       get_git_remote_url(remote_url)
       set(remote_url_prefix "${remote_url}")
