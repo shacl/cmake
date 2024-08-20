@@ -117,6 +117,8 @@ function(shacl_FetchContent_Declare name)
 
   # Option to enable force fetching via configuration
   option(shacl_FetchContent.${name}.override_find_package "Force fetch of ${name} instead of first calling find_package" OFF)
+  # Option to enable force finding of pckages for use in spack installations via configuration
+  option(shacl_FetchContent.force_find_package "Disable fetching of all packages found via shacl_FetchContent by only using find_package instead" OFF)
 
   # copy argument list as methods like list(FIND...) don't work on ${ARGV}
   set (args ${ARGV})
@@ -141,6 +143,7 @@ function(shacl_FetchContent_Declare name)
     # if OVERRIDE_FIND_PACKAGE is not present then add it
     if (${override_pkg_index} EQUAL -1)
       list(APPEND arg_subset OVERRIDE_FIND_PACKAGE)
+      list(FIND arg_subset OVERRIDE_FIND_PACKAGE override_pkg_index)
     endif()
   else() # if not force fetching then call find_package first
     set(arg_subset ${args})
@@ -150,6 +153,12 @@ function(shacl_FetchContent_Declare name)
     endif()
   endif()
 
+  if (shacl_FetchContent.force_find_package)
+    if(NOT override_pkg_index EQUAL -1)
+      message(FATAL_ERROR "shacl_FetchContent - cannot use OVERRIDE_FIND_PACKAGE in conjunction with shacl_Fetchcontent.force_find_package")
+    endif()
+      list(APPEND arg_subset REQUIRED)
+  endif()
   # If the dependency uses a relative path then it uses the same server as the host project.
   # This is useful for automated testing with gitlab CI tokens or if repos are hosted on different servers
   # e.g. if the project is hosted on github then pull all relative dependencies from github.
