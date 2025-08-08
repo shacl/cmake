@@ -172,9 +172,9 @@ function(shacl_FetchContent_Declare name)
   # Update the git URL if it was a relative URL, otherwise return it unchanged.
   get_dependency_url(${git_repository_url} updated_url)
 
-  # If the .git directory does not exist, then cmake will fail to resolve a relative url and throw an error.
+  # If the .git directory or file (in the case of worktrees) does not exist, then cmake will fail to resolve a relative url and throw an error.
   # In that case replace the relative URL with a value to avoid the error and force the use of find_package.
-  if( NOT IS_DIRECTORY "${PROJECT_SOURCE_DIR}/.git")
+  if( NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
      if( "${updated_url}" MATCHES "^\\./|^\\.\\./" )
         message( WARNING "Could not find local .git directory to resolve a relative url, forcing the use of find_package")
         set( shacl_FetchContent.force_find_package ON )
