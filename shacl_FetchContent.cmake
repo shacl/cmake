@@ -40,7 +40,7 @@ macro(shacl_FetchContent_MakeAvailable_impl name)
 
   set(${name}_already_found ${${name}_pre_makeavailable_fetched} OR ${${name}_pre_makeavailable_found})
 
-  if (${sourceDirNotSpecified} AND NOT (${${name}_already_found}}))
+  if (${sourceDirNotSpecified} AND NOT (${${name}_already_found}))
     message(STATUS "Finding or fetching and configuring ${name}")
   endif()
 
@@ -56,7 +56,7 @@ macro(shacl_FetchContent_MakeAvailable_impl name)
   # If both ${name}_post_makeavailable_found is TRUE and ${name}_source_dir was defined then the package was fetched.
   set(${name}_post_makeavailable_found ${${name}_post_makeavailable_found} AND DEFINED ${name}_source_dir)
   
-  if (${name_FOUND})
+  if (DEFINED ${name}_FOUND)
     if (${${name}_FOUND})
       set(${name}_found_via_find_package TRUE)
     else()
@@ -66,7 +66,7 @@ macro(shacl_FetchContent_MakeAvailable_impl name)
     set(${name}_found_via_find_package FALSE)
   endif()
 
-  if (NOT (${${name}_already_found}}))
+  if (NOT (${${name}_already_found}))
     if( ${${name}_post_makeavailable_found} AND NOT ${${name}_found_via_find_package} )
       message(STATUS "${name} fetched and configured")
       # If Git information exists for the source directory then print and save it into cache variables
